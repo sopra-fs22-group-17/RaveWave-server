@@ -1,6 +1,6 @@
-package ch.uzh.ifi.seal.soprafs20.rest.dto;
+package ch.uzh.ifi.hase.soprafs21.rest.dto;
 
-import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs21.constant.UserStatus;
 
 public class UserGetDTO {
 

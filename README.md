@@ -1,4 +1,4 @@
-# SoPra RESTful Service Template FS20
+# SoPra RESTful Service Template FS21
 
 ## Getting started with Spring Boot
 

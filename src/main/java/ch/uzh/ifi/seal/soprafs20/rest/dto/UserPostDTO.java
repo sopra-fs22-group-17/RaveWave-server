@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.soprafs20.rest.dto;
+package ch.uzh.ifi.hase.soprafs21.rest.dto;
 
 public class UserPostDTO {
 

@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.soprafs20.constant;
+package ch.uzh.ifi.hase.soprafs21.constant;
 
 public enum UserStatus {
     ONLINE, OFFLINE;

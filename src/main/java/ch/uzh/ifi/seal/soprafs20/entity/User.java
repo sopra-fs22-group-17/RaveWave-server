@@ -1,6 +1,6 @@
-package ch.uzh.ifi.seal.soprafs20.entity;
+package ch.uzh.ifi.hase.soprafs21.entity;
 
-import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs21.constant.UserStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;

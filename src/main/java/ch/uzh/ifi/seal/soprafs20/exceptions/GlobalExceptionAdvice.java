@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.soprafs20.exceptions;
+package ch.uzh.ifi.hase.soprafs21.exceptions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
