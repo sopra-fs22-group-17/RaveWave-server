@@ -1,4 +1,4 @@
-# SoPra RESTful Service Template FS21
+# SoPra RESTful Service Template FS22
 
 ## Getting started with Spring Boot
 
@@ -24,15 +24,12 @@ The following extensions will help you to run it more easily:
 -   `vscjava.vscode-java-pack`
 -   `richardwillis.vscode-gradle`
 
-**Note:** You'll need to build the project first with Gradle, just click on the `build` command in the _Gradle Tasks_ extension. Then check the _Spring Boot Dashboard_ extension if it already shows `soprafs21` and hit the play button to start the server. If it doesn't show up, restart VS Code and check again.
+**Note:** You'll need to build the project first with Gradle, just click on the `build` command in the _Gradle Tasks_ extension. Then check the _Spring Boot Dashboard_ extension if it already shows `soprafs22` and hit the play button to start the server. If it doesn't show up, restart VS Code and check again.
 
 ## Building with Gradle
 
 You can use the local Gradle Wrapper to build the application.
-
-Plattform-Prefix:
-
--   MAC OS X: `./gradlew`
+-   macOS: `./gradlew`
 -   Linux: `./gradlew`
 -   Windows: `./gradlew.bat`
 
