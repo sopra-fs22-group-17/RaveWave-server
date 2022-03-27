@@ -27,7 +27,7 @@ jobs:
 
     # uncomment for assignment 2-4
     - name: test the project and upload test report -> sonarqube
-    run: ./gradlew test jacocoTestReport sonarqube --info
+    # run: ./gradlew test jacocoTestReport sonarqube --info
 
     # https://devcenter.heroku.com/articles/authentication
     - name: create .netrc file for heroku authentication
