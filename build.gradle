@@ -4,7 +4,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'jacoco'
-    id "org.sonarqube" version "3.1.1"
+    id "org.sonarqube" version "3.3"
 }
 
 group 'ch.uzh.ifi.hase'
@@ -89,8 +89,8 @@ if (secretPropsFile.exists()) {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "<your-sonar-project-key>"
-        property "sonar.organization", "<your-sonar-organization>"
+        property "sonar.projectKey", "sopra-fs22-group-17_RaveWave-server"
+        property "sonar.organization", "sopra-fs22-group-17"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.jacoco.xmlReportPaths", ["$buildDir/jacocoReportDir/test/jacocoTestReport.xml"]
         property "sonar.cpd.exclusions", "**/entity/*.java,**/rest/dto/*.java"
