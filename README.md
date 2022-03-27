@@ -1,5 +1,7 @@
 # SoPra RESTful Service Template FS22
 
+# RAVEWAVE
+
 ## Getting started with Spring Boot
 
 -   Documentation: https://docs.spring.io/spring-boot/docs/current/reference/html/index.html
