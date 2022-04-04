@@ -1,8 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
-import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,30 +28,29 @@ public class UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    private final UserRepository userRepository;
+    private final RaveWaverRepository raveWaverRepository;
 
     @Autowired
-    public UserService(@Qualifier("userRepository") UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService(@Qualifier("RaveWaverRepository") RaveWaverRepository raveWaverRepository) {
+        this.raveWaverRepository = raveWaverRepository;
     }
 
-    public List<User> getUsers() {
-        return this.userRepository.findAll();
+    public List<RaveWaver> getUsers() {
+        return this.raveWaverRepository.findAll();
     }
 
-    public User createUser(User newUser) {
-        newUser.setToken(UUID.randomUUID().toString());
-        newUser.setStatus(UserStatus.OFFLINE);
+    public RaveWaver createUser(RaveWaver newRaveWaver) {
+        newRaveWaver.setToken(UUID.randomUUID().toString());
 
-        checkIfUserExists(newUser);
+        checkIfUserExists(newRaveWaver);
 
         // saves the given entity but data is only persisted in the database once
         // flush() is called
-        newUser = userRepository.save(newUser);
-        userRepository.flush();
+        newRaveWaver = raveWaverRepository.save(newRaveWaver);
+        raveWaverRepository.flush();
 
-        log.debug("Created Information for User: {}", newUser);
-        return newUser;
+        log.debug("Created Information for User: {}", newRaveWaver);
+        return newRaveWaver;
     }
 
     /**
@@ -60,23 +59,22 @@ public class UserService {
      * defined in the User entity. The method will do nothing if the input is unique
      * and throw an error otherwise.
      *
-     * @param userToBeCreated
+     * @param raveWaverToBeCreated
      * @throws org.springframework.web.server.ResponseStatusException
-     * @see User
+     * @see RaveWaver
      */
-    private void checkIfUserExists(User userToBeCreated) {
-        User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
-        User userByName = userRepository.findByName(userToBeCreated.getName());
+    private void checkIfUserExists(RaveWaver raveWaverToBeCreated) {
+        RaveWaver raveWaverByUsername = raveWaverRepository.findByUsername(raveWaverToBeCreated.getUsername());
 
         String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
-        if (userByUsername != null && userByName != null) {
+        if (raveWaverByUsername != null && raveWaverByUsername != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format(baseErrorMessage, "username and the name", "are"));
         }
-        else if (userByUsername != null) {
+        else if (raveWaverByUsername != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "username", "is"));
         }
-        else if (userByName != null) {
+        else if (raveWaverByUsername != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "name", "is"));
         }
     }

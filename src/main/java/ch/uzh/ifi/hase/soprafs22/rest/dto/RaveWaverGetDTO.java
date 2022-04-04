@@ -2,7 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 
-public class UserGetDTO {
+public class RaveWaverGetDTO {
 
     private Long id;
     private String name;

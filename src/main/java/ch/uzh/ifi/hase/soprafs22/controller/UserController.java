@@ -1,8 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-import ch.uzh.ifi.hase.soprafs22.entity.User;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -30,29 +30,29 @@ public class UserController {
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<UserGetDTO> getAllUsers() {
+    public List<RaveWaverGetDTO> getAllUsers() {
         // fetch all users in the internal representation
-        List<User> users = userService.getUsers();
-        List<UserGetDTO> userGetDTOs = new ArrayList<>();
+        List<RaveWaver> raveWavers = userService.getUsers();
+        List<RaveWaverGetDTO> raveWaverGetDTOS = new ArrayList<>();
 
         // convert each user to the API representation
-        for (User user : users) {
-            userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+        for (RaveWaver raveWaver : raveWavers) {
+            raveWaverGetDTOS.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(raveWaver));
         }
-        return userGetDTOs;
+        return raveWaverGetDTOS;
     }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
+    public RaveWaverGetDTO createUser(@RequestBody RaveWaverPostDTO raveWaverPostDTO) {
         // convert API user to internal representation
-        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
+        RaveWaver raveWaverInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(raveWaverPostDTO);
 
         // create user
-        User createdUser = userService.createUser(userInput);
+        RaveWaver createdRaveWaver = userService.createUser(raveWaverInput);
 
         // convert internal representation of user back to API
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
+        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdRaveWaver);
     }
 }

@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * Internal User Representation
@@ -16,17 +17,15 @@ import java.io.Serializable;
  * the primary key
  */
 @Entity
-@Table(name = "USER")
-public class User implements Serializable {
+@Table(name = "RAVEWAVER")
+public class RaveWaver implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue
-    private Long id;
-
     @Column(nullable = false)
-    private String name;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -34,8 +33,18 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String token;
 
+    @Column(unique = true)
+    private String spotifyToken;
+
     @Column(nullable = false)
-    private UserStatus status;
+    private LocalDate creationDate;
+
+    @Column(nullable = false)
+    private int level;
+
+    @Column(nullable = false)
+    private byte[] profilePicture;
+
 
     public Long getId() {
         return id;
@@ -43,14 +52,6 @@ public class User implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUsername() {
@@ -69,11 +70,35 @@ public class User implements Serializable {
         this.token = token;
     }
 
-    public UserStatus getStatus() {
-        return status;
+    public String getSpotifyToken() {
+        return spotifyToken;
     }
 
-    public void setStatus(UserStatus status) {
-        this.status = status;
+    public void setSpotifyToken(String spotifyToken) {
+        this.spotifyToken = spotifyToken;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

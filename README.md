@@ -9,7 +9,7 @@
 
 ## Setup this Template with your IDE of choice
 
-Download your IDE of choice: (e.g., [Eclipse](http://www.eclipse.org/downloads/), [IntelliJ](https://www.jetbrains.com/idea/download/)), [Visual Studio Code](https://code.visualstudio.com/) and make sure Java 15 is installed on your system (for Windows-users, please make sure your JAVA_HOME environment variable is set to the correct version of Java).
+Download your IDE of choice: (e.g., [Eclipse](http://www.eclipse.org/downloads/), [IntelliJ](https://www.jetbrains.com/idea/download/)), [Visual Studio Code](https://code.visualstudio.com/) and make sure Java 15 is installed on your system (for Windows-raveWavers, please make sure your JAVA_HOME environment variable is set to the correct version of Java).
 
 1. File -> Open... -> SoPra Server Template
 2. Accept to import the project as a `gradle project`

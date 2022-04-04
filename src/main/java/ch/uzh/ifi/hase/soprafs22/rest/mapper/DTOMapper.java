@@ -1,8 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
-import ch.uzh.ifi.hase.soprafs22.entity.User;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -25,11 +25,11 @@ public interface DTOMapper {
 
     @Mapping(source = "name", target = "name")
     @Mapping(source = "username", target = "username")
-    User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
+    RaveWaver convertUserPostDTOtoEntity(RaveWaverPostDTO raveWaverPostDTO);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "username", target = "username")
     @Mapping(source = "status", target = "status")
-    UserGetDTO convertEntityToUserGetDTO(User user);
+    RaveWaverGetDTO convertEntityToUserGetDTO(RaveWaver raveWaver);
 }
