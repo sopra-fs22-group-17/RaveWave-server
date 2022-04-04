@@ -23,13 +23,10 @@ public interface DTOMapper {
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
-    @Mapping(source = "name", target = "name")
     @Mapping(source = "username", target = "username")
-    RaveWaver convertUserPostDTOtoEntity(RaveWaverPostDTO raveWaverPostDTO);
+    RaveWaver convertRaveWaverPostDTOtoEntity(RaveWaverPostDTO raveWaverPostDTO);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
     @Mapping(source = "username", target = "username")
-    @Mapping(source = "status", target = "status")
-    RaveWaverGetDTO convertEntityToUserGetDTO(RaveWaver raveWaver);
+    RaveWaverGetDTO convertEntityToRaveWaverGetDTO(RaveWaver raveWaver);
 }

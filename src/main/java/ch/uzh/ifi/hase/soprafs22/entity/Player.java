@@ -45,11 +45,11 @@ public class Player implements Serializable {
 
     @Column(nullable = false)
     private int correctAnswers;
-
+/*
     @Column(nullable = false)
     @Type(type = "ch.uzh.ifi.hase.soprafs22.entity.Answer")
     private List<Answer> answers;
-
+*/
 
     public Long getId() {
         return id;
@@ -106,12 +106,12 @@ public class Player implements Serializable {
     public void setCorrectAnswers(int correctAnswers) {
         this.correctAnswers = correctAnswers;
     }
-
+/*
     public List<Answer> getAnswers() {
         return answers;
     }
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
-    }
+    }*/
 }

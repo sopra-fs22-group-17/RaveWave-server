@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
-/*
+
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Album;
@@ -56,4 +56,4 @@ public class GetAlbumExample {
         getAlbum_Sync();
         getAlbum_Async();
     }
-}*/
+}

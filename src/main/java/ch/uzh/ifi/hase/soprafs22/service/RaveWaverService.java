@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import org.slf4j.Logger;
@@ -24,14 +23,14 @@ import java.util.UUID;
  */
 @Service
 @Transactional
-public class UserService {
+public class RaveWaverService {
 
-    private final Logger log = LoggerFactory.getLogger(UserService.class);
+    private final Logger log = LoggerFactory.getLogger(RaveWaverService.class);
 
     private final RaveWaverRepository raveWaverRepository;
 
     @Autowired
-    public UserService(@Qualifier("RaveWaverRepository") RaveWaverRepository raveWaverRepository) {
+    public RaveWaverService(@Qualifier("RaveWaverRepository") RaveWaverRepository raveWaverRepository) {
         this.raveWaverRepository = raveWaverRepository;
     }
 
