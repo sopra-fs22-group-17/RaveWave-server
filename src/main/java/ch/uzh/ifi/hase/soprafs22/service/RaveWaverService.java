@@ -30,7 +30,7 @@ public class RaveWaverService {
     private final RaveWaverRepository raveWaverRepository;
 
     @Autowired
-    public RaveWaverService(@Qualifier("RaveWaverRepository") RaveWaverRepository raveWaverRepository) {
+    public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
         this.raveWaverRepository = raveWaverRepository;
     }
 

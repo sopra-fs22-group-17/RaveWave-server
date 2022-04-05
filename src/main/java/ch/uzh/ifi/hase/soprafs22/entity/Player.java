@@ -1,11 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Internal User Representation

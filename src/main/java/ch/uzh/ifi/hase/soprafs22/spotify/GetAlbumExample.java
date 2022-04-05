@@ -1,10 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.spotify;
 
+import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Album;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
-import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
 import java.util.concurrent.CancellationException;
