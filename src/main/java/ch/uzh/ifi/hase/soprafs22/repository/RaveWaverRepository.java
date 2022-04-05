@@ -6,7 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository("RaveWaverRepository")
 public interface RaveWaverRepository extends JpaRepository<RaveWaver, Long> {
-    RaveWaver findByName(String name);
-
     RaveWaver findByUsername(String username);
 }
