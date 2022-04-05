@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.controller;
+package ch.uzh.ifi.hase.soprafs22.spotify;
 
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 public class GetAlbumExample {
-    private static final String accessToken = "BQCReIyqiCOQAhusvvUbR4Vqrr57q075vrw3LfZhjXnh-vUXZkX5azRftmTlmgAR0FooD0gDgljKJvO1kA7-GyqtYrg3GEc6XrbRXuhhhqnpZQENhw9pPPEbGuAr3BlTWNX8ca4eby_FbYuNu37N0p7Cplw_";
+    private static final String accessToken = "BQBvcBIfn9-uYzoRay_nG1xhJDiD_khoUdeoADuGOU8k4l3LUKSsDpjYBjhuZzr1nhvv_TpNX5ls_fszX02-Vdi4r3nddfloOO1KRqdDqF4kCWC-s38atco-DcyvpBES8-9lqc59CyK5ITauBELO24lJjgkK";
     private static final String id = "5zT1JLIj9E57p3e1rFm9Uq";
 
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
