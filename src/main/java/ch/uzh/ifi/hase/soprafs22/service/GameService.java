@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 
 /**
  * GameService
@@ -17,11 +18,11 @@ import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 public class GameService {
     Logger log = LoggerFactory.getLogger(GameService.class);
 
-    private final GameRepository gameRepository;
+    private final PlayerRepository playerRepository;
 
     @Autowired
-    public GameService(@Qualifier("GameRepository") GameRepository gameRepository) {
-        this.gameRepository = gameRepository;
+    public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
     }
 
 }
