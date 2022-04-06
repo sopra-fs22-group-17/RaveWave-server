@@ -5,17 +5,24 @@ import javax.persistence.Table;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Entity
-@Table(name = "GAME")
+import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
+import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
+import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
+import ch.uzh.ifi.hase.soprafs22.entity.GameTypes.GameType;
+
 public class Game {
-    private static final long serialVersionUID = 1L;
+    private final Logger log = LoggerFactory.getLogger(Game.class);
 
-    @Id
-    @GeneratedValue
-    @Column(nullable = false)
-    private Long gameId;
-
+    private RoundDuration roundDuration;
+    private PlaybackDuration playbackDuration;
+    private SongPool songPool;
+    private List<GameType> gamePlan;
+    private int lobbyId;
+    private List<Player> players;
+    private int gameRound;
 }
