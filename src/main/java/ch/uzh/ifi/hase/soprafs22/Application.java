@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22;
 
+import ch.uzh.ifi.hase.soprafs22.spotify.SpotifyService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +26,8 @@ public class Application {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String helloWorld() {
-        return "The application is running.";
+        SpotifyService spotifyService = new SpotifyService();
+        return "ABBA: " + spotifyService.getPlaylistsItems()[0].getTrack().getName();
     }
 
     @Bean
