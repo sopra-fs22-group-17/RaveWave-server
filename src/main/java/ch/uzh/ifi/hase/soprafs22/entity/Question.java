@@ -1,5 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-public class Question {
+import java.util.List;
 
+public class Question {
+    private String question;
+    private List<String> wrongAnswers;
+    private String correctAnswer;
 }
