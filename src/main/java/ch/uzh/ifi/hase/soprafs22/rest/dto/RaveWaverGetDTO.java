@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
-
 public class RaveWaverGetDTO {
 
     private Long id;

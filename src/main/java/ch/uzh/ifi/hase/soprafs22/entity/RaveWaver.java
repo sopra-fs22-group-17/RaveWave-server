@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -43,7 +42,6 @@ public class RaveWaver implements Serializable {
 
     @Column(nullable = false)
     private byte[] profilePicture;
-
 
     public Long getId() {
         return id;

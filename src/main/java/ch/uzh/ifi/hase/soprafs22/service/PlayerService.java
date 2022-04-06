@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 
 /**
@@ -15,13 +14,13 @@ import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
  */
 @Service
 @Transactional
-public class GameService {
+public class PlayerService {
     Logger log = LoggerFactory.getLogger(GameService.class);
 
     private final PlayerRepository playerRepository;
 
     @Autowired
-    public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
+    public PlayerService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
 

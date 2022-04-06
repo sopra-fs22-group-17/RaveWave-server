@@ -1,9 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.repository;
-/*
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository("GameRepository")
-public interface GameRepository extends JpaRepository<Game, Long> {
-    Game findByGameId(String playerName);
-}*/
+import ch.uzh.ifi.hase.soprafs22.entity.Game;
+
+import java.util.HashMap;
+
+public class GameRepository {
+    private static final HashMap<String, Game> gameRepository = new HashMap<>();
+}
