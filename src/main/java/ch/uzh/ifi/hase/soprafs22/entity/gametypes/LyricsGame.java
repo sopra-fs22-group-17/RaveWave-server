@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.entity.GameTypes;
+package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;

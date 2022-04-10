@@ -1,10 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
-import ch.uzh.ifi.hase.soprafs22.entity.GameTypes.GameType;
+import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
 
 public class Game {
     private final Logger log = LoggerFactory.getLogger(Game.class);
