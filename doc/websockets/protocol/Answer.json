@@ -1,5 +1,5 @@
 {
-	"type": "TYPE",
+	"type": "ANSWER",
 	"header": {
 		"from": {
 			"name": "sender",
@@ -13,5 +13,8 @@
 		},
 		"timestamp": "2022-04-10, 16:34:21"
 	},
-	"content": {}
+	"content": {
+		"answer": 3,
+		"answerTime": 24
+	}
 }

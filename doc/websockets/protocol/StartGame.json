@@ -1,5 +1,5 @@
 {
-	"type": "TYPE",
+	"type": "STARTGAME",
 	"header": {
 		"from": {
 			"name": "sender",

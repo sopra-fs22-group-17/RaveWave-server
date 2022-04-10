@@ -1,5 +1,5 @@
 {
-	"type": "TYPE",
+	"type": "GAMESETTINGS",
 	"header": {
 		"from": {
 			"name": "sender",
@@ -13,5 +13,14 @@
 		},
 		"timestamp": "2022-04-10, 16:34:21"
 	},
-	"content": {}
+	"content": {
+		"gameSettings":
+		{
+			"roundDuration": 20,
+			"playbackDuration": 10,
+			"songPool": "SWISS",
+			"gameRounds": 10,
+			"gamePlan": ["ArtistGame", "LyricsGame"]
+		}
+	}
 }

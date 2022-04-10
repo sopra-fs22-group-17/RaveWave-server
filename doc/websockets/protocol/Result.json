@@ -1,0 +1,33 @@
+{
+	"type": "RESULT",
+	"header": {
+		"from": {
+			"name": "sender",
+			"id": "token",
+			"type": "player"
+		},
+		"to": {
+			"name": "receiver",
+			"id": "token",
+			"type": "server"
+		},
+		"timestamp": "2022-04-10, 16:34:21"
+	},
+	"content": {
+		"answerCorrect": {
+			"answerId": 3,
+			"spotifyId": "uoetuonuhothut",
+			"artist": "System of a Down",
+			"name": "Soil",
+			"album": "System of a Down"
+		},
+		"player": {
+			"position": 1,
+			"prevPosition": 2,
+			"score": 100,
+			"totalScore": 1000,
+			"streak": 2,
+			"profilePicture": "pic"
+		}
+	}
+}
