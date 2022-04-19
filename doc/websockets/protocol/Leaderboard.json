@@ -1,0 +1,70 @@
+{
+	"type": "LEADERBOARD",
+	"header": {
+		"from": {
+			"name": "sender",
+			"id": "token",
+			"type": "server"
+		},
+		"to": {
+			"name": "receiver",
+			"id": "token",
+			"type": "host"
+		},
+		"timestamp": "2022-04-10, 16:34:21"
+	},
+	"content": {
+		"ranking": [
+			{
+				"position": 1,
+				"prevPosition": 2,
+				"token": "token",
+				"playerName": "name",
+				"score": 100,
+				"totalScore": 1000,
+				"streak": 2,
+				"profilePicture": "pic"
+			},
+			{
+				"position": 2,
+				"prevPosition": 3,
+				"token": "token",
+				"playerName": "name",
+				"score": 100,
+				"totalScore": 1000,
+				"streak": 2,
+				"profilePicture": "pic"
+			},
+			{
+				"position": 3,
+				"prevPosition": 4,
+				"token": "token",
+				"playerName": "name",
+				"score": 100,
+				"totalScore": 1000,
+				"streak": 2,
+				"profilePicture": "pic"
+			},
+			{
+				"position": 4,
+				"prevPosition": 5,
+				"token": "token",
+				"playerName": "name",
+				"score": 100,
+				"totalScore": 1000,
+				"streak": 2,
+				"profilePicture": "pic"
+			},
+			{
+				"position": 5,
+				"prevPosition": 6,
+				"token": "token",
+				"playerName": "name",
+				"score": 100,
+				"totalScore": 1000,
+				"streak": 2,
+				"profilePicture": "pic"
+			}
+		]
+	}
+}

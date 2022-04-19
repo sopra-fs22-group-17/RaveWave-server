@@ -1,0 +1,51 @@
+{
+	"type": "QUESTION",
+	"header": {
+		"from": {
+			"name": "sender",
+			"id": "token",
+			"type": "player"
+		},
+		"to": {
+			"name": "receiver",
+			"id": "token",
+			"type": "server"
+		},
+		"timestamp": "2022-04-10, 16:34:21"
+	},
+	"content": {
+		"question": {
+			"question": "What's the name of the song?",
+			"answers": [
+				{
+					"answerId": 1,
+					"spotifyId": "uoetuonuhothut",
+					"artist": "System of a Down",
+					"name": "Soil",
+					"album": "System of a Down"
+				},
+				{
+					"answerId": 2,
+					"spotifyId": "uoetuonuhothut",
+					"artist": "System of a Down",
+					"name": "Soil",
+					"album": "System of a Down"
+				},
+				{
+					"answerId": 3,
+					"spotifyId": "uoetuonuhothut",
+					"artist": "System of a Down",
+					"name": "Soil",
+					"album": "System of a Down"
+				},
+				{
+					"answerId": 4,
+					"spotifyId": "uoetuonuhothut",
+					"artist": "System of a Down",
+					"name": "Soil",
+					"album": "System of a Down"
+				}
+			]
+		}
+	}
+}

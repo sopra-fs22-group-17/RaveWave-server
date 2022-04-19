@@ -1,7 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
 import java.util.List;
+import java.util.Timer;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,4 +22,23 @@ public class Game {
     private int lobbyId;
     private List<Player> players;
     private int gameRound;
+
+    public void Game(Timer roundDuration, Timer playBackDuration, GameMode gameMode, SongPool songPool){}
+
+    public void startGame(Integer lobbyId){}
+
+    public void startNextTurn(Integer lobbyId){}
+
+    private void startTimer(Integer timer){}
+
+    public boolean checkAnswers(Integer lobbyId){return true;}
+
+    public void notifyPlayers(Integer lobbyId){}
+
+    public void endGameTurn(Integer lobbyId){}
+
+    public void endGame(Integer lobbyId){}
+
+    private void updateRaveWaver(){}
 }
+
