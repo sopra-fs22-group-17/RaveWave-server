@@ -20,4 +20,8 @@ public class Game {
     private int lobbyId;
     private List<Player> players;
     private int gameRound;
+
+    public void generateQuestion(){
+
+    }
 }

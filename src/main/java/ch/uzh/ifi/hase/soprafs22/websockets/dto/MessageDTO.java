@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto;
 
+
+
 public class MessageDTO {
 
     private String message;
