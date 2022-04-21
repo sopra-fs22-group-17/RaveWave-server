@@ -59,4 +59,10 @@ public class WebSocketController {
         log.info("Lobby" + lobbyId + ": Next round started");
         gameService.startNextRound(lobbyId);
     }
+
+    @MessageMapping("/lobby/test")
+    public void test(){
+        log.info("Lobby: message received");
+        System.out.println("test succeeded");
+    }
 }
