@@ -1,0 +1,17 @@
+{
+	"type": "TYPE",
+	"header": {
+		"from": {
+			"name": "sender",
+			"id": "token",
+			"type": "player"
+		},
+		"to": {
+			"name": "receiver",
+			"id": "token",
+			"type": "server"
+		},
+		"timestamp": "2022-04-10, 16:34:21"
+	},
+	"content": {}
+}
