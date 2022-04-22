@@ -49,5 +49,4 @@ public class QuestionDTO {
         Album = album;
     }
 
-
 }
