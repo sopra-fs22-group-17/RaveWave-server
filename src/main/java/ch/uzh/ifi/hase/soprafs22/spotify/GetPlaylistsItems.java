@@ -27,6 +27,7 @@ public class GetPlaylistsItems {
         try {
             final Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsItemsRequest.execute();
 
+
             //System.out.println(playlistTrackPaging.getItems());
             return playlistTrackPaging.getItems();
         } catch (IOException | SpotifyWebApiException | ParseException e) {
