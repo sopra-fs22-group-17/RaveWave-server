@@ -25,19 +25,19 @@ public class Game {
 
     public void Game(Timer roundDuration, Timer playBackDuration, GameMode gameMode, SongPool songPool){}
 
-    public void startGame(Integer lobbyId){}
+    public void startGame(int lobbyId){}
 
-    public void startNextTurn(Integer lobbyId){}
+    public void startNextTurn(int lobbyId){}
 
-    private void startTimer(Integer timer){}
+    private void startTimer(int timer){}
 
-    public boolean checkAnswers(Integer lobbyId){return true;}
+    public boolean checkAnswers(int lobbyId){return true;}
 
-    public void notifyPlayers(Integer lobbyId){}
+    public void notifyPlayers(int lobbyId){}
 
-    public void endGameTurn(Integer lobbyId){}
+    public void endGameTurn(int lobbyId){}
 
-    public void endGame(Integer lobbyId){}
+    public void endGame(int lobbyId){}
 
     private void updateRaveWaver(){}
 }

@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+<<<<<<< Updated upstream
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -45,3 +46,7 @@ public class WebSocketService {
 	}
 
 }
+=======
+public class WebSocketService {}
+
+>>>>>>> Stashed changes
