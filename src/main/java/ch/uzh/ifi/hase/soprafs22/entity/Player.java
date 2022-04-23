@@ -41,6 +41,10 @@ public class Player implements Serializable {
 
     @Column(nullable = false)
     private int correctAnswers;
+
+    @Column(nullable = false)
+    private long lobbyId;
+
 /*
     @Column(nullable = false)
     @Type(type = "ch.uzh.ifi.hase.soprafs22.entity.Answer")
@@ -102,6 +106,15 @@ public class Player implements Serializable {
     public void setCorrectAnswers(int correctAnswers) {
         this.correctAnswers = correctAnswers;
     }
+
+    public Long getlobbyId() {
+        return lobbyId;
+    }
+
+    public void setLobbyId(Long id) {
+        this.lobbyId = lobbyId;
+    }
+
 /*
     public List<Answer> getAnswers() {
         return answers;
