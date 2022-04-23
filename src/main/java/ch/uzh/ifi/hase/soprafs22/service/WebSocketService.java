@@ -1,6 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-<<<<<<< Updated upstream
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class WebSocketService {
 	protected final PlayerRepository playerRepo;
 	private final PlayerService playerService;
 
-	public WebSocketService(@Qualifier("playerRepository") PlayerRepository playerRepository,
+	public WebSocketService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
 			@Lazy PlayerService playerService) {
 		this.playerRepo = playerRepository;
 		this.playerService = playerService;
@@ -46,7 +46,3 @@ public class WebSocketService {
 	}
 
 }
-=======
-public class WebSocketService {}
-
->>>>>>> Stashed changes
