@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -54,15 +55,17 @@ public class WebSocketController {
         gameService.updateLeaderboard(leaderboardDTO);
     }
 
-    @MessageMapping("/lobby/{lobbyId}/next-round")
+    @MessageMapping("/lobby/next-round")
     public void startNextRound(@DestinationVariable Integer lobbyId){
         log.info("Lobby" + lobbyId + ": Next round started");
         gameService.startNextRound(lobbyId);
     }
 
-    @MessageMapping("/lobby/test")
-    public void test(){
+    @MessageMapping("/test")
+    //@SendTo("/test/testing")
+    public String test(){
         log.info("Lobby: message received");
         System.out.println("test succeeded");
+        return "test";
     }
 }

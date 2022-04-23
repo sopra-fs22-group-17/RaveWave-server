@@ -55,6 +55,7 @@ public class GameService {
     }
 
     public void updateLeaderboard(LeaderboardDTO leaderboardDTO){
+        System.out.println("We did it");
     }
 
     public Question startNextRound(Integer lobbyId){
