@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Answer;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.WebSocketService;
+import ch.uzh.ifi.hase.soprafs22.utils.IdentityHeader;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.AnswerDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.EndGameDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.GameSettingsDTO;
@@ -16,12 +17,13 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class WebSocketController {
     Logger log = LoggerFactory.getLogger(WebSocketController.class);
-
+    private SimpMessageSendingOperations messTemplate;
     private GameService gameService;
     private WebSocketService webSocketService;
     public WebSocketController(GameService gameService, WebSocketService webSocketService) {
@@ -67,14 +69,16 @@ public class WebSocketController {
 //value = "/PlaylistItems", produces = MediaType.TEXT_PLAIN_VALUE
     @MessageMapping(value = "/test")
     //@SendTo("/topic/testing")
-    public void test(SimpMessageHeaderAccessor header){
-
-        log.info("Lobby: message received");
-        System.out.println("test succeeded");
-
+    public void test(SimpMessageHeaderAccessor simpHeader){
+        String id = simpHeader.getSessionAttributes().get("sessionId").toString();
+        simpHeader.setSessionId(id);
+        log.info("Player " + id + ": Connection established");
+        System.out.println(id);
         SpotifyPostDTO test = new SpotifyPostDTO();
         test.setCode("Das isch d antwort vo üsem server");
-        this.webSocketService.testy(test);
+        messTemplate.convertAndSendToUser(id,"/queue/testing", test);
+
+        //this.webSocketService.testy(id, test);
         //return(test);
 
     }

@@ -14,7 +14,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     public void configureMessageBroker(MessageBrokerRegistry registry) {
 
         // Set prefix for the endpoint that the client listens for our messages from
-        registry.enableSimpleBroker("/topic");
+        registry.enableSimpleBroker("/topic", "/queue");
 
         // Set prefix for endpoints the client will send messages to
         registry.setApplicationDestinationPrefixes("/app");
@@ -24,7 +24,8 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
    public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Registers the endpoint where the connection will take place
         registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("*");
+                .setAllowedOriginPatterns("*")
+                .setHandshakeHandler(new PrincipalHandshake());
                 //.withSockJS();
     }
 
