@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -22,9 +23,10 @@ public class WebSocketController {
     Logger log = LoggerFactory.getLogger(WebSocketController.class);
 
     private GameService gameService;
-
-    public WebSocketController(GameService gameService) {
+    private WebSocketService webSocketService;
+    public WebSocketController(GameService gameService, WebSocketService webSocketService) {
         this.gameService = gameService;
+        this.webSocketService = webSocketService;
     }
 
     @MessageMapping("/lobby/{lobbyId}/start-game")
@@ -64,15 +66,16 @@ public class WebSocketController {
     }
 //value = "/PlaylistItems", produces = MediaType.TEXT_PLAIN_VALUE
     @MessageMapping(value = "/test")
-    @SendTo("/topic/testing")
-    public SpotifyPostDTO test(){
+    //@SendTo("/topic/testing")
+    public void test(SimpMessageHeaderAccessor header){
+
         log.info("Lobby: message received");
         System.out.println("test succeeded");
 
         SpotifyPostDTO test = new SpotifyPostDTO();
         test.setCode("Das isch d antwort vo üsem server");
-
-        return(test);
+        this.webSocketService.testy(test);
+        //return(test);
 
     }
 }

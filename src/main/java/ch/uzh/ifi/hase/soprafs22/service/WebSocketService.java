@@ -45,4 +45,10 @@ public class WebSocketService {
 		}
 	}
 
+    //i work bitch <3
+    public void testy(Object dto){
+         this.smesg.convertAndSendToUser("one", "/topic/testing", dto);
+        //this.smesg.convertAndSend("/queue/testing", dto);
+    }
+
 }
