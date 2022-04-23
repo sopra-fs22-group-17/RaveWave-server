@@ -1,53 +1,37 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionDTO {
-    private String Question;
-    private ArrayList<String> SpotifyIds;
-    private ArrayList<String> Artists;
-    private ArrayList<String> SongNames;
-    private ArrayList<String> Album;
+    private String question;
+    private String songID;
+    private List<String> answers;
 
     public String getQuestion() {
-        return Question;
+        return question;
     }
 
     public void setQuestion(String question) {
-        Question = question;
+        this.question = question;
     }
 
-    public ArrayList<String> getSpotifyIds() {
-        return SpotifyIds;
+    public String getSongID() {
+        return songID;
     }
 
-    public void setSpotifyIds(ArrayList<String> spotifyIds) {
-        SpotifyIds = spotifyIds;
+    public void setSongID(String songID) {
+        this.songID = songID;
     }
 
-    public ArrayList<String> getArtists() {
-        return Artists;
+    public List<String> getAnswers() {
+        return answers;
     }
 
-    public void setArtists(ArrayList<String> artists) {
-        Artists = artists;
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
     }
 
-    public ArrayList<String> getSongNames() {
-        return SongNames;
-    }
-
-    public void setSongNames(ArrayList<String> songNames) {
-        SongNames = songNames;
-    }
-
-    public ArrayList<String> getAlbum() {
-        return Album;
-    }
-
-    public void setAlbum(ArrayList<String> album) {
-        Album = album;
-    }
 
 
 }

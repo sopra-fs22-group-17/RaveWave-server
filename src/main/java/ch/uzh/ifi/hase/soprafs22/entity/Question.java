@@ -4,17 +4,17 @@ import java.util.List;
 
 public class Question {
 
-    private String songId;
     private String question;
-    private List<String> wrongAnswers;
+    private String songID;
+    private List<String> answers;
     private String correctAnswer;
 
-    public String getSongId() {
-        return songId;
+    public String getSongID() {
+        return songID;
     }
 
-    public void setSongId(String songId) {
-        this.songId = songId;
+    public void setSongID(String songId) {
+        this.songID = songId;
     }
 
     public String getQuestion() {
@@ -25,12 +25,13 @@ public class Question {
         this.question = question;
     }
 
-    public List<String> getWrongAnswers() {
-        return wrongAnswers;
+    public List<String> getAnswers() {
+        return answers;
     }
 
-    public void setWrongAnswers(List<String> wrongAnswers) {
-        this.wrongAnswers = wrongAnswers;
+
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
     }
 
     public String getCorrectAnswer() {

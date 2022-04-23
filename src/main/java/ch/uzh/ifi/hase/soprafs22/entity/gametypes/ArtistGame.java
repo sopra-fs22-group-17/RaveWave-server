@@ -1,9 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
-import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
-import ch.uzh.ifi.hase.soprafs22.entity.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
-import ch.uzh.ifi.hase.soprafs22.spotify.SpotifyService;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
@@ -37,14 +34,15 @@ public class ArtistGame implements GameType {
     @Override
     public void generateQuestion() {
         //TODO get all artists if there are multiple ones?
-        question.setQuestion("Guess the song title");
+        question.setQuestion("Guess the song artist");
         //store id of the song to be played
-        question.setSongId(songs[songToPick].getTrack().getId());
+        question.setSongID(songs[songToPick].getTrack().getId());
 
         //question.setCorrectAnswer(songs[songToPick].getTrack().getName());
-        question.setCorrectAnswer(((Track) songs[songToPick].getTrack()).getArtists()[0].getName());
+        String correctAnswer = ((Track) songs[songToPick].getTrack()).getArtists()[0].getName();
+        question.setCorrectAnswer(correctAnswer);
 
-        ArrayList<String> wrongAnswers = new ArrayList<String>();
+        ArrayList<String> answers = new ArrayList<String>();
 
         ArrayList<Integer> wrongAnswersIndex = new ArrayList<>();
 
@@ -62,19 +60,24 @@ public class ArtistGame implements GameType {
             while(wrongAnswerIndex == songToPick && wrongAnswersIndex.size() > 0){
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
-            wrongAnswers.add(((Track) songs[wrongAnswerIndex].getTrack()).getArtists()[0].getName());
+            answers.add(((Track) songs[wrongAnswerIndex].getTrack()).getArtists()[0].getName());
         }
-        question.setWrongAnswers(wrongAnswers);
+        answers.add(rand.nextInt(4), correctAnswer);
+        question.setAnswers(answers);
+
 
     }
 
     @Override
-    public String getQuestion() {
-        return question.getQuestion() + "\n" + question.getWrongAnswers() + "\n" + question.getCorrectAnswer();
+    public Question getQuestion() {
+        //TODO return song ID + question info to frontend
+        return question;
     }
-/*
+
     @Override
-    public Answer getCorrectAnswer() {
-        return null;
-    }*/
+    public String getCorrectAnswer() {
+        return question.getCorrectAnswer();
+    }
+
+
 }

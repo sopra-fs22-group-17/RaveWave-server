@@ -1,7 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Answer;
+import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
+import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.AnswerDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.EndGameDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.GameSettingsDTO;
@@ -25,15 +26,22 @@ public class GameService {
     Logger log = LoggerFactory.getLogger(GameService.class);
 
     private final PlayerRepository playerRepository;
-    private Game game;
+    //private Game game;
+
 
     @Autowired
     public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
 
+    //TODO lobbyId is hardcoded so far
+    public void createNewLobby(SpotifyService spotifyService){
+        Game newGame = new Game(spotifyService, SongPool.SWITZERLAND);
+        GameRepository.addGame("1", newGame);
+    }
+
     public void startGame(Integer lobbyId){
-        game.startGame(lobbyId);
+        GameRepository.findByLobbyId(lobbyId.toString()).startGame();
     }
 
     public void saveAnswer(AnswerDTO answerDTO){
@@ -49,8 +57,8 @@ public class GameService {
     public void updateLeaderboard(LeaderboardDTO leaderboardDTO){
     }
 
-    public void startNextRound(Integer lobbyId){
-
+    public Question startNextRound(Integer lobbyId){
+        return GameRepository.findByLobbyId(lobbyId.toString()).startNextTurn();
     }
 
 }
