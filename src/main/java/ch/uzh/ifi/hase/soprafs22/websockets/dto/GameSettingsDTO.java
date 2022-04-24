@@ -23,7 +23,7 @@ public class GameSettingsDTO {
         return RoundDuration;
     }
 
-    public void setRoundDuration(Integer roundDuration) {
+    public void setRoundDuration(int roundDuration) {
         RoundDuration = roundDuration;
     }
 
@@ -31,7 +31,7 @@ public class GameSettingsDTO {
         return PlayBackDuration;
     }
 
-    public void setPlayBackDuration(Integer playBackDuration) {
+    public void setPlayBackDuration(int playBackDuration) {
         PlayBackDuration = playBackDuration;
     }
 
@@ -47,7 +47,7 @@ public class GameSettingsDTO {
         return GameRounds;
     }
 
-    public void setGameRounds(Integer gameRounds) {
+    public void setGameRounds(int gameRounds) {
         GameRounds = gameRounds;
     }
 

@@ -6,8 +6,9 @@ public class EndGameDTO {
     //Reihefolg bedütend i denne liste, evt. andere lösigsasatz nötig
     private ArrayList<String> PlayerPositions;
     private ArrayList<String> PrevPlayerPositions;
-    private ArrayList<Integer> Scores;
-    private ArrayList<Integer> TotalScores;
+    private int[] Scores;
+    private int[] TotalScores;
+    private int[] Streaks;
 
     public ArrayList<String> getPlayerPositions() {
         return PlayerPositions;
@@ -25,27 +26,27 @@ public class EndGameDTO {
         PrevPlayerPositions = prevPlayerPositions;
     }
 
-    public ArrayList<Integer> getScores() {
+    public int[] getScores() {
         return Scores;
     }
 
-    public void setScores(ArrayList<Integer> scores) {
+    public void setScores(int[] scores) {
         Scores = scores;
     }
 
-    public ArrayList<Integer> getTotalScores() {
+    public int[] getTotalScores() {
         return TotalScores;
     }
 
-    public void setTotalScores(ArrayList<Integer> totalScores) {
+    public void setTotalScores(int[] totalScores) {
         TotalScores = totalScores;
     }
 
-    public ArrayList<Integer> getStreaks() {
+    public int[] getStreaks() {
         return Streaks;
     }
 
-    public void setStreaks(ArrayList<Integer> streaks) {
+    public void setStreaks(int[] streaks) {
         Streaks = streaks;
     }
 
@@ -57,7 +58,7 @@ public class EndGameDTO {
         ProfilePicture = profilePicture;
     }
 
-    private ArrayList<Integer> Streaks;
+
     //welle Datetyp?
     private ArrayList<String> ProfilePicture;
 

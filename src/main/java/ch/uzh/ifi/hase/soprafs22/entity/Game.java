@@ -82,7 +82,7 @@ public class Game {
         return question;
     }
 
-    private void startTimer(Integer timer){}
+    private void startTimer(int timer){}
 
     public boolean checkAnswers(){return true;}
 

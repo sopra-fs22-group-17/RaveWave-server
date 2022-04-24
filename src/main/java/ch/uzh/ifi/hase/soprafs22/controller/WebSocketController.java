@@ -27,52 +27,40 @@ public class WebSocketController {
         this.gameService = gameService;
     }
 
-    @MessageMapping("/lobby/{lobbyId}/start-game")
-    public void startGame(@DestinationVariable Integer lobbyId){
-        log.info("Lobby" + lobbyId + ": Game started.");
-        gameService.startGame(lobbyId);
-    }
-
-    @MessageMapping("/lobby/{lobbyId}/player/{playerId}/check-answer")
-    public void checkAnswer(@DestinationVariable Integer lobbyId, @DestinationVariable Integer playerId, AnswerDTO answerDTO){
-        log.info("Lobby" + lobbyId + ": Player" + playerId + "has answered.");
-        gameService.saveAnswer(answerDTO);
-    }
-
-    @MessageMapping("/lobby/{lobbyId}/end-game")
-    public void endGame(@DestinationVariable Integer lobbyId, EndGameDTO endGameDTO){
-        log.info("Lobby" + lobbyId + ": Game ended");
-        gameService.endGame(endGameDTO);
-    }
-
     @MessageMapping("/lobby/{lobbyId}/setup")
-    public void updateGameSettings(@DestinationVariable Integer lobbyId, GameSettingsDTO gameSettingsDTO){
+    public void updateGameSettings(@DestinationVariable int lobbyId, GameSettingsDTO gameSettingsDTO){
         log.info("Lobby" + lobbyId + ": Game settings updated");
         gameService.updateGameSettings(gameSettingsDTO);
     }
 
-    @MessageMapping("/lobby/{lobbyId}/leaderboard")
-    public void updateLeaderboard(@DestinationVariable Integer lobbyId, LeaderboardDTO leaderboardDTO){
-        log.info("Lobby" + lobbyId + ": Leaderboard updated");
-        gameService.updateLeaderboard(leaderboardDTO);
+    @MessageMapping("/lobby/{lobbyId}/start-game")
+    public void startGame(@DestinationVariable int lobbyId){
+        log.info("Lobby" + lobbyId + ": Game started.");
+        gameService.startGame(lobbyId);
+    }
+
+    @MessageMapping("/lobby/{lobbyId}/player/{playerId}/save-answer")
+    public void saveAnswer(@DestinationVariable int lobbyId, @DestinationVariable int playerId, AnswerDTO answerDTO){
+        log.info("Lobby" + lobbyId + ": Player" + playerId + "has answered.");
+        gameService.saveAnswer(answerDTO, playerId);
+    }
+
+    @MessageMapping("/lobby/{lobbyId}/end-round")
+    public void endRound(@DestinationVariable int lobbyId, @DestinationVariable int playerId, AnswerDTO answerDTO){
+        log.info("Lobby" + lobbyId + ": Player" + playerId + "has answered.");
+        //GameService rüeft evaluator uf
+    }
+
+    @MessageMapping("/lobby/{lobbyId}/end-game")
+    public void endGame(@DestinationVariable int lobbyId, EndGameDTO endGameDTO){
+        log.info("Lobby" + lobbyId + ": Game ended");
+        gameService.endGame(endGameDTO);
     }
 
     @MessageMapping("/lobby/next-round")
-    public void startNextRound(@DestinationVariable Integer lobbyId){
+    public void startNextRound(@DestinationVariable int lobbyId){
         log.info("Lobby" + lobbyId + ": Next round started");
         gameService.startNextRound(lobbyId);
     }
-    //value = "/PlaylistItems", produces = MediaType.TEXT_PLAIN_VALUE
-    @MessageMapping(value = "/test")
-    @SendTo("/topic/testing")
-    public SpotifyPostDTO test(){
-        log.info("Lobby: message received");
-        System.out.println("test succeeded");
 
-        SpotifyPostDTO test = new SpotifyPostDTO();
-        test.setCode("Das isch d antwort vo üsem server");
-
-        return(test);
-
-    }
 }

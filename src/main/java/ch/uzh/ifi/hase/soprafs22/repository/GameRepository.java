@@ -12,10 +12,10 @@ public class GameRepository {
         gameRepo.put(lobbyId, game);
     }
 
-    public static void removeGame(String lobbyId) {
+    public static void removeGame(int lobbyId) {
     }
 
-    public static Game findByLobbyId(String lobbyId) {
+    public static Game findByLobbyId(int lobbyId) {
         return gameRepo.get(lobbyId);
     }
 }

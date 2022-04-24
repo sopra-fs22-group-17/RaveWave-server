@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Internal User Representation
@@ -21,7 +22,7 @@ public class Player implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long id;
 
     @Column(nullable = true)
@@ -45,11 +46,9 @@ public class Player implements Serializable {
     @Column(nullable = false)
     private long lobbyId;
 
-/*
-    @Column(nullable = false)
-    @Type(type = "ch.uzh.ifi.hase.soprafs22.entity.Answer")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     private List<Answer> answers;
-*/
+
 
     public Long getId() {
         return id;
@@ -112,15 +111,19 @@ public class Player implements Serializable {
     }
 
     public void setLobbyId(Long id) {
-        this.lobbyId = lobbyId;
+        this.lobbyId = id;
     }
 
-/*
     public List<Answer> getAnswers() {
         return answers;
     }
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
-    }*/
+    }
+
+    public void saveAnswer(Answer answer){
+        this.answers.add(answer);
+    }
 }
+
