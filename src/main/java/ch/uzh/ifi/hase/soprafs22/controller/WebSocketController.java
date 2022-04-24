@@ -62,7 +62,7 @@ public class WebSocketController {
         log.info("Lobby" + lobbyId + ": Next round started");
         gameService.startNextRound(lobbyId);
     }
-//value = "/PlaylistItems", produces = MediaType.TEXT_PLAIN_VALUE
+    //value = "/PlaylistItems", produces = MediaType.TEXT_PLAIN_VALUE
     @MessageMapping(value = "/test")
     @SendTo("/topic/testing")
     public SpotifyPostDTO test(){
