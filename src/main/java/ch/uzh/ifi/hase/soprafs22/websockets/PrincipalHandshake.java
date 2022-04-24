@@ -12,7 +12,9 @@ public class PrincipalHandshake extends DefaultHandshakeHandler {
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wshandler,
                                       Map<String, Object> attributes){
-        return new StompPrincipal(UUID.randomUUID().toString());
+
+        //UUID.randomUUID().toString()
+        return new StompPrincipal("1");
     }
 
 }

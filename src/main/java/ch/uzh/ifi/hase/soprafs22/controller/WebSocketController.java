@@ -70,15 +70,12 @@ public class WebSocketController {
     @MessageMapping(value = "/test")
     //@SendTo("/topic/testing")
     public void test(SimpMessageHeaderAccessor simpHeader){
-        String id = simpHeader.getSessionAttributes().get("sessionId").toString();
-        simpHeader.setSessionId(id);
+        String id = IdentityHeader.getIdentity(simpHeader);
         log.info("Player " + id + ": Connection established");
-        System.out.println(id);
         SpotifyPostDTO test = new SpotifyPostDTO();
         test.setCode("Das isch d antwort vo üsem server");
-        messTemplate.convertAndSendToUser(id,"/queue/testing", test);
 
-        //this.webSocketService.testy(id, test);
+        this.webSocketService.testy(id, test);
         //return(test);
 
     }

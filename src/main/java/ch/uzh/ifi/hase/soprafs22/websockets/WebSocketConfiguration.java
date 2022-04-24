@@ -14,10 +14,12 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     public void configureMessageBroker(MessageBrokerRegistry registry) {
 
         // Set prefix for the endpoint that the client listens for our messages from
-        registry.enableSimpleBroker("/topic", "/queue");
+        registry.enableSimpleBroker("/topic", "/queue", "/user");
 
         // Set prefix for endpoints the client will send messages to
         registry.setApplicationDestinationPrefixes("/app");
+
+        registry.setUserDestinationPrefix("/user");
     }
 
    @Override
