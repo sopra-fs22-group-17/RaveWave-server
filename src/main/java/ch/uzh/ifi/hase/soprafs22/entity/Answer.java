@@ -15,6 +15,15 @@ public class Answer {
     private int answerId;
     private Long id;
 
+    public boolean isCorrectAndUpdateAnswerResult(Answer correctAnswer) {
+        this.answerResult = this.isEqualAnswerId(correctAnswer);
+        return this.answerResult;
+    }
+
+    private boolean isEqualAnswerId(Answer correctAnswer) {
+        return correctAnswer.getAnswerId() == this.getAnswerId();
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

@@ -114,6 +114,17 @@ public class Player implements Serializable {
         this.lobbyId = id;
     }
 
+	public void roundResult(Answer answer, int score, boolean answerResult){
+		this.answers.add(answer);
+		this.score += score;
+
+		if (answerResult) {
+			this.streak++;
+			this.correctAnswers++;
+		}
+
+	}
+
     public List<Answer> getAnswers() {
         return answers;
     }
