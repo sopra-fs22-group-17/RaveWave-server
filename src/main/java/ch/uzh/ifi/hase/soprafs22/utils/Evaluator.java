@@ -12,18 +12,10 @@ public class Evaluator {
 		// Check if answer is correct and saves the correctness to answerResult and returns answerResult (boolean)
 		boolean answerResult = playerAnswers.isCorrectAndUpdateAnswerResult(correctAnswer);
 
+		if (!answerResult) { return 0 }
+
 		// Reward points to player if correctAnswer
-		rewardPoints(playerAnswers, answerResult, roundDuratian);
-	}
-
-	private static void rewardPoints (Answer answer, boolean answerResult, RoundDuration roundDuration){
-		if (!answerResult) {
-			return 0;
-		}
-
-		Player player = PlayerService.getPlayerById(answer.getPlayerId());
-
-		player.roundResult(answer, calculatePoints(answer, roundDuration), answerResult)
+		return calculatePoints(playerAnswers, roundDuration)
 	}
 
 	private static int calculatePoints(Answer answer, RoundDuration roundDuration){
