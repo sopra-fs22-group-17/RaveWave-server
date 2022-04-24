@@ -20,62 +20,50 @@ public class WebSocketController {
     private SimpMessageSendingOperations messTemplate;
     private GameService gameService;
     private WebSocketService webSocketService;
+
     public WebSocketController(GameService gameService, WebSocketService webSocketService) {
         this.gameService = gameService;
         this.webSocketService = webSocketService;
     }
 
     @MessageMapping("/lobby/{lobbyId}/start-game")
-    public void startGame(@DestinationVariable Integer lobbyId){
+    public void startGame(@DestinationVariable int lobbyId) {
         log.info("Lobby" + lobbyId + ": Game started.");
         gameService.startGame(lobbyId);
     }
 
-    @MessageMapping("/lobby/{lobbyId}/player/{playerId}/check-answer")
-    public void checkAnswer(@DestinationVariable Integer lobbyId, @DestinationVariable Integer playerId, AnswerDTO answerDTO){
+    @MessageMapping("/lobby/{lobbyId}/player/{playerId}/save-answer")
+    public void saveAnswer(@DestinationVariable int lobbyId, @DestinationVariable int playerId, AnswerDTO answerDTO) {
         log.info("Lobby" + lobbyId + ": Player" + playerId + "has answered.");
         gameService.saveAnswer(answerDTO);
     }
 
     @MessageMapping("/lobby/{lobbyId}/end-game")
-    public void endGame(@DestinationVariable Integer lobbyId, EndGameDTO endGameDTO){
+    public void endGame(@DestinationVariable int lobbyId, EndGameDTO endGameDTO) {
         log.info("Lobby" + lobbyId + ": Game ended");
         gameService.endGame(endGameDTO);
     }
 
     @MessageMapping("/lobby/{lobbyId}/setup")
-    public void updateGameSettings(@DestinationVariable Integer lobbyId, GameSettingsDTO gameSettingsDTO){
+    public void updateGameSettings(@DestinationVariable Integer lobbyId, GameSettingsDTO gameSettingsDTO) {
         // GameSettingsDTO gameSettingsDTO
         log.info("Lobby" + lobbyId + ": Game settings updated");
         gameService.updateGameSettings(gameSettingsDTO);
-        String destination = "/topic/lobby/"+lobbyId.toString();
+        String destination = "/topic/lobby/" + lobbyId.toString();
         this.webSocketService.sendMessageToClients(destination, gameSettingsDTO);
     }
 
-    @MessageMapping("/lobby/{lobbyId}/leaderboard")
-    public void updateLeaderboard(@DestinationVariable Integer lobbyId, LeaderboardDTO leaderboardDTO){
-        log.info("Lobby" + lobbyId + ": Leaderboard updated");
-        gameService.updateLeaderboard(leaderboardDTO);
+    @MessageMapping("/lobby/{lobbyId}/end-round")
+    public void endRound(@DestinationVariable int lobbyId, @DestinationVariable int playerId, AnswerDTO answerDTO) {
+        log.info("Lobby" + lobbyId + ": Player" + playerId + "has answered.");
+        //GameService rüeft evaluator uf
     }
 
     //TODO: @DestinationVariable Integer lobbyId
     @MessageMapping("/lobby/next-round")
-    public void startNextRound(@DestinationVariable Integer lobbyId){
+    public void startNextRound(@DestinationVariable Integer lobbyId) {
         log.info("Next round started");
         QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(1));
         this.webSocketService.sendMessageToClients("/topic/lobby/{lobbyId}", questionToSend);
-    }
-    //value = "/PlaylistItems", produces = MediaType.TEXT_PLAIN_VALUE
-    //@SendTo("/topic/testing")
-    @MessageMapping("/test")
-    public void test(SimpMessageHeaderAccessor simpHeader){
-        String id = IdentityHeader.getIdentity(simpHeader);
-        log.info("Player " + id + ": Connection established");
-        SpotifyPostDTO test = new SpotifyPostDTO();
-        test.setCode("Das isch d antwort vo üsem server");
-
-        this.webSocketService.sendMessageToClients(id, test);
-        //return(test);
-
     }
 }

@@ -1,35 +1,37 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 
 public class AnswerDTO {
 
-    private Player Player;
-    private Integer Answer;
-    private String AnswerTime;
+    private Player player;
+    private Answer answer;
+    private String answerTime;
+    private int answerId;
 
     public ch.uzh.ifi.hase.soprafs22.entity.Player getPlayer() {
-        return Player;
+        return player;
     }
 
     public void setPlayer(ch.uzh.ifi.hase.soprafs22.entity.Player player) {
-        Player = player;
+        player = player;
     }
 
-    public int getAnswer() {
-        return Answer;
+    public Answer getAnswer() {
+        return answer;
     }
 
-    public void setAnswer(Integer answer) {
-        Answer = answer;
+    public void setAnswer(Answer answer) {
+        answer = this.answer;
     }
 
     public String getAnswerTime() {
-        return AnswerTime;
+        return answerTime;
     }
 
     public void setAnswerTime(String answerTime) {
-        AnswerTime = answerTime;
+        answerTime = answerTime;
     }
 
 

@@ -1,7 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
+import ch.uzh.ifi.hase.soprafs22.entity.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.AnswerDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.EndGameDTO;
@@ -17,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 
+import java.util.Optional;
+
 /**
  * GameService
  */
@@ -26,6 +30,7 @@ public class GameService {
     Logger log = LoggerFactory.getLogger(GameService.class);
 
     private final PlayerRepository playerRepository;
+    //private final PlayerService playerService;
     //private Game game;
 
 
@@ -40,11 +45,14 @@ public class GameService {
         GameRepository.addGame("1", newGame);
     }
 
-    public void startGame(Integer lobbyId){
-        GameRepository.findByLobbyId(lobbyId.toString()).startGame();
+    public void startGame(int lobbyId){
+        GameRepository.findByLobbyId(lobbyId).startGame();
     }
 
-    public void saveAnswer(AnswerDTO answerDTO){
+    public void saveAnswer(AnswerDTO answerDTO, int playerId){
+        Answer answer = answerDTO.getAnswer();
+        Player player = playerRepository.findById((long)playerId);
+        player.saveAnswer(answer);
         //save received answer to the corresponding player
     }
 
@@ -63,8 +71,8 @@ public class GameService {
         System.out.println("We did it");
     }
 
-    public Question startNextRound(Integer lobbyId){
-        return GameRepository.findByLobbyId(lobbyId.toString()).startNextTurn();
+    public Question startNextRound(int lobbyId){
+        return GameRepository.findByLobbyId(lobbyId).startNextTurn();
     }
 
 }

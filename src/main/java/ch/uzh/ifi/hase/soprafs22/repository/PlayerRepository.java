@@ -5,12 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository("PlayerRepository")
 public interface PlayerRepository extends JpaRepository<Player, Long> {
+
     Player findByPlayerName(String playerName);
-	List<Player> findByLobbyId(Long lobbyid);
-
-
+	List<Player> findByLobbyId(Long lobbyId);
+    Player findById(long id);
 }
