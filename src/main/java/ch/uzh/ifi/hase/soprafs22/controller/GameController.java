@@ -37,12 +37,9 @@ public class GameController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public int createNewLobby() {
-        gameService.createNewLobby(spotifyService);
+        return gameService.createNewLobby(spotifyService);
 
         //return DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(1));
-        return 1;
     }
-
-
 
 }

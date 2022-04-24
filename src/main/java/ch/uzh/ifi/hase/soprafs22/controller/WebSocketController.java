@@ -30,6 +30,9 @@ public class WebSocketController {
     public void startGame(@DestinationVariable int lobbyId) {
         log.info("Lobby" + lobbyId + ": Game started.");
         gameService.startGame(lobbyId);
+        QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(lobbyId));
+        String destination = "/topic/lobbies/" + lobbyId;
+        this.webSocketService.sendMessageToClients(destination, questionToSend);
     }
 
     @MessageMapping("/lobbies/{lobbyId}/player/{playerId}/save-answer")
@@ -45,11 +48,11 @@ public class WebSocketController {
     }
 
     @MessageMapping("/lobbies/{lobbyId}/setup")
-    public void updateGameSettings(@DestinationVariable Integer lobbyId, GameSettingsDTO gameSettingsDTO) {
+    public void updateGameSettings(@DestinationVariable int lobbyId, GameSettingsDTO gameSettingsDTO) {
         // GameSettingsDTO gameSettingsDTO
         log.info("Lobby" + lobbyId + ": Game settings updated");
-        gameService.updateGameSettings(gameSettingsDTO);
-        String destination = "/topic/lobby/" + lobbyId.toString();
+        gameService.updateGameSettings(gameSettingsDTO, lobbyId);
+        String destination = "/topic/lobbies/" + lobbyId;
         this.webSocketService.sendMessageToClients(destination, gameSettingsDTO);
     }
 
@@ -63,7 +66,7 @@ public class WebSocketController {
     @MessageMapping("/lobbies/{lobbyId}/next-round")
     public void startNextRound(@DestinationVariable int lobbyId) {
         log.info("Next round started");
-        QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(1));
+        QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(lobbyId));
         String destination = "/topic/lobbies/" + lobbyId;
         this.webSocketService.sendMessageToClients(destination, questionToSend);
     }

@@ -22,16 +22,10 @@ public class Game {
     //Game settings and getters and setters
     private RoundDuration roundDuration;
     private PlaybackDuration playbackDuration;
-    private SongPool songPool;
+    private SongPool songGenre;
     private int gameRounds;
 
-    public void updateGameSettings(GameSettingsDTO updatedSettings){
-        this.roundDuration = updatedSettings.getRoundDuration();
-        this.playbackDuration = updatedSettings.getPlayBackDuration();
-        this.songPool = updatedSettings.getSongPool();
-        this.gameRounds = updatedSettings.getGameRounds();
-    }
-
+    private boolean startedGame;
 
     private ArrayList<GameType> gamePlan;
     private int lobbyId;
@@ -44,49 +38,29 @@ public class Game {
     //TODO: gameType
     public Game(SpotifyService spotifyService, SongPool songGenre){
         this.spotifyService = spotifyService;
-        mapEnumToPlaylist(songGenre);
+        //mapEnumToPlaylist(songGenre);
         this.gamePlan = new ArrayList<>();
-        fillGamePlan();
-
+        this.songGenre = songGenre;
         this.currentGameRound = 0;
+        this.startedGame = false;
     }
 
-    //TODO so far there is only one option which is swiss music
-    private void mapEnumToPlaylist(SongPool songGenre){
-        if(songGenre.equals(SongPool.SWITZERLAND)){
-            this.playlistId = "37i9dQZEVXbJiyhoAPEfMK";
-        }else if(songGenre.equals(SongPool.COUNTRY)){
-            this.playlistId = "37i9dQZF1DX1lVhptIYRda";
-        }else if(songGenre.equals(SongPool.TOPHITSOFTHEDAY)){
-            this.playlistId = "37i9dQZF1DXcBWIGoYBM5M";
-        }else if(songGenre.equals(SongPool.ROCK)){
-            this.playlistId = "37i9dQZF1DWXRqgorJj26U";
-        }
-        else if(songGenre.equals(SongPool.RNB)){
-            this.playlistId = "37i9dQZF1DX4SBhb3fqCJd";
-        }
-        else if(songGenre.equals(SongPool.HIPHOP)){
-            this.playlistId = "";
-        }
-        else if(songGenre.equals(SongPool.POP)){
-            this.playlistId = "";
-        }
-        else if(songGenre.equals(SongPool.LATINO)){
-            this.playlistId = "";
-        }
-        else if(songGenre.equals(SongPool.PERSONAL)){
-            this.playlistId = "";
-        }
-        else{
-            this.playlistId = "37i9dQZEVXbJiyhoAPEfMK";
-        }
-
+    public Game(Timer roundDuration, Timer playBackDuration, GameMode gameMode, SongPool songGenre){
     }
 
-    public Game(Timer roundDuration, Timer playBackDuration, GameMode gameMode, SongPool songPool){
+    public void updateGameSettings(GameSettingsDTO updatedSettings){
+        this.roundDuration = updatedSettings.getRoundDuration();
+        this.playbackDuration = updatedSettings.getPlayBackDuration();
+        this.songGenre = updatedSettings.getSongPool();
+        this.gameRounds = updatedSettings.getGameRounds();
     }
 
-    public void startGame(){}
+    //TODO exception
+    public void startGame(){
+        fillGamePlan();
+        this.startedGame = true;
+
+    }
 
     public Question startNextTurn(){
         Question question = gamePlan.get(currentGameRound).getQuestion();
@@ -107,8 +81,8 @@ public class Game {
     private void updateRaveWaver(){}
 
     public void fillGamePlan(){
-        PlaylistTrack[] songs = spotifyService.getPlaylistsItems(playlistId);
-        for(int i = 0; i < songs.length; i++){
+        PlaylistTrack[] songs = spotifyService.getPlaylistsItems(songGenre.getPlaylistId());
+        for(int i = 0; i < songs.length && i < gameRounds; i++){
             gamePlan.add(new ArtistGame(i, songs));
         }
 

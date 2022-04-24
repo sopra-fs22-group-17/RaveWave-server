@@ -29,6 +29,8 @@ import java.util.Optional;
 public class GameService {
     Logger log = LoggerFactory.getLogger(GameService.class);
 
+    private int lobbyToCreate;
+
     private final PlayerRepository playerRepository;
     //private final PlayerService playerService;
     //private Game game;
@@ -37,12 +39,15 @@ public class GameService {
     @Autowired
     public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
+        this.lobbyToCreate = 0;
     }
 
     //TODO lobbyId is hardcoded so far
-    public void createNewLobby(SpotifyService spotifyService){
+    public int createNewLobby(SpotifyService spotifyService){
+        lobbyToCreate++;
         Game newGame = new Game(spotifyService, SongPool.SWITZERLAND);
-        GameRepository.addGame(1, newGame);
+        GameRepository.addGame(lobbyToCreate, newGame);
+        return lobbyToCreate;
     }
 
     public void startGame(int lobbyId){
@@ -59,8 +64,8 @@ public class GameService {
     public void endGame(EndGameDTO endGameDTO){
     }
 
-    public void updateGameSettings(GameSettingsDTO gameSettingsDTO){
-        Game game = GameRepository.findByLobbyId(gameSettingsDTO.getLobbyID());
+    public void updateGameSettings(GameSettingsDTO gameSettingsDTO, int lobbyId){
+        Game game = GameRepository.findByLobbyId(lobbyId);
 
         //update game settings
         game.updateGameSettings(gameSettingsDTO);
