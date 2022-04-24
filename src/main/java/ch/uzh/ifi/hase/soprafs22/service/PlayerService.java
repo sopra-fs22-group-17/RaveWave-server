@@ -24,4 +24,8 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
+	public static Player getPlayerById(Long id){
+		return this.playerRepository.findByPlayerId(id);
+	}
+
 }

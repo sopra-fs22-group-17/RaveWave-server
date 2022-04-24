@@ -81,7 +81,7 @@ public class Player implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
-    }
+    }Optional<User> findById(Long id);
 
     public int getScore() {
         return score;
@@ -114,6 +114,17 @@ public class Player implements Serializable {
     public void setLobbyId(Long id) {
         this.lobbyId = lobbyId;
     }
+
+	public void roundResult(Answer answer, int score, boolean answerResult){
+		this.answers.add(answer);
+		this.score += score;
+
+		if (answerResult) {
+			this.streak++;
+			this.correctAnswers++;
+		}
+
+	}
 
 /*
     public List<Answer> getAnswers() {
