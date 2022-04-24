@@ -42,7 +42,7 @@ public class GameService {
     //TODO lobbyId is hardcoded so far
     public void createNewLobby(SpotifyService spotifyService){
         Game newGame = new Game(spotifyService, SongPool.SWITZERLAND);
-        GameRepository.addGame("1", newGame);
+        GameRepository.addGame(1, newGame);
     }
 
     public void startGame(int lobbyId){

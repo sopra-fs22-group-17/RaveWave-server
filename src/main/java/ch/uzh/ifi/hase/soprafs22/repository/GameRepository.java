@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public class GameRepository {
 
-    private static final HashMap<String, Game> gameRepo = new HashMap<>();
+    private static final HashMap<Integer, Game> gameRepo = new HashMap<>();
 
-    public static void addGame(String lobbyId, Game game) {
+    public static void addGame(int lobbyId, Game game) {
         gameRepo.put(lobbyId, game);
     }
 

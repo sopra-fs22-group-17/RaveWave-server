@@ -7,7 +7,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import java.util.ArrayList;
 
 public class GameSettingsDTO {
-    private String lobbyID;
+    private int lobbyID;
     private RoundDuration roundDuration;
     private PlaybackDuration playBackDuration;
     private SongPool songPool;
@@ -15,11 +15,11 @@ public class GameSettingsDTO {
     //private ArrayList<String> gamePlan;
 
 
-    public String getLobbyID() {
+    public int getLobbyID() {
         return lobbyID;
     }
 
-    public void setLobbyID(String lobbyID) {
+    public void setLobbyID(int lobbyID) {
         this.lobbyID = lobbyID;
     }
 
