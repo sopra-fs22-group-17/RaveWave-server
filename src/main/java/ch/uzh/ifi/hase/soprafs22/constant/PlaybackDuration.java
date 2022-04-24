@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.constant;
 
-public class PlaybackDuration {
-
+public enum PlaybackDuration {
+    TEN, TWELVE, FOURTEEN, SIXTEEN, EIGHTEEN, TWENTY
 }

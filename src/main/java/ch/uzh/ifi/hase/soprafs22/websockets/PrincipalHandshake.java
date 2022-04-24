@@ -14,7 +14,7 @@ public class PrincipalHandshake extends DefaultHandshakeHandler {
                                       Map<String, Object> attributes){
 
         //UUID.randomUUID().toString()
-        return new StompPrincipal("1");
+        return new StompPrincipal(UUID.randomUUID().toString());
     }
 
 }

@@ -37,7 +37,7 @@ public class SpotifyAuthController {
 
         return response;
     }
-
+/*
     //TODO temporary mapping --> will be removed
     @GetMapping("/PlaylistItems")
     @ResponseStatus(HttpStatus.OK)
@@ -53,7 +53,7 @@ public class SpotifyAuthController {
     public void usersFavorites() {
         spotifyService.getUsersFavoriteSongs();
     }
-
+*/
 }
 
 

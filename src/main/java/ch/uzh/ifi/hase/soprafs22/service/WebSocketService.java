@@ -46,10 +46,10 @@ public class WebSocketService {
 	}
 
     //i work bitch <3
-    public void testy(String id, Object dto){
-        System.out.println(id);
-        //this.smesg.convertAndSend("/topic/testing", dto);
-        this.smesg.convertAndSendToUser(id, "/topic/testing", dto);
+    public void sendMessageToClients(String destination, Object dto){
+        //System.out.println(id);
+        this.smesg.convertAndSend(destination, dto);
+        //this.smesg.convertAndSendToUser(id, "/topic/testing", dto);
 
     }
 

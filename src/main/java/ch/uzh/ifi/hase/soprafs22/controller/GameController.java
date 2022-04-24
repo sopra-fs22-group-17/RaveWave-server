@@ -36,10 +36,11 @@ public class GameController {
     @PostMapping("/lobbies")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public QuestionDTO createNewLobby() {
+    public int createNewLobby() {
         gameService.createNewLobby(spotifyService);
 
-        return DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(1));
+        //return DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(1));
+        return 1;
     }
 
 

@@ -6,6 +6,7 @@ import java.util.Timer;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.GameSettingsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,13 +19,24 @@ import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 public class Game {
     private final Logger log = LoggerFactory.getLogger(Game.class);
 
+    //Game settings and getters and setters
     private RoundDuration roundDuration;
     private PlaybackDuration playbackDuration;
     private SongPool songPool;
+    private int gameRounds;
+
+    public void updateGameSettings(GameSettingsDTO updatedSettings){
+        this.roundDuration = updatedSettings.getRoundDuration();
+        this.playbackDuration = updatedSettings.getPlayBackDuration();
+        this.songPool = updatedSettings.getSongPool();
+        this.gameRounds = updatedSettings.getGameRounds();
+    }
+
+
     private ArrayList<GameType> gamePlan;
     private int lobbyId;
     private ArrayList<Player> players;
-    private int gameRound;
+    private int currentGameRound;
     private String playlistId;
     private SpotifyService spotifyService;
 
@@ -36,7 +48,7 @@ public class Game {
         this.gamePlan = new ArrayList<>();
         fillGamePlan();
 
-        this.gameRound = 0;
+        this.currentGameRound = 0;
     }
 
     //TODO so far there is only one option which is swiss music
@@ -77,8 +89,8 @@ public class Game {
     public void startGame(){}
 
     public Question startNextTurn(){
-        Question question = gamePlan.get(gameRound).getQuestion();
-        gameRound++;
+        Question question = gamePlan.get(currentGameRound).getQuestion();
+        currentGameRound++;
         return question;
     }
 

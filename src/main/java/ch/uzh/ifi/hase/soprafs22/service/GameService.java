@@ -52,6 +52,11 @@ public class GameService {
     }
 
     public void updateGameSettings(GameSettingsDTO gameSettingsDTO){
+        Game game = GameRepository.findByLobbyId(gameSettingsDTO.getLobbyID());
+
+        //update game settings
+        game.updateGameSettings(gameSettingsDTO);
+        // GameRepository.findByLobbyId("1").
     }
 
     public void updateLeaderboard(LeaderboardDTO leaderboardDTO){

@@ -1,63 +1,71 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto;
 
+import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
+import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
+import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
+
 import java.util.ArrayList;
 
 public class GameSettingsDTO {
+    private String lobbyID;
+    private RoundDuration roundDuration;
+    private PlaybackDuration playBackDuration;
+    private SongPool songPool;
+    private int gameRounds;
+    //private ArrayList<String> gamePlan;
 
-    private String LobbyId;
-    private int RoundDuration;
-    private int PlayBackDuration;
-    private String SongPool;
-    private int GameRounds;
-    private ArrayList<String> GamePlan;
 
-    public String getLobbyId() {
-        return LobbyId;
+    public String getLobbyID() {
+        return lobbyID;
     }
 
-    public void setLobbyId(String lobbyId) {
-        LobbyId = lobbyId;
+    public void setLobbyID(String lobbyID) {
+        this.lobbyID = lobbyID;
     }
 
-    public int getRoundDuration() {
-        return RoundDuration;
+    public RoundDuration getRoundDuration() {
+        return roundDuration;
     }
 
-    public void setRoundDuration(Integer roundDuration) {
-        RoundDuration = roundDuration;
+    public void setRoundDuration(RoundDuration roundDuration) {
+        this.roundDuration = roundDuration;
     }
 
-    public int getPlayBackDuration() {
-        return PlayBackDuration;
+    public PlaybackDuration getPlayBackDuration() {
+        return playBackDuration;
     }
 
-    public void setPlayBackDuration(Integer playBackDuration) {
-        PlayBackDuration = playBackDuration;
+    public void setPlayBackDuration(PlaybackDuration playBackDuration) {
+        this.playBackDuration = playBackDuration;
     }
 
-    public String getSongPool() {
-        return SongPool;
+    public SongPool getSongPool() {
+        return songPool;
     }
 
-    public void setSongPool(String songPool) {
-        SongPool = songPool;
+    public void setSongPool(SongPool songPool) {
+        this.songPool = songPool;
     }
 
     public int getGameRounds() {
-        return GameRounds;
+        return gameRounds;
     }
 
-    public void setGameRounds(Integer gameRounds) {
-        GameRounds = gameRounds;
+    public void setGameRounds(int gameRounds) {
+        this.gameRounds = gameRounds;
     }
 
+    /*
     public ArrayList<String> getGamePlan() {
-        return GamePlan;
+        return gamePlan;
     }
 
     public void setGamePlan(ArrayList<String> gamePlan) {
-        GamePlan = gamePlan;
-    }
+        this.gamePlan = gamePlan;
+    }*/
+
+
+
 
 
 }
