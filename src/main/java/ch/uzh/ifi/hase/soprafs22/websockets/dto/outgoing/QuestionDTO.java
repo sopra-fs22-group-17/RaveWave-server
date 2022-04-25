@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.websockets.dto;
+package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
 import java.util.ArrayList;
 import java.util.List;

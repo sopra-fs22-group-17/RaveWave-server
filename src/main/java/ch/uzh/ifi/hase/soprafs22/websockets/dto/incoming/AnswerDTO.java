@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.websockets.dto;
+package ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;

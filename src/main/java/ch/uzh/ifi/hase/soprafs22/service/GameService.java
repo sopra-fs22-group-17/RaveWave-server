@@ -5,10 +5,10 @@ import ch.uzh.ifi.hase.soprafs22.entity.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.AnswerDTO;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.EndGameDTO;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.GameSettingsDTO;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.LeaderboardDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.AnswerDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.EndGameDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * GameService
@@ -62,7 +59,7 @@ public class GameService {
         //save received answer to the corresponding player
     }
 
-    public void endGame(EndGameDTO endGameDTO){
+    public void endGame(){
     }
 
     public void updateGameSettings(GameSettingsDTO gameSettingsDTO, int lobbyId){
@@ -80,6 +77,9 @@ public class GameService {
 
     public Question startNextRound(int lobbyId){
         return GameRepository.findByLobbyId(lobbyId).startNextTurn();
+    }
+
+    public void endRound(){
     }
 
 }

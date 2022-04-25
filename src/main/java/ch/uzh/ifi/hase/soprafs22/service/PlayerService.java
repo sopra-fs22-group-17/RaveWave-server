@@ -33,7 +33,7 @@ public class PlayerService {
     public Player addPlayer(Player newPlayer){
         checkIfPlayerExists(newPlayer);
         newPlayer.setToken(UUID.randomUUID().toString());
-        newPlayer.setScore(0);
+        newPlayer.addToScore(0);
         newPlayer.setStreak(0);
 
         newPlayer = playerRepository.save(newPlayer);

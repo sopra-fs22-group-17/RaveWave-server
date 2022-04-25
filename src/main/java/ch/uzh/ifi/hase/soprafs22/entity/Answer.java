@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Timer;
+
 @Entity
 @Table(name = "Answer")
 
@@ -12,7 +12,7 @@ public class Answer {
     private String playerAnswer;
     private float answerTime;
     private boolean answerResult;
-    private int answerId;
+    private int answerNr;
     private Long id;
 
     public boolean isCorrectAndUpdateAnswerResult(Answer correctAnswer) {
@@ -21,7 +21,7 @@ public class Answer {
     }
 
     private boolean isEqualAnswerId(Answer correctAnswer) {
-        return correctAnswer.getAnswerId() == this.getAnswerId();
+        return correctAnswer.getAnswerNr() == this.getAnswerNr();
     }
 
     public void setId(Long id) {
@@ -57,11 +57,11 @@ public class Answer {
         this.answerResult = answerResult;
     }
 
-    public int getAnswerId() {
-        return answerId;
+    public int getAnswerNr() {
+        return answerNr;
     }
 
-    public void setAnswerId(int answerId) {
-        this.answerId = answerId;
+    public void setAnswerNr(int answerId) {
+        this.answerNr = answerId;
     }
 }

@@ -7,17 +7,18 @@ import java.lang.Math;
 
 public class Evaluator {
 
-	public static int evaluate (Answer playerAnswers, Answer correctAnswer,
-		RoundDuration roundDuration){
-		// Check if answer is correct and saves the correctness to answerResult and returns answerResult (boolean)
-		boolean answerResult = playerAnswers.isCorrectAndUpdateAnswerResult(correctAnswer);
+    public int evaluation(Answer playerAnswer, int correctAnswer, RoundDuration roundDuration){
+        //returns points and stores in the answer if it is right or wrong
+        boolean answerResult = isCorrect(playerAnswer, correctAnswer);
+        playerAnswer.setAnswerResult(answerResult);
 
 		if (!answerResult) {
             return 0;
         }
 
 		// Reward points to player if correctAnswer
-		return calculatePoints(playerAnswers, roundDuration);
+
+        return calculatePoints(playerAnswer, roundDuration);
 	}
 
 	private static int calculatePoints(Answer answer, RoundDuration roundDuration){
@@ -29,5 +30,12 @@ public class Evaluator {
 
 		return Math.round(points);
 	}
+
+    private boolean isCorrect(Answer playerAnswer, int correctAnswer) {
+        int playerAnswerNr = playerAnswer.getAnswerNr();
+        return correctAnswer == playerAnswerNr;
+    }
+
+
 
 }

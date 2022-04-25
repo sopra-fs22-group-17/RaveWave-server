@@ -6,7 +6,7 @@ import java.util.Timer;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.GameSettingsDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,7 +74,7 @@ public class Game {
 
     public void notifyPlayers(){}
 
-    public void endGameTurn(){}
+    public void endRound(){}
 
     public void endGame(){}
 

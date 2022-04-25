@@ -1,14 +1,13 @@
-package ch.uzh.ifi.hase.soprafs22.websockets.dto;
+package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
 import java.util.ArrayList;
 
-public class EndGameDTO {
+public class LeaderboardDTO {
     //Reihefolg bedütend i denne liste, evt. andere lösigsasatz nötig
     private ArrayList<String> PlayerPositions;
     private ArrayList<String> PrevPlayerPositions;
     private int[] Scores;
     private int[] TotalScores;
-    private int[] Streaks;
 
     public ArrayList<String> getPlayerPositions() {
         return PlayerPositions;
@@ -58,7 +57,7 @@ public class EndGameDTO {
         ProfilePicture = profilePicture;
     }
 
-
+    private int[] Streaks;
     //welle Datetyp?
     private ArrayList<String> ProfilePicture;
 
