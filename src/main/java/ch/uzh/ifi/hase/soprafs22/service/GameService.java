@@ -79,7 +79,8 @@ public class GameService {
         return GameRepository.findByLobbyId(lobbyId).startNextTurn();
     }
 
-    public void endRound(){
+    public void endRound(Long lobbyId){
+        playerRepository.findByLobbyId(lobbyId);
     }
 
 }

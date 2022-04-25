@@ -57,10 +57,10 @@ public class WebSocketController {
     }
 
     @MessageMapping("/lobbies/{lobbyId}/end-round")
-    public void endRound(@DestinationVariable int lobbyId, @DestinationVariable int playerId) {
+    public void endRound(@DestinationVariable Long lobbyId, @DestinationVariable int playerId) {
         log.info("Lobby" + lobbyId + ": Player" + playerId + "has answered.");
         //GameService rüeft evaluator uf
-        gameService.endRound();
+        gameService.endRound(lobbyId);
     }
 
     //TODO: @DestinationVariable Integer lobbyId
