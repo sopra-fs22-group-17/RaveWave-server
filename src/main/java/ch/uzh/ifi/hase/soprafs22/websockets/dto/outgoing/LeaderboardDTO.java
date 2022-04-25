@@ -1,52 +1,60 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
+
 import java.util.ArrayList;
 
 public class LeaderboardDTO {
-    //Reihefolg bedütend i denne liste, evt. andere lösigsasatz nötig
-    private ArrayList<String> PlayerPositions;
-    private ArrayList<String> PrevPlayerPositions;
-    private int[] Scores;
-    private int[] TotalScores;
 
-    public ArrayList<String> getPlayerPositions() {
+
+    //Reihefolg bedütend i denne liste, evt. andere lösigsasatz nötig
+    private int PlayerAmount;
+    private ArrayList<Player> PlayerPositions;
+    private ArrayList<Player> PrevPlayerPositions;
+    private int[] LastScores;
+    private int[] TotalScores;
+    private int[] Streaks;
+    //welle Datetyp?
+    private ArrayList<String> ProfilePicture;
+
+    public ArrayList<Player> getPlayerPositions() {
         return PlayerPositions;
     }
 
-    public void setPlayerPositions(ArrayList<String> playerPositions) {
+    public void setPlayerPositions(ArrayList<Player> playerPositions) {
         PlayerPositions = playerPositions;
     }
 
-    public ArrayList<String> getPrevPlayerPositions() {
+    public ArrayList<Player> getPrevPlayerPositions() {
         return PrevPlayerPositions;
     }
 
-    public void setPrevPlayerPositions(ArrayList<String> prevPlayerPositions) {
+    public void setPrevPlayerPositions(ArrayList<Player> prevPlayerPositions) {
         PrevPlayerPositions = prevPlayerPositions;
     }
 
-    public int[] getScores() {
-        return Scores;
+    public int[] getLastScores() {
+        return LastScores;
     }
 
-    public void setScores(int[] scores) {
-        Scores = scores;
+    public void setLastScore(int pos, int score) {
+        LastScores[pos]= score;
     }
 
     public int[] getTotalScores() {
         return TotalScores;
     }
 
-    public void setTotalScores(int[] totalScores) {
-        TotalScores = totalScores;
+    public void setTotalScore(int pos, int totalScore) {
+        TotalScores[pos] = totalScore;
     }
 
-    public int[] getStreaks() {
-        return Streaks;
+    public void lostStreaks(int pos) {
+        Streaks[pos] =0;
     }
 
-    public void setStreaks(int[] streaks) {
-        Streaks = streaks;
+    public void continueStreaks(int pos) {
+        Streaks[pos]+=1;
     }
 
     public ArrayList<String> getProfilePicture() {
@@ -57,9 +65,13 @@ public class LeaderboardDTO {
         ProfilePicture = profilePicture;
     }
 
-    private int[] Streaks;
-    //welle Datetyp?
-    private ArrayList<String> ProfilePicture;
+    public int getPlayerAmount() {
+        return PlayerAmount;
+    }
+
+    public void setPlayerAmount(int playerAmount) {
+        PlayerAmount = playerAmount;
+    }
 
 
 }

@@ -38,7 +38,10 @@ public class Player implements Serializable {
     private String token;
 
     @Column(nullable = false)
-    private int score;
+    private int totalScore;
+
+    @Column(nullable = false)
+    private int lastScore;
 
     @Column(nullable = false)
     private int streak;
@@ -82,13 +85,22 @@ public class Player implements Serializable {
         this.token = token;
     }
 
-    public int getScore() {
-        return score;
+    public int getTotalScore() {
+        return totalScore;
     }
 
-    public void addToScore(int score) {
-        this.score += score;
+    public void addToScore(int newScore) {
+        this.totalScore += newScore;
     }
+
+    public int getLastScore() {
+        return lastScore;
+    }
+
+    public void setLastScore(int lastScore) {
+        this.lastScore = lastScore;
+    }
+
     public int getStreak() {
         return streak;
     }
@@ -113,9 +125,9 @@ public class Player implements Serializable {
         this.lobbyId = id;
     }
 
-	public void roundResult(Answer answer, int score, boolean answerResult){
+	public void roundResult(Answer answer, int playerScore, boolean answerResult){
 		this.answers.add(answer);
-		this.score += score;
+		this.totalScore += playerScore;
 
 		if (answerResult) {
 			this.streak++;
