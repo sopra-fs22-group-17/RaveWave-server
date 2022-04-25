@@ -28,8 +28,11 @@ public class Player implements Serializable {
     @Column(nullable = true)
     private Long raveWaverId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String playerName;
+
+    @Column(nullable = false)
+    private long lobbyId;
 
     @Column(nullable = false, unique = true)
     private String token;
@@ -42,9 +45,6 @@ public class Player implements Serializable {
 
     @Column(nullable = false)
     private int correctAnswers;
-
-    @Column(nullable = false)
-    private long lobbyId;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     private List<Answer> answers;

@@ -1,10 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverGetDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.QuestionDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -37,6 +36,19 @@ public interface DTOMapper {
     @Mapping(source = "songID", target = "songID")
     @Mapping(source = "answers", target = "answers")
     QuestionDTO convertEntityToQuestionDTO(Question question);
+
+    @Mapping(source = "playerName", target = "playerName")
+    //@Mapping(source = "lobbyId", target = "lobbyId")
+    Player convertPlayerPostDTOtoEntity(PlayerPostDTO playerPostDTO);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "playerName", target = "playerName")
+    @Mapping(source = "token", target = "token")
+    @Mapping(source = "score", target = "score")
+    @Mapping(source = "streak", target = "streak")
+    @Mapping(source = "correctAnswers", target = "correctAnswers")
+    @Mapping(source = "lobbyId", target = "lobbyId")
+    PlayerGetDTO convertEntityToPlayerGetDTO(Player player);
 
 
 }

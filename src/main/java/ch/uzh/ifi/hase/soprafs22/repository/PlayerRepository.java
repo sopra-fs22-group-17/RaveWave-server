@@ -9,7 +9,7 @@ import java.util.List;
 @Repository("PlayerRepository")
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    Player findByPlayerName(String playerName);
+    Player findByPlayerNameAndLobbyId(String playerName, long lobbyId);
 	List<Player> findByLobbyId(Long lobbyId);
     Player findById(long id);
 }

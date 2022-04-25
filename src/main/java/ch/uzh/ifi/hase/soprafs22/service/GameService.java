@@ -20,6 +20,7 @@ import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * GameService
@@ -71,6 +72,7 @@ public class GameService {
         game.updateGameSettings(gameSettingsDTO);
         // GameRepository.findByLobbyId("1").
     }
+
 
     public void updateLeaderboard(LeaderboardDTO leaderboardDTO){
         System.out.println("We did it");
