@@ -1,11 +1,14 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +77,27 @@ public class Game {
 
     public void notifyPlayers(){}
 
-    public void endRound(){}
+    public void endRound(List<Player> players){
+        distributePoints(players);
+    }
+
+    private void distributePoints(List<Player> players){
+        Evaluator evaluator = new Evaluator();
+        for(Player player : players){
+            Answer playerAnswer = player.getAnswers().get(currentGameRound);
+            Question currentQuestion = gamePlan.get(currentGameRound).getQuestion();
+            int points = evaluator.evaluation(playerAnswer, currentQuestion.getCorrectAnswer(), roundDuration);
+            System.out.println(points);
+
+            player.addToScore(points);
+
+            if(points != 0){
+                player.setStreak(player.getStreak() + 1);
+            }else{
+                player.setStreak(0);
+            }
+        }
+    }
 
     public void endGame(){}
 

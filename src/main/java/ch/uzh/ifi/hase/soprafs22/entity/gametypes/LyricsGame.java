@@ -26,8 +26,8 @@ public class LyricsGame implements GameType {
     }
 
     @Override
-    public String getCorrectAnswer() {
-        return null;
+    public int getCorrectAnswer() {
+        return 1;
     }
 
 }

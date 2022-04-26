@@ -89,6 +89,7 @@ public class Player implements Serializable {
     public void addToScore(int score) {
         this.score += score;
     }
+
     public int getStreak() {
         return streak;
     }
