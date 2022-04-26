@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
+import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.AnswerDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.EndGameDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
+
+import java.util.List;
 
 /**
  * GameService
@@ -79,8 +82,12 @@ public class GameService {
         return GameRepository.findByLobbyId(lobbyId).startNextTurn();
     }
 
-    public void endRound(Long lobbyId){
-        playerRepository.findByLobbyId(lobbyId);
+    //TODO hardcoded --> lobbyId
+    public void endRound(long lobbyId){
+        Game game = GameRepository.findByLobbyId((int)lobbyId);
+        List<Player> players = playerRepository.findByLobbyId(lobbyId);
+
+        game.endRound(players);
     }
 
 }

@@ -7,7 +7,7 @@ public class Question {
     private String question;
     private String songID;
     private List<String> answers;
-    private String correctAnswer;
+    private int correctAnswer;
 
     public String getSongID() {
         return songID;
@@ -34,11 +34,11 @@ public class Question {
         this.answers = answers;
     }
 
-    public String getCorrectAnswer() {
+    public int getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public void setCorrectAnswer(String correctAnswer) {
+    public void setCorrectAnswer(int correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
 

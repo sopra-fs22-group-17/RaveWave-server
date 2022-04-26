@@ -25,8 +25,8 @@ public class LikedSongGame implements GameType {
     }
 
     @Override
-    public String getCorrectAnswer() {
-        return null;
+    public int getCorrectAnswer() {
+        return 1;
     }
 
 }

@@ -26,8 +26,8 @@ public class AlbumCoverGame implements GameType {
     }
 
     @Override
-    public String getCorrectAnswer() {
-        return null;
+    public int getCorrectAnswer() {
+        return 1;
     }
 
 }

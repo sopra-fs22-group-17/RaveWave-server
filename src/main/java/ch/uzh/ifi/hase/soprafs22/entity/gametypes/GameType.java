@@ -10,7 +10,7 @@ public interface GameType {
     Question displayQuestion();
     void generateQuestion();
     Question getQuestion();
-    String getCorrectAnswer();
+    int getCorrectAnswer();
     //Answer getCorrectAnswer();
     //String fetchCorrectAnswer();
     //String generateWrongAnswer();

@@ -22,6 +22,7 @@ public class ArtistGame implements GameType {
         this.question = new Question();
         this.songs = songs;
         this.songToPick = songToPick;
+
         generateQuestion();
 
     }
@@ -40,7 +41,7 @@ public class ArtistGame implements GameType {
 
         //question.setCorrectAnswer(songs[songToPick].getTrack().getName());
         String correctAnswer = ((Track) songs[songToPick].getTrack()).getArtists()[0].getName();
-        question.setCorrectAnswer(correctAnswer);
+        //question.setCorrectAnswer(correctAnswer);
 
         ArrayList<String> answers = new ArrayList<String>();
 
@@ -62,20 +63,23 @@ public class ArtistGame implements GameType {
             }
             answers.add(((Track) songs[wrongAnswerIndex].getTrack()).getArtists()[0].getName());
         }
-        answers.add(rand.nextInt(4), correctAnswer);
+
+        int correctAnswerIndex = rand.nextInt(4);
+        answers.add(correctAnswerIndex, correctAnswer);
+
         question.setAnswers(answers);
+        question.setCorrectAnswer(correctAnswerIndex);
 
 
     }
 
     @Override
     public Question getQuestion() {
-        //TODO return song ID + question info to frontend
         return question;
     }
 
     @Override
-    public String getCorrectAnswer() {
+    public int getCorrectAnswer() {
         return question.getCorrectAnswer();
     }
 
