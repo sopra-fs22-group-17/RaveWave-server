@@ -25,56 +25,82 @@ import java.util.UUID;
 @Transactional
 public class RaveWaverService {
 
-    private final Logger log = LoggerFactory.getLogger(RaveWaverService.class);
+  private final Logger log = LoggerFactory.getLogger(RaveWaverService.class);
 
-    private final RaveWaverRepository raveWaverRepository;
+  private final RaveWaverRepository raveWaverRepository;
 
-    @Autowired
-    public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
-        this.raveWaverRepository = raveWaverRepository;
+  @Autowired
+  public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
+    this.raveWaverRepository = raveWaverRepository;
+  }
+
+  public List<RaveWaver> getRaveWavers() {
+    return this.raveWaverRepository.findAll();
+  }
+
+  public RaveWaver createRaveWaver(RaveWaver newRaveWaver) {
+    newRaveWaver.setToken(UUID.randomUUID().toString());
+
+    checkIfUserExists(newRaveWaver);
+
+    // saves the given entity but data is only persisted in the database once
+    // flush() is called
+    newRaveWaver = raveWaverRepository.save(newRaveWaver);
+    raveWaverRepository.flush();
+
+    log.debug("Created Information for User: {}", newRaveWaver);
+    return newRaveWaver;
+  }
+
+  /**
+   * This is a helper method that will check the uniqueness criteria of the
+   * username and the name
+   * defined in the User entity. The method will do nothing if the input is unique
+   * and throw an error otherwise.
+   *
+   * @param raveWaverToBeCreated
+   * @throws org.springframework.web.server.ResponseStatusException
+   * @see RaveWaver
+   */
+  private void checkIfRaveWaverExists(RaveWaver raveWaverToBeCreated) {
+    RaveWaver raveWaverByUsername = raveWaverRepository.findByUsername(raveWaverToBeCreated.getUsername());
+
+    String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
+    if (raveWaverByUsername != null && raveWaverByUsername != null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          String.format(baseErrorMessage, "username and the name", "are"));
+    } else if (raveWaverByUsername != null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "username", "is"));
+    } else if (raveWaverByUsername != null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "name", "is"));
     }
+  }
 
-    public List<RaveWaver> getUsers() {
-        return this.raveWaverRepository.findAll();
+  public static void verifyPassword(String passwordRaveWaver, String passwordLogin) {
+    if (!passwordRaveWaver.equals(passwordLogin)) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is incorrect!");
     }
+	 public static String hashPasswordSHA256(String password) throws NoSuchAlgorithmException {
+    MessageDigest msgDgst = MessageDigest.getInstance("SHA-256");
+    byte[] hash = msgDgst.digest(password.getBytes(StandardCharsets.UTF_8));
+    BigInteger no = new BigInteger(1, hash);
+    StringBuilder passwordHash = new StringBuilder(no.toString(16));
 
-    public RaveWaver createUser(RaveWaver newRaveWaver) {
-        newRaveWaver.setToken(UUID.randomUUID().toString());
-
-        checkIfUserExists(newRaveWaver);
-
-        // saves the given entity but data is only persisted in the database once
-        // flush() is called
-        newRaveWaver = raveWaverRepository.save(newRaveWaver);
-        raveWaverRepository.flush();
-
-        log.debug("Created Information for User: {}", newRaveWaver);
-        return newRaveWaver;
+    // Padding with tbe leading zeros
+    while (passwordHash.length() < 32) {
+      passwordHash.insert(0, '0');
     }
+    return passwordHash.toString();
+  }
 
-    /**
-     * This is a helper method that will check the uniqueness criteria of the
-     * username and the name
-     * defined in the User entity. The method will do nothing if the input is unique
-     * and throw an error otherwise.
-     *
-     * @param raveWaverToBeCreated
-     * @throws org.springframework.web.server.ResponseStatusException
-     * @see RaveWaver
-     */
-    private void checkIfUserExists(RaveWaver raveWaverToBeCreated) {
-        RaveWaver raveWaverByUsername = raveWaverRepository.findByUsername(raveWaverToBeCreated.getUsername());
+  public RaveWaver loginRaveWaver(LoginPostDTO loginPostDTO) {
+    RaveWaver raveWaver = getUserByUsername(loginPostDTO.getUsername());
 
-        String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
-        if (raveWaverByUsername != null && raveWaverByUsername != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format(baseErrorMessage, "username and the name", "are"));
-        }
-        else if (raveWaverByUsername != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "username", "is"));
-        }
-        else if (raveWaverByUsername != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "name", "is"));
-        }
-    }
+    UserService.verifyPassword(raveWaver.getPassword(), loginPostDTO.getPassword());
+    // set user online
+    toggleUserStatus(raveWaver);
+
+    return raveWaver;
+  }
+  }
 }

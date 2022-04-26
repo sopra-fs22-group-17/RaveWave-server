@@ -29,8 +29,8 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    //returns playerToken
-    public Player addPlayer(Player newPlayer){
+    // returns playerToken
+    public Player addPlayer(Player newPlayer) {
         checkIfPlayerExists(newPlayer);
         newPlayer.setToken(UUID.randomUUID().toString());
         newPlayer.addToScore(0);
@@ -43,14 +43,12 @@ public class PlayerService {
     }
 
     private void checkIfPlayerExists(Player playerToBeCreated) {
-        Player userByUsername = playerRepository.findByPlayerNameAndLobbyId(playerToBeCreated.getPlayerName(), playerToBeCreated.getlobbyId());
+        Player userByUsername = playerRepository.findByPlayerNameAndLobbyId(playerToBeCreated.getPlayerName(),
+                playerToBeCreated.getlobbyId());
 
         if (userByUsername != null && userByUsername.getlobbyId().equals(playerToBeCreated.getlobbyId())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("This username does already exist!"));
         }
     }
-
-
-
 
 }

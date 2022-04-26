@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User Controller
+ * RaveWaver Controller
  * This class is responsible for handling all REST request that are related to
- * the user.
+ * the raveWaver.
  * The controller will receive the request and delegate the execution to the
- * UserService and finally return the result.
+ * RaveWaverService and finally return the result.
  */
 @RestController
 public class RaveWaverController {
@@ -27,32 +27,59 @@ public class RaveWaverController {
         this.raveWaverService = raveWaverService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/ravewavers")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<RaveWaverGetDTO> getAllUsers() {
-        // fetch all users in the internal representation
-        List<RaveWaver> raveWavers = raveWaverService.getUsers();
+    public List<RaveWaverGetDTO> getAllRaveWaver() {
+        // fetch all raveWavers in the internal representation
+        List<RaveWaver> raveWavers = raveWaverService.getRaveWavers();
         List<RaveWaverGetDTO> raveWaverGetDTOS = new ArrayList<>();
 
-        // convert each user to the API representation
+        // convert each raveWaver to the API representation
         for (RaveWaver raveWaver : raveWavers) {
             raveWaverGetDTOS.add(DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaver));
         }
         return raveWaverGetDTOS;
     }
 
-    @PostMapping("/users")
+    @GetMapping("/ravewavers/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public RaveWaverGetDTO getRaveWaver(@PathVariable Long id) {
+        RaveWaver raveWaver = raveWaverService.getRaveWaverById(id);
+
+        return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaver);
+    }
+
+    @PostMapping("/ravewaver")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public RaveWaverGetDTO createUser(@RequestBody RaveWaverPostDTO raveWaverPostDTO) {
-        // convert API user to internal representation
+    public RaveWaverGetDTO createRaveWaver(@RequestBody RaveWaverPostDTO raveWaverPostDTO) {
+        // convert API raveWaver to internal representation
         RaveWaver raveWaverInput = DTOMapper.INSTANCE.convertRaveWaverPostDTOtoEntity(raveWaverPostDTO);
 
-        // create user
-        RaveWaver createdRaveWaver = raveWaverService.createUser(raveWaverInput);
+        // create raveWaver
+        RaveWaver createdRaveWaver = raveWaverService.createRaveWaver(raveWaverInput);
 
-        // convert internal representation of user back to API
+        // convert internal representation of raveWaver back to API
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(createdRaveWaver);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public RaveWaverGetDTO loginRaveWaver(@RequestBody LoginPostDTO loginPostDTO) {
+        RaveWaver raveWaver = raveWaverService.loginRaveWaver(loginPostDTO);
+        return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaver);
+    }
+
+    @PutMapping("/ravewavers/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public RaveWaverGetDTO updateRaveWaver(@RequestBody RaveWaverPutDTO raveWaverPutDTO, @PathVariable Long id) {
+
+        RaveWaver raveWaverUpdate = raveWaverService.updateRaveWaver(raveWaverPutDTO, id);
+
+        return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaverUpdate);
     }
 }
