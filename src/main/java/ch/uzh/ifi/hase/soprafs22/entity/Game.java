@@ -100,23 +100,14 @@ public class Game {
         LeaderboardDTO leaderboard = new LeaderboardDTO();
 
         ArrayList<Player> orderedList = sortPlayers(players);
-
-        leaderboard.setPlayerAmount(players.size());
         leaderboard.setPlayerPositions(orderedList);
 
         for (int i = 0; i< players.size(); i++){
             leaderboard.setTotalScore(i,players.get(i).getTotalScore());
             leaderboard.setLastScore(i, players.get(i).getLastScore());
-            if(players.get(i).getLastScore() != 0){
-                leaderboard.continueStreaks(i);
-            } else{
-                leaderboard.lostStreaks(i);
-            }
+            leaderboard.setStreak(i, players.get(i).getStreak());
         }
-
         leaderboard.setPrevPlayerPositions(sortPlayersPreviousScore(players));
-
-
     }
 
     private ArrayList<Player> sortPlayers(ArrayList<Player> players) {

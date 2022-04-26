@@ -8,7 +8,6 @@ public class LeaderboardDTO {
 
 
     //Reihefolg bedütend i denne liste, evt. andere lösigsasatz nötig
-    private int PlayerAmount;
     private ArrayList<Player> PlayerPositions;
     private ArrayList<Player> PrevPlayerPositions;
     private int[] LastScores;
@@ -49,13 +48,10 @@ public class LeaderboardDTO {
         TotalScores[pos] = totalScore;
     }
 
-    public void lostStreaks(int pos) {
-        Streaks[pos] =0;
+    public void setStreak(int pos, int streak) {
+        Streaks[pos] = streak;
     }
 
-    public void continueStreaks(int pos) {
-        Streaks[pos]+=1;
-    }
 
     public ArrayList<String> getProfilePicture() {
         return ProfilePicture;
@@ -65,13 +61,6 @@ public class LeaderboardDTO {
         ProfilePicture = profilePicture;
     }
 
-    public int getPlayerAmount() {
-        return PlayerAmount;
-    }
-
-    public void setPlayerAmount(int playerAmount) {
-        PlayerAmount = playerAmount;
-    }
 
 
 }
