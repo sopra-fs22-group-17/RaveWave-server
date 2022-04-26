@@ -2,6 +2,9 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +48,7 @@ public class RaveWaverService {
   public RaveWaver createRaveWaver(RaveWaver newRaveWaver) {
     newRaveWaver.setToken(UUID.randomUUID().toString());
 
-    checkIfUserExists(newRaveWaver);
+    checkIfRaveWaverExists(newRaveWaver);
 
     // saves the given entity but data is only persisted in the database once
     // flush() is called
@@ -80,7 +87,9 @@ public class RaveWaverService {
     if (!passwordRaveWaver.equals(passwordLogin)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is incorrect!");
     }
-	 public static String hashPasswordSHA256(String password) throws NoSuchAlgorithmException {
+  }
+
+  public static String hashPasswordSHA256(String password) throws NoSuchAlgorithmException {
     MessageDigest msgDgst = MessageDigest.getInstance("SHA-256");
     byte[] hash = msgDgst.digest(password.getBytes(StandardCharsets.UTF_8));
     BigInteger no = new BigInteger(1, hash);
@@ -96,11 +105,20 @@ public class RaveWaverService {
   public RaveWaver loginRaveWaver(LoginPostDTO loginPostDTO) {
     RaveWaver raveWaver = getUserByUsername(loginPostDTO.getUsername());
 
-    UserService.verifyPassword(raveWaver.getPassword(), loginPostDTO.getPassword());
+    RaveWaverService.verifyPassword(raveWaver.getPassword(), loginPostDTO.getPassword());
     // set user online
-    toggleUserStatus(raveWaver);
-
     return raveWaver;
   }
+
+  private RaveWaver getUserByUsername(String username) {
+    return null;
+  }
+
+  public RaveWaver getRaveWaverById(Long id) {
+    return null;
+  }
+
+  public RaveWaver updateRaveWaver(RaveWaverPutDTO raveWaverPutDTO, Long id) {
+    return null;
   }
 }

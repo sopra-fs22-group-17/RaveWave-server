@@ -21,7 +21,7 @@ public class UserPutDTO {
     }
 
     public String getPassword() {
-        return pasword;
+        return password;
     }
 
     public void setPassword(String password) {
