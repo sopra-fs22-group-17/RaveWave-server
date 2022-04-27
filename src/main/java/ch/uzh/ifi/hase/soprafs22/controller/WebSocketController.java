@@ -1,11 +1,13 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Answer;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.WebSocketService;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.AnswerDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.EndGameDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,15 @@ public class WebSocketController {
         this.webSocketService = webSocketService;
     }
 
+    @MessageMapping("/lobbies/{lobbyId}/setup")
+    public void updateGameSettings(@DestinationVariable int lobbyId, GameSettingsDTO gameSettingsDTO) {
+        // GameSettingsDTO gameSettingsDTO
+        log.info("Lobby" + lobbyId + ": Game settings updated");
+        gameService.updateGameSettings(gameSettingsDTO, lobbyId);
+        String destination = "/topic/lobbies/" + lobbyId;
+        this.webSocketService.sendMessageToClients(destination, gameSettingsDTO);
+    }
+
     @MessageMapping("/lobbies/{lobbyId}/start-game")
     public void startGame(@DestinationVariable int lobbyId) {
         log.info("Lobby" + lobbyId + ": Game started.");
@@ -36,31 +47,18 @@ public class WebSocketController {
     }
 
     @MessageMapping("/lobbies/{lobbyId}/player/{playerId}/save-answer")
-    public void saveAnswer(@DestinationVariable int lobbyId, @DestinationVariable int playerId, AnswerDTO answerDTO) {
+    public void saveAnswer(@DestinationVariable int lobbyId, @DestinationVariable int playerId, Answer answer) {
         log.info("Lobby" + lobbyId + ": Player" + playerId + "has answered.");
-        gameService.saveAnswer(answerDTO, playerId);
-    }
-
-    @MessageMapping("/lobbies/{lobbyId}/end-game")
-    public void endGame(@DestinationVariable int lobbyId) {
-        log.info("Lobby" + lobbyId + ": Game ended");
-        gameService.endGame();
-    }
-
-    @MessageMapping("/lobbies/{lobbyId}/setup")
-    public void updateGameSettings(@DestinationVariable int lobbyId, GameSettingsDTO gameSettingsDTO) {
-        // GameSettingsDTO gameSettingsDTO
-        log.info("Lobby" + lobbyId + ": Game settings updated");
-        gameService.updateGameSettings(gameSettingsDTO, lobbyId);
-        String destination = "/topic/lobbies/" + lobbyId;
-        this.webSocketService.sendMessageToClients(destination, gameSettingsDTO);
+        gameService.saveAnswer(answer, playerId);
     }
 
     @MessageMapping("/lobbies/{lobbyId}/end-round")
-    public void endRound(@DestinationVariable Long lobbyId, @DestinationVariable int playerId) {
-        log.info("Lobby" + lobbyId + ": Player" + playerId + "has answered.");
+    public void endRound(@DestinationVariable Long lobbyId) {
+        log.info("Lobby" + lobbyId + ": round is over");
         //GameService rüeft evaluator uf
-        gameService.endRound(lobbyId);
+        LeaderboardDTO leaderboard = gameService.endRound(lobbyId);
+        String destination = "/topic/lobbies/" + lobbyId;
+        this.webSocketService.sendMessageToClients(destination, leaderboard);
     }
 
     //TODO: @DestinationVariable Integer lobbyId
@@ -71,4 +69,12 @@ public class WebSocketController {
         String destination = "/topic/lobbies/" + lobbyId;
         this.webSocketService.sendMessageToClients(destination, questionToSend);
     }
+
+    @MessageMapping("/lobbies/{lobbyId}/end-game")
+    public void endGame(@DestinationVariable int lobbyId) {
+        log.info("Lobby" + lobbyId + ": Game ended");
+        gameService.endGame();
+    }
+
+
 }

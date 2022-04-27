@@ -4,41 +4,27 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "Answer")
 
 public class Answer {
 
-    private String playerAnswer;
+    private int playerGuess;
+    private Long playerId;
     private float answerTime;
-    private boolean answerResult;
-    private int answerNr;
-    private Long id;
 
-    public boolean isCorrectAndUpdateAnswerResult(Answer correctAnswer) {
-        this.answerResult = this.isEqualAnswerId(correctAnswer);
-        return this.answerResult;
+    public int getplayerGuess() {
+        return playerGuess;
     }
 
-    private boolean isEqualAnswerId(Answer correctAnswer) {
-        return correctAnswer.getAnswerNr() == this.getAnswerNr();
+    public void setplayerGuess(int id) {
+        this.playerGuess = id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getPlayerId() {
+        return playerId;
     }
 
-    @Id
-    public Long getId() {
-        return id;
-    }
-
-    public String getPlayerAnswer() {
-        return playerAnswer;
-    }
-
-    public void setPlayerAnswer(String playerAnswer) {
-        this.playerAnswer = playerAnswer;
+    public void setPlayerId(Long playerId) {
+        this.playerId = playerId;
     }
 
     public float getAnswerTime() {
@@ -49,19 +35,4 @@ public class Answer {
         this.answerTime = answerTime;
     }
 
-    public boolean isAnswerResult() {
-        return answerResult;
-    }
-
-    public void setAnswerResult(boolean answerResult) {
-        this.answerResult = answerResult;
-    }
-
-    public int getAnswerNr() {
-        return answerNr;
-    }
-
-    public void setAnswerNr(int answerId) {
-        this.answerNr = answerId;
-    }
 }

@@ -10,7 +10,6 @@ public class Evaluator {
     public int evaluation(Answer playerAnswer, int correctAnswer, RoundDuration roundDuration){
         //returns points and stores in the answer if it is right or wrong
         boolean answerResult = isCorrect(playerAnswer, correctAnswer);
-        playerAnswer.setAnswerResult(answerResult);
 
 		if (!answerResult) {
             return 0;
@@ -32,8 +31,8 @@ public class Evaluator {
 	}
 
     private boolean isCorrect(Answer playerAnswer, int correctAnswer) {
-        int playerAnswerNr = playerAnswer.getAnswerNr();
-        return correctAnswer == playerAnswerNr;
+        int playersGuess = playerAnswer.getplayerGuess();
+        return correctAnswer == playersGuess;
     }
 
 

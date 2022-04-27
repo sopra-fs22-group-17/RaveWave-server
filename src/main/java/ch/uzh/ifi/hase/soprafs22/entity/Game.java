@@ -2,11 +2,11 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
-import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
@@ -32,8 +32,9 @@ public class Game {
     private boolean startedGame;
 
     private ArrayList<GameType> gamePlan;
+    private ArrayList<Answer> answers;
     private int lobbyId;
-    private ArrayList<Player> players;
+    private List<Player> players;
     private int currentGameRound;
     private String playlistId;
     private SpotifyService spotifyService;
@@ -69,6 +70,7 @@ public class Game {
     public Question startNextTurn() {
         Question question = gamePlan.get(currentGameRound).getQuestion();
         currentGameRound++;
+        this.answers = new ArrayList<Answer>();
         return question;
     }
 
@@ -82,14 +84,32 @@ public class Game {
     public void notifyPlayers() {
     }
 
-    public void endRound(List<Player> players){
+    private void resetAnswers() {
+        this.answers.clear();
+    }
+
+    public void addAnswers(Answer answer) {
+        this.answers.add(answer);
+    }
+
+    public LeaderboardDTO endRound(List<Player> players){
         distributePoints(players);
+        //TODO handle if player doesnt answer
+        return fillLeaderboard(players);
     }
 
     private void distributePoints(List<Player> players){
         Evaluator evaluator = new Evaluator();
         for(Player player : players){
-            Answer playerAnswer = player.getAnswers().get(currentGameRound);
+            Answer playerAnswer = new Answer();
+            playerAnswer.setplayerGuess(5);
+            for(Answer answer: answers){
+                if (Objects.equals(answer.getPlayerId(), player.getId())) {
+                    playerAnswer = answer;
+                    break;
+                }
+            }
+
             Question currentQuestion = gamePlan.get(currentGameRound).getQuestion();
             int points = evaluator.evaluation(playerAnswer, currentQuestion.getCorrectAnswer(), roundDuration);
             System.out.println(points);
@@ -115,22 +135,23 @@ public class Game {
         }
     }
 
-    public void fillLeaderboard() {
+    private LeaderboardDTO fillLeaderboard(List<Player> players) {
 
         LeaderboardDTO leaderboard = new LeaderboardDTO();
 
-        ArrayList<Player> orderedList = sortPlayers(players);
+        List<Player> orderedList = sortPlayers(players);
         leaderboard.setPlayerPositions(orderedList);
 
         for (int i = 0; i< players.size(); i++){
             leaderboard.setTotalScore(i,players.get(i).getTotalScore());
-            leaderboard.setLastScore(i, players.get(i).getLastScore());
+            leaderboard.setLastScore(i, players.get(i).getRoundScore());
             leaderboard.setStreak(i, players.get(i).getStreak());
         }
         leaderboard.setPrevPlayerPositions(sortPlayersPreviousScore(players));
+        return leaderboard;
     }
 
-    private ArrayList<Player> sortPlayers(ArrayList<Player> players) {
+    private List<Player> sortPlayers(List<Player> players) {
         int pos;
         Player temp;
         for (int i = 0; i < players.size(); i++) {
@@ -148,13 +169,13 @@ public class Game {
         return players;
     }
 
-    private ArrayList<Player> sortPlayersPreviousScore(ArrayList<Player> players) {
+    private List<Player> sortPlayersPreviousScore(List<Player> players) {
         int pos;
         Player temp;
         for (int i = 0; i < players.size(); i++) {
             pos = i;
             for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(j).getTotalScore()-players.get(j).getLastScore() < players.get(pos).getTotalScore() - players.get(pos).getLastScore())                  //find the index of the minimum element
+                if (players.get(j).getTotalScore()-players.get(j).getRoundScore() < players.get(pos).getTotalScore() - players.get(pos).getRoundScore())                  //find the index of the minimum element
                 {
                     pos = j;
                 }

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-public class GameController {
-    Logger log = LoggerFactory.getLogger(GameController.class);
+public class LobbyController {
+    Logger log = LoggerFactory.getLogger(LobbyController.class);
 
     private final GameService gameService;
     private SpotifyService spotifyService;
@@ -25,7 +25,7 @@ public class GameController {
 
     //private Game game;
 
-    GameController(GameService gameService, SpotifyService spotifyService, PlayerService playerService) {
+    LobbyController(GameService gameService, SpotifyService spotifyService, PlayerService playerService) {
         this.gameService = gameService;
         this.spotifyService = spotifyService;
         this.playerService = playerService;

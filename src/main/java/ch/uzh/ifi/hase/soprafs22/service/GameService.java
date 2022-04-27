@@ -55,10 +55,10 @@ public class GameService {
         GameRepository.findByLobbyId(lobbyId).startGame();
     }
 
-    public void saveAnswer(AnswerDTO answerDTO, int playerId){
-        Answer answer = answerDTO.getAnswer();
-        Player player = playerRepository.findById((long)playerId);
-        player.saveAnswer(answer);
+    public void saveAnswer(Answer answer, int playerId){
+        Player player= playerRepository.findById(playerId);
+        Game game = GameRepository.findByLobbyId((int)player.getlobbyId());
+        game.addAnswers(answer);
         //save received answer to the corresponding player
     }
 
@@ -82,12 +82,11 @@ public class GameService {
         return GameRepository.findByLobbyId(lobbyId).startNextTurn();
     }
 
-    //TODO hardcoded --> lobbyId
-    public void endRound(long lobbyId){
+    public LeaderboardDTO endRound(long lobbyId){
         Game game = GameRepository.findByLobbyId((int)lobbyId);
         List<Player> players = playerRepository.findByLobbyId(lobbyId);
+        return game.endRound(players);
 
-        game.endRound(players);
     }
 
 }

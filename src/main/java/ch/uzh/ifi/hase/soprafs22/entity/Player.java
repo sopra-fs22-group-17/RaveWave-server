@@ -41,7 +41,7 @@ public class Player implements Serializable {
     private int totalScore;
 
     @Column(nullable = false)
-    private int lastScore;
+    private int roundScore;
 
     @Column(nullable = false)
     private int streak;
@@ -49,8 +49,6 @@ public class Player implements Serializable {
     @Column(nullable = false)
     private int correctAnswers;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    private List<Answer> answers;
 
 
     public Long getId() {
@@ -93,12 +91,12 @@ public class Player implements Serializable {
         this.totalScore += newScore;
     }
 
-    public int getLastScore() {
-        return lastScore;
+    public int getRoundScore() {
+        return roundScore;
     }
 
-    public void setLastScore(int lastScore) {
-        this.lastScore = lastScore;
+    public void setRoundScore(int lastScore) {
+        this.roundScore = lastScore;
     }
 
     public int getStreak() {
@@ -117,7 +115,7 @@ public class Player implements Serializable {
         this.correctAnswers = correctAnswers;
     }
 
-    public Long getlobbyId() {
+    public long getlobbyId() {
         return lobbyId;
     }
 
@@ -125,7 +123,7 @@ public class Player implements Serializable {
         this.lobbyId = id;
     }
 
-	public void roundResult(Answer answer, int playerScore, boolean answerResult){
+	/**public void roundResult(Answer answer, int playerScore, boolean answerResult){
 		this.answers.add(answer);
 		this.totalScore += playerScore;
 
@@ -134,18 +132,6 @@ public class Player implements Serializable {
 			this.correctAnswers++;
 		}
 
-	}
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
-    public void saveAnswer(Answer answer){
-        this.answers.add(answer);
-    }
+	}*/
 }
 
