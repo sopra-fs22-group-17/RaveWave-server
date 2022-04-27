@@ -8,7 +8,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import java.util.ArrayList;
 
 public class GameSettingsDTO {
-    //private int lobbyID;
+
     private RoundDuration roundDuration;
     private PlaybackDuration playBackDuration;
     private SongPool songPool;

@@ -7,6 +7,8 @@ import java.util.List;
 
 public class LeaderboardDTO {
 
+    private boolean isGameOver;
+
     private ArrayList<LeaderboardEntry> players;
 
     public ArrayList<LeaderboardEntry> getPlayers() {
@@ -17,6 +19,13 @@ public class LeaderboardDTO {
         this.players = players;
     }
 
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
+    }
 
 
 }

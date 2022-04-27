@@ -39,7 +39,6 @@ public class WebSocketController {
     public void startGame(@DestinationVariable int lobbyId) {
         log.info("Lobby" + lobbyId + ": Game started.");
         gameService.startGame(lobbyId);
-        //QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(lobbyId));
         QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
         String destination = "/topic/lobbies/" + lobbyId;
         this.webSocketService.sendMessageToClients(destination, questionToSend);

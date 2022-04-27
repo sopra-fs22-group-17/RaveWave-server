@@ -20,7 +20,7 @@ import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCode.
 public class SpotifyService {
     //private static final String accessToken = "BQAaj-lzAbhmapRS58RRVg0BXxj_HyCIAZdYYS_u6avym2zx   bCNPTWDb4P8QI-c7d_qF1T0m7gZzCbjohjjO9cAAhjSg9v6mhgphr9ankW6Dk8BRh_ns_SD4vLnin5DwxFbqVeiZoeVi_osHgjq4NliiVZXq";
     private static final String clientId = "d7d44473ad6a47cd86c580fcee015449";
-    private static final String clientSecret = "b48f5616efac4d3b91845edcefa57504";
+    private static final String clientSecret = "";
     private static final URI redirectUri = SpotifyHttpManager.makeUri("https://www.google.ch");
 
 

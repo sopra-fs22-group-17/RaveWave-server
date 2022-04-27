@@ -95,6 +95,10 @@ public class Game {
 
     public LeaderboardDTO endRound(List<Player> players){
         distributePoints(players);
+        LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
+        if(this.currentGameRound < this.gameRounds){
+           leaderboardDTO.setGameOver(true);
+        }
         //TODO handle if player doesnt answer
         return fillLeaderboard(players);
     }
@@ -162,6 +166,7 @@ public class Game {
         LeaderboardDTO leaderboard = new LeaderboardDTO();
 
         leaderboard.setPlayers(playersRankingInformation);
+        leaderboard.setGameOver(false);
 
         //leaderboard.setPrevPlayerPositions(sortPlayersPreviousScore(players));
         return leaderboard;
