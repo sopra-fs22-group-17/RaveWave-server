@@ -31,9 +31,9 @@ public interface DTOMapper {
     RaveWaverGetDTO convertEntityToRaveWaverGetDTO(RaveWaver raveWaver);
 
     @Mapping(source = "username", target = "username")
-    @Mapping(source = "password", target = "password")
+    // @Mapping(source = "password", target = "password")
     @Mapping(source = "spotifyToken", target = "spotifyToken")
-    UserPutDTO convertRaveWaverPutDTOtoEntity(RaveWaverPutDTO raveWaverPutDTO);
+    RaveWaverPutDTO convertRaveWaverPutDTOtoEntity(RaveWaverPutDTO raveWaverPutDTO);
 
     @Mapping(source = "question", target = "question")
     @Mapping(source = "songID", target = "songID")

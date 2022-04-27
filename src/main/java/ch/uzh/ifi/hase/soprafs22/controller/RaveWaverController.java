@@ -1,8 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import org.springframework.http.HttpStatus;
@@ -51,7 +53,7 @@ public class RaveWaverController {
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaver);
     }
 
-    @PostMapping("/ravewaver")
+    @PostMapping("/ravewavers")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public RaveWaverGetDTO createRaveWaver(@RequestBody RaveWaverPostDTO raveWaverPostDTO) {

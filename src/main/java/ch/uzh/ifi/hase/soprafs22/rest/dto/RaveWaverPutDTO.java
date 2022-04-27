@@ -2,13 +2,12 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
 import java.security.NoSuchAlgorithmException;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
-import java.time.LocalDate;
 
-public class UserPutDTO {
+public class RaveWaverPutDTO {
 
     private String username;
 
-    private String password;
+    // private String password;
 
     private String spotifyToken;
 
@@ -20,13 +19,13 @@ public class UserPutDTO {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
+    // public String getPassword() {
+    // return password;
+    // }
 
-    public void setPassword(String password) {
-        this.password = RaveWaverService.hashPasswordSHA256(password);
-    }
+    // public void setPassword(String password) throws NoSuchAlgorithmException {
+    // this.password = RaveWaverService.hashPasswordSHA256(password);
+    // }
 
     public String getSpotifyToken() {
         return spotifyToken;

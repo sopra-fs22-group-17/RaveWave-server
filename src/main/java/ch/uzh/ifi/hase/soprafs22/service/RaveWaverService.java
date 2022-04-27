@@ -1,9 +1,13 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
-import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.UUID;
+import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
 
 /**
  * User Service
@@ -47,6 +49,7 @@ public class RaveWaverService {
 
   public RaveWaver createRaveWaver(RaveWaver newRaveWaver) {
     newRaveWaver.setToken(UUID.randomUUID().toString());
+    newRaveWaver.setCreationDate(LocalDate.now());
 
     checkIfRaveWaverExists(newRaveWaver);
 
@@ -110,15 +113,36 @@ public class RaveWaverService {
     return raveWaver;
   }
 
-  private RaveWaver getUserByUsername(String username) {
-    return null;
+  public RaveWaver getUserByUsername(String username) {
+    RaveWaver raveWaverByUsername = raveWaverRepository.findByUsername(username);
+    if (raveWaverByUsername == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          String.format("The username %s does not exist!", username));
+    }
+    return raveWaverByUsername;
   }
 
   public RaveWaver getRaveWaverById(Long id) {
-    return null;
+    // Get user from repo by id
+    Optional<RaveWaver> optionalRaveWaver = this.raveWaverRepository.findById(id);
+
+    // check if the user exist
+    checkIfIdExists(optionalRaveWaver, id);
+
+    // return user
+    return optionalRaveWaver.get();
+  }
+
+  private void checkIfIdExists(Optional<RaveWaver> userToBeUpdated, Long id) {
+    if (!userToBeUpdated.isPresent()) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+          String.format("User with id:%d was not found!", id));
+    }
   }
 
   public RaveWaver updateRaveWaver(RaveWaverPutDTO raveWaverPutDTO, Long id) {
-    return null;
+    RaveWaver raveWaverToUpdate = getRaveWaverById(id);
+
+    return raveWaverToUpdate;
   }
 }

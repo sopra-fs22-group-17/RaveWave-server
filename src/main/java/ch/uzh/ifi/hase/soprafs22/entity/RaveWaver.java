@@ -28,7 +28,7 @@ public class RaveWaver implements Serializable {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String password;
 
     @Column(nullable = false, unique = true)
@@ -43,7 +43,7 @@ public class RaveWaver implements Serializable {
     @Column(nullable = false)
     private int level;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private byte[] profilePicture;
 
     public Long getId() {
