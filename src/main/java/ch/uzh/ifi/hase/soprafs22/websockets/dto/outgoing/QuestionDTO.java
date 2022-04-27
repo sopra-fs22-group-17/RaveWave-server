@@ -1,12 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class QuestionDTO {
     private String question;
     private String songID;
-    private List<String> answers;
+    private ArrayList<AnswerOptions> answers;
 
     public String getQuestion() {
         return question;
@@ -24,11 +23,11 @@ public class QuestionDTO {
         this.songID = songID;
     }
 
-    public List<String> getAnswers() {
+    public ArrayList<AnswerOptions> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(List<String> answers) {
+    public void setAnswers(ArrayList<AnswerOptions> answers) {
         this.answers = answers;
     }
 

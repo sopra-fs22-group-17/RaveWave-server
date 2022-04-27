@@ -89,6 +89,7 @@ public class Player implements Serializable {
 
     public void addToScore(int newScore) {
         this.totalScore += newScore;
+        this.roundScore = newScore;
     }
 
     public int getRoundScore() {

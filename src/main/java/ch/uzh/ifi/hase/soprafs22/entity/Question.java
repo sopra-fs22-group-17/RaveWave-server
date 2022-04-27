@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
+
 import java.util.List;
 
 public class Question {
@@ -8,6 +10,7 @@ public class Question {
     private String songID;
     private List<String> answers;
     private int correctAnswer;
+    private GameMode gamemode;
 
     public String getSongID() {
         return songID;
@@ -29,7 +32,6 @@ public class Question {
         return answers;
     }
 
-
     public void setAnswers(List<String> answers) {
         this.answers = answers;
     }
@@ -42,5 +44,11 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
+    public GameMode getGamemode() {
+        return gamemode;
+    }
 
+    public void setGamemode(GameMode gamemode) {
+        this.gamemode = gamemode;
+    }
 }

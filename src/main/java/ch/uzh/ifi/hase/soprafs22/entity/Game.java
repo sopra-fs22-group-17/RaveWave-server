@@ -2,15 +2,15 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Timer;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +28,7 @@ public class Game {
     private PlaybackDuration playbackDuration;
     private SongPool songGenre;
     private int gameRounds;
+    private GameMode gameMode;
 
     private boolean startedGame;
 
@@ -48,10 +49,10 @@ public class Game {
         this.songGenre = songGenre;
         this.currentGameRound = 0;
         this.startedGame = false;
+        this.gameMode = GameMode.ARTISTGAME;
+
     }
 
-    public Game(Timer roundDuration, Timer playBackDuration, GameMode gameMode, SongPool songGenre) {
-    }
 
     public void updateGameSettings(GameSettingsDTO updatedSettings) {
         this.roundDuration = updatedSettings.getRoundDuration();
@@ -103,16 +104,18 @@ public class Game {
         for(Player player : players){
             Answer playerAnswer = new Answer();
             playerAnswer.setplayerGuess(5);
-            for(Answer answer: answers){
-                if (Objects.equals(answer.getPlayerId(), player.getId())) {
-                    playerAnswer = answer;
+            playerAnswer.setPlayerId(player.getId());
+            for(Answer answer : this.answers){
+                if (answer.getPlayerId().intValue() == player.getId().intValue()) {
+                    playerAnswer.setplayerGuess(answer.getplayerGuess());
+                    playerAnswer.setAnswerTime(answer.getAnswerTime());
                     break;
                 }
             }
 
             Question currentQuestion = gamePlan.get(currentGameRound).getQuestion();
+
             int points = evaluator.evaluation(playerAnswer, currentQuestion.getCorrectAnswer(), roundDuration);
-            System.out.println(points);
 
             player.addToScore(points);
 
@@ -137,17 +140,30 @@ public class Game {
 
     private LeaderboardDTO fillLeaderboard(List<Player> players) {
 
+        List<Player> sortedPlayers = sortPlayers(players);
+        //List<Player> sortedPlayersPrevious = sortPlayersPreviousScore(players);
+
+        ArrayList<LeaderboardEntry> playersRankingInformation = new ArrayList<>();
+
+        int i = 1;
+        for(Player player : sortedPlayers){
+            LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
+            leaderboardEntry.setPlayerId(player.getId());
+            leaderboardEntry.setPlayerName(player.getPlayerName());
+            leaderboardEntry.setStreak(player.getStreak());
+            leaderboardEntry.setTotalScore(player.getTotalScore());
+            leaderboardEntry.setPlayerPosition(i);
+            //leaderboardEntry.setPrevPosition(1);
+            leaderboardEntry.setRoundScore(player.getRoundScore());
+            i++;
+            playersRankingInformation.add(leaderboardEntry);
+        }
+
         LeaderboardDTO leaderboard = new LeaderboardDTO();
 
-        List<Player> orderedList = sortPlayers(players);
-        leaderboard.setPlayerPositions(orderedList);
+        leaderboard.setPlayers(playersRankingInformation);
 
-        for (int i = 0; i< players.size(); i++){
-            leaderboard.setTotalScore(i,players.get(i).getTotalScore());
-            leaderboard.setLastScore(i, players.get(i).getRoundScore());
-            leaderboard.setStreak(i, players.get(i).getStreak());
-        }
-        leaderboard.setPrevPlayerPositions(sortPlayersPreviousScore(players));
+        //leaderboard.setPrevPlayerPositions(sortPlayersPreviousScore(players));
         return leaderboard;
     }
 
@@ -157,12 +173,13 @@ public class Game {
         for (int i = 0; i < players.size(); i++) {
             pos = i;
             for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(j).getTotalScore() < players.get(pos).getTotalScore())                  //find the index of the minimum element
+                if (players.get(j).getTotalScore() > players.get(pos).getTotalScore())                  //find the index of the minimum element
                 {
                     pos = j;
                 }
             }
             temp = players.get(pos);  //swap the current element with the minimum element
+
             players.set(pos, players.get(i));
             players.set(i, temp);
         }
@@ -175,7 +192,7 @@ public class Game {
         for (int i = 0; i < players.size(); i++) {
             pos = i;
             for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(j).getTotalScore()-players.get(j).getRoundScore() < players.get(pos).getTotalScore() - players.get(pos).getRoundScore())                  //find the index of the minimum element
+                if (players.get(j).getTotalScore()-players.get(j).getRoundScore() > players.get(pos).getTotalScore() - players.get(pos).getRoundScore())                  //find the index of the minimum element
                 {
                     pos = j;
                 }

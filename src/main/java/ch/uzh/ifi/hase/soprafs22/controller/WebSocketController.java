@@ -1,12 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Answer;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.WebSocketService;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.AnswerDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.EndGameDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
 import org.slf4j.Logger;
@@ -41,7 +39,8 @@ public class WebSocketController {
     public void startGame(@DestinationVariable int lobbyId) {
         log.info("Lobby" + lobbyId + ": Game started.");
         gameService.startGame(lobbyId);
-        QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(lobbyId));
+        //QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(lobbyId));
+        QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
         String destination = "/topic/lobbies/" + lobbyId;
         this.webSocketService.sendMessageToClients(destination, questionToSend);
     }
@@ -65,7 +64,8 @@ public class WebSocketController {
     @MessageMapping("/lobbies/{lobbyId}/next-round")
     public void startNextRound(@DestinationVariable int lobbyId) {
         log.info("Next round started");
-        QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(lobbyId));
+        //QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(lobbyId));
+        QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
         String destination = "/topic/lobbies/" + lobbyId;
         this.webSocketService.sendMessageToClients(destination, questionToSend);
     }

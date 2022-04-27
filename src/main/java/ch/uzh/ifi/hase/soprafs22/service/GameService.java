@@ -1,15 +1,14 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
-import ch.uzh.ifi.hase.soprafs22.entity.Answer;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
-import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.AnswerDTO;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.EndGameDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.AnswerOptions;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,6 +58,7 @@ public class GameService {
     public void saveAnswer(Answer answer, int playerId){
         Player player= playerRepository.findById(playerId);
         Game game = GameRepository.findByLobbyId((int)player.getlobbyId());
+        answer.setPlayerId((long)playerId);
         game.addAnswers(answer);
         //save received answer to the corresponding player
     }
@@ -78,8 +79,31 @@ public class GameService {
         System.out.println("We did it");
     }
 
-    public Question startNextRound(int lobbyId){
-        return GameRepository.findByLobbyId(lobbyId).startNextTurn();
+    public QuestionDTO startNextRound(int lobbyId){
+        Question nextQuestion = GameRepository.findByLobbyId(lobbyId).startNextTurn();
+        QuestionDTO nextQuestionDTO = new QuestionDTO();
+
+        nextQuestionDTO.setQuestion(nextQuestion.getQuestion());
+        nextQuestionDTO.setSongID(nextQuestion.getSongID());
+
+        ArrayList<AnswerOptions> options = new ArrayList<AnswerOptions>();
+        List<String> singleAnswer = nextQuestion.getAnswers();
+
+        int i = 1;
+        for(String answer : singleAnswer){
+            AnswerOptions option = new AnswerOptions();
+            option.setAnswers(answer);
+            option.setAnswerId(i);
+            option.setAlbumPicture("https://miro.medium.com/max/1000/0*SXwoonUipwqTuAzj");
+            i++;
+
+            options.add(option);
+        }
+        nextQuestionDTO.setAnswers(options);
+
+        return nextQuestionDTO;
+
+
     }
 
     public LeaderboardDTO endRound(long lobbyId){

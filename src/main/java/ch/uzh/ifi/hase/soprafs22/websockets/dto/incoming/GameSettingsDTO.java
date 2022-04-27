@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
@@ -12,17 +13,16 @@ public class GameSettingsDTO {
     private PlaybackDuration playBackDuration;
     private SongPool songPool;
     private int gameRounds;
-    //private ArrayList<String> gamePlan;
+    private GameMode gameMode;
 
-/*
-    public int getLobbyID() {
-        return lobbyID;
+    public GameMode getGameMode() {
+    return gameMode;
+}
+
+    public void setGameMode(GameMode gameMode) {
+        this.gameMode = gameMode;
     }
 
-    public void setLobbyID(int lobbyID) {
-        this.lobbyID = lobbyID;
-    }
-*/
     public RoundDuration getRoundDuration() {
         return roundDuration;
     }
@@ -54,16 +54,6 @@ public class GameSettingsDTO {
     public void setGameRounds(int gameRounds) {
         this.gameRounds = gameRounds;
     }
-
-    /*
-    public ArrayList<String> getGamePlan() {
-        return gamePlan;
-    }
-
-    public void setGamePlan(ArrayList<String> gamePlan) {
-        this.gamePlan = gamePlan;
-    }*/
-
 
 
 

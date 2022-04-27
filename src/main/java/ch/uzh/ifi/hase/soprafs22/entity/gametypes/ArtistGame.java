@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
@@ -69,7 +70,7 @@ public class ArtistGame implements GameType {
 
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex);
-
+        question.setGamemode(GameMode.ARTISTGAME);
 
     }
 

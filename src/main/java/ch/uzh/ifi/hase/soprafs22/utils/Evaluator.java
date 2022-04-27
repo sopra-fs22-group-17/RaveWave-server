@@ -1,9 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.utils;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Player;
-import ch.uzh.ifi.hase.soprafs22.entity.Answer;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
-import java.lang.Math;
 
 public class Evaluator {
 
@@ -25,9 +23,18 @@ public class Evaluator {
 		float respondsTime = answer.getAnswerTime();
 		float maximumTime = roundDuration.getEnumRoundDuration();
 
-		float points = (1 - ((respondsTime/maximumTime)/2)) * pointsPossible;
+        double test = 1.0;
 
-		return Math.round(points);
+        System.out.println("Response time" + respondsTime);
+        System.out.println("Maximum time" + maximumTime);
+
+        float multiplyBy = (float)(1.0 - ((respondsTime/maximumTime)/2.0));
+        System.out.println("multiplyBy:" + multiplyBy);
+
+		float points = multiplyBy * pointsPossible;
+
+		//return Math.round(points);
+        return (int)points;
 	}
 
     private boolean isCorrect(Answer playerAnswer, int correctAnswer) {
