@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
@@ -11,6 +12,7 @@ public class Question {
     private List<String> answers;
     private int correctAnswer;
     private GameMode gamemode;
+    private ArrayList<String> albumCovers;
 
     public String getSongID() {
         return songID;
@@ -50,5 +52,13 @@ public class Question {
 
     public void setGamemode(GameMode gamemode) {
         this.gamemode = gamemode;
+    }
+
+    public ArrayList<String> getAlbumCovers() {
+        return albumCovers;
+    }
+
+    public void setAlbumCovers(ArrayList<String> albumCovers) {
+        this.albumCovers = albumCovers;
     }
 }

@@ -7,6 +7,8 @@ public class QuestionDTO {
     private String songID;
     private ArrayList<AnswerOptions> answers;
 
+
+
     public String getQuestion() {
         return question;
     }
@@ -30,6 +32,5 @@ public class QuestionDTO {
     public void setAnswers(ArrayList<AnswerOptions> answers) {
         this.answers = answers;
     }
-
 
 }

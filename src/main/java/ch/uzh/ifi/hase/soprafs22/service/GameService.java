@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,17 +90,18 @@ public class GameService {
         ArrayList<AnswerOptions> options = new ArrayList<AnswerOptions>();
         List<String> singleAnswer = nextQuestion.getAnswers();
 
+
         int i = 1;
         for(String answer : singleAnswer){
             AnswerOptions option = new AnswerOptions();
-            option.setAnswers(answer);
+            option.setAnswer(answer);
             option.setAnswerId(i);
-            option.setAlbumPicture("https://miro.medium.com/max/1000/0*SXwoonUipwqTuAzj");
-            i++;
-
             options.add(option);
+            option.setAlbumPicture(nextQuestion.getAlbumCovers().get(i-1));
+            i++;
         }
         nextQuestionDTO.setAnswers(options);
+
 
         return nextQuestionDTO;
 

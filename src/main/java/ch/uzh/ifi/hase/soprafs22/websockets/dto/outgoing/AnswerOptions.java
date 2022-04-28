@@ -1,18 +1,16 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
-import java.util.List;
-
 public class AnswerOptions {
-    private String answers;
+    private String answer;
     private int answerId;
     private String albumPicture;
 
-    public String getAnswers() {
-        return answers;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setAnswers(String answers) {
-        this.answers = answers;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public int getAnswerId() {
