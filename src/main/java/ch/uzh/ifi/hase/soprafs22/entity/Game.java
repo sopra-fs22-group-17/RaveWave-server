@@ -40,8 +40,6 @@ public class Game {
     private String playlistId;
     private SpotifyService spotifyService;
 
-    //TODO: second constructor just for debugging purpose
-    //TODO: gameType
     public Game(SpotifyService spotifyService, SongPool songGenre) {
         this.spotifyService = spotifyService;
         //mapEnumToPlaylist(songGenre);

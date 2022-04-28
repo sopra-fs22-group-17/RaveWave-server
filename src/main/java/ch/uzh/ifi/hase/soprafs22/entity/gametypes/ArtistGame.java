@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
+import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Image;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
@@ -42,10 +43,12 @@ public class ArtistGame implements GameType {
         //store id of the song to be played
         question.setSongID(songs[songToPick].getTrack().getId());
 
-        //question.setCorrectAnswer(songs[songToPick].getTrack().getName());
-        String correctAnswer = ((Track) songs[songToPick].getTrack()).getArtists()[0].getName();
-        //question.setCorrectAnswer(correctAnswer);
-
+        StringBuilder correctAnswer= new StringBuilder();
+        for(ArtistSimplified artist : ((Track) songs[songToPick].getTrack()).getArtists()) {
+            correctAnswer.append(artist.getName());
+            correctAnswer.append(", ");
+        }
+        correctAnswer.delete(correctAnswer.length()-2, correctAnswer.length());
 
         ArrayList<String> answers = new ArrayList<String>();
 
@@ -65,12 +68,19 @@ public class ArtistGame implements GameType {
             while (wrongAnswerIndex == songToPick && wrongAnswersIndex.size() > 0) {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
-            answers.add(((Track) songs[wrongAnswerIndex].getTrack()).getArtists()[0].getName());
+            StringBuilder answer = new StringBuilder();
+            for(ArtistSimplified artist : ((Track) songs[wrongAnswerIndex].getTrack()).getArtists()) {
+                answer.append(artist.getName());
+                answer.append(", ");
+            }
+            answer.delete(answer.length()-2, answer.length());
+            answers.add(answer.toString());
+
             answerSongs.add((Track) songs[wrongAnswerIndex].getTrack());
         }
 
         int correctAnswerIndex = rand.nextInt(4);
-        answers.add(correctAnswerIndex, correctAnswer);
+        answers.add(correctAnswerIndex, correctAnswer.toString());
         answerSongs.add(correctAnswerIndex,(Track) songs[songToPick].getTrack());
 
         question.setAnswers(answers);

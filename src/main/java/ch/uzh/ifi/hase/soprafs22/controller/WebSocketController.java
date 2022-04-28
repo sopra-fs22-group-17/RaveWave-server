@@ -59,11 +59,10 @@ public class WebSocketController {
         this.webSocketService.sendMessageToClients(destination, leaderboard);
     }
 
-    //TODO: @DestinationVariable Integer lobbyId
+
     @MessageMapping("/lobbies/{lobbyId}/next-round")
     public void startNextRound(@DestinationVariable int lobbyId) {
         log.info("Next round started");
-        //QuestionDTO questionToSend = DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(lobbyId));
         QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
         String destination = "/topic/lobbies/" + lobbyId;
         this.webSocketService.sendMessageToClients(destination, questionToSend);

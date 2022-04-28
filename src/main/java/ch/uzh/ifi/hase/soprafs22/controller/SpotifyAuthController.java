@@ -37,23 +37,7 @@ public class SpotifyAuthController {
 
         return response;
     }
-/*
-    //TODO temporary mapping --> will be removed
-    @GetMapping("/PlaylistItems")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public String helloWorld() {
-        return spotifyService.getPlaylistsItems("37i9dQZEVXbJiyhoAPEfMK")[0].toString();
-    }
 
-    //TODO temporary mapping --> will be removed
-    @GetMapping("/Spotify/UsersFavorites")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public void usersFavorites() {
-        spotifyService.getUsersFavoriteSongs();
-    }
-*/
 }
 
 
