@@ -1,12 +1,16 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
 import java.util.ArrayList;
-import java.util.Timer;
+import java.util.List;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,31 +28,31 @@ public class Game {
     private PlaybackDuration playbackDuration;
     private SongPool songGenre;
     private int gameRounds;
+    private GameMode gameMode;
 
     private boolean startedGame;
 
     private ArrayList<GameType> gamePlan;
+    private ArrayList<Answer> answers;
     private int lobbyId;
-    private ArrayList<Player> players;
+    private List<Player> players;
     private int currentGameRound;
     private String playlistId;
     private SpotifyService spotifyService;
 
-    //TODO: second constructor just for debugging purpose
-    //TODO: gameType
-    public Game(SpotifyService spotifyService, SongPool songGenre){
+    public Game(SpotifyService spotifyService, SongPool songGenre) {
         this.spotifyService = spotifyService;
         //mapEnumToPlaylist(songGenre);
         this.gamePlan = new ArrayList<>();
         this.songGenre = songGenre;
         this.currentGameRound = 0;
         this.startedGame = false;
+        this.gameMode = GameMode.ARTISTGAME;
+
     }
 
-    public Game(Timer roundDuration, Timer playBackDuration, GameMode gameMode, SongPool songGenre){
-    }
 
-    public void updateGameSettings(GameSettingsDTO updatedSettings){
+    public void updateGameSettings(GameSettingsDTO updatedSettings) {
         this.roundDuration = updatedSettings.getRoundDuration();
         this.playbackDuration = updatedSettings.getPlayBackDuration();
         this.songGenre = updatedSettings.getSongPool();
@@ -56,25 +60,74 @@ public class Game {
     }
 
     //TODO exception
-    public void startGame(){
+    public void startGame() {
         fillGamePlan();
         this.startedGame = true;
 
     }
 
-    public Question startNextTurn(){
+    public Question startNextTurn() {
         Question question = gamePlan.get(currentGameRound).getQuestion();
         currentGameRound++;
+        this.answers = new ArrayList<Answer>();
         return question;
     }
 
-    private void startTimer(int timer){}
+    private void startTimer(int timer) {
+    }
 
-    public boolean checkAnswers(){return true;}
+    public boolean checkAnswers() {
+        return true;
+    }
 
-    public void notifyPlayers(){}
+    public void notifyPlayers() {
+    }
 
-    public void endRound(){}
+    private void resetAnswers() {
+        this.answers.clear();
+    }
+
+    public void addAnswers(Answer answer) {
+        this.answers.add(answer);
+    }
+
+    public LeaderboardDTO endRound(List<Player> players){
+        distributePoints(players);
+        LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
+        if(this.currentGameRound < this.gameRounds){
+           leaderboardDTO.setGameOver(true);
+        }
+        //TODO handle if player doesnt answer
+        return fillLeaderboard(players);
+    }
+
+    private void distributePoints(List<Player> players){
+        Evaluator evaluator = new Evaluator();
+        for(Player player : players){
+            Answer playerAnswer = new Answer();
+            playerAnswer.setplayerGuess(5);
+            playerAnswer.setPlayerId(player.getId());
+            for(Answer answer : this.answers){
+                if (answer.getPlayerId().intValue() == player.getId().intValue()) {
+                    playerAnswer.setplayerGuess(answer.getplayerGuess());
+                    playerAnswer.setAnswerTime(answer.getAnswerTime());
+                    break;
+                }
+            }
+
+            Question currentQuestion = gamePlan.get(currentGameRound).getQuestion();
+
+            int points = evaluator.evaluation(playerAnswer, currentQuestion.getCorrectAnswer(), roundDuration);
+
+            player.addToScore(points);
+
+            if(points != 0){
+                player.setStreak(player.getStreak() + 1);
+            }else{
+                player.setStreak(0);
+            }
+        }
+    }
 
     public void endGame(){}
 
@@ -85,9 +138,73 @@ public class Game {
         for(int i = 0; i < songs.length && i < gameRounds; i++){
             gamePlan.add(new ArtistGame(i, songs));
         }
-
-
     }
 
+    private LeaderboardDTO fillLeaderboard(List<Player> players) {
+
+        List<Player> sortedPlayers = sortPlayers(players);
+        //List<Player> sortedPlayersPrevious = sortPlayersPreviousScore(players);
+
+        ArrayList<LeaderboardEntry> playersRankingInformation = new ArrayList<>();
+
+        int i = 1;
+        for(Player player : sortedPlayers){
+            LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
+            leaderboardEntry.setPlayerId(player.getId());
+            leaderboardEntry.setPlayerName(player.getPlayerName());
+            leaderboardEntry.setStreak(player.getStreak());
+            leaderboardEntry.setTotalScore(player.getTotalScore());
+            leaderboardEntry.setPlayerPosition(i);
+            //leaderboardEntry.setPrevPosition(1);
+            leaderboardEntry.setRoundScore(player.getRoundScore());
+            i++;
+            playersRankingInformation.add(leaderboardEntry);
+        }
+
+        LeaderboardDTO leaderboard = new LeaderboardDTO();
+
+        leaderboard.setPlayers(playersRankingInformation);
+        leaderboard.setGameOver(false);
+
+        //leaderboard.setPrevPlayerPositions(sortPlayersPreviousScore(players));
+        return leaderboard;
+    }
+
+    private List<Player> sortPlayers(List<Player> players) {
+        int pos;
+        Player temp;
+        for (int i = 0; i < players.size(); i++) {
+            pos = i;
+            for (int j = i + 1; j < players.size(); j++) {
+                if (players.get(j).getTotalScore() > players.get(pos).getTotalScore())                  //find the index of the minimum element
+                {
+                    pos = j;
+                }
+            }
+            temp = players.get(pos);  //swap the current element with the minimum element
+
+            players.set(pos, players.get(i));
+            players.set(i, temp);
+        }
+        return players;
+    }
+
+    private List<Player> sortPlayersPreviousScore(List<Player> players) {
+        int pos;
+        Player temp;
+        for (int i = 0; i < players.size(); i++) {
+            pos = i;
+            for (int j = i + 1; j < players.size(); j++) {
+                if (players.get(j).getTotalScore()-players.get(j).getRoundScore() > players.get(pos).getTotalScore() - players.get(pos).getRoundScore())                  //find the index of the minimum element
+                {
+                    pos = j;
+                }
+            }
+            temp = players.get(pos);  //swap the current element with the minimum element
+            players.set(pos, players.get(i));
+            players.set(i, temp);
+        }
+        return players;
+    }
 }
 

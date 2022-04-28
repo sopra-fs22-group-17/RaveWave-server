@@ -38,7 +38,10 @@ public class Player implements Serializable {
     private String token;
 
     @Column(nullable = false)
-    private int score;
+    private int totalScore;
+
+    @Column(nullable = false)
+    private int roundScore;
 
     @Column(nullable = false)
     private int streak;
@@ -46,8 +49,6 @@ public class Player implements Serializable {
     @Column(nullable = false)
     private int correctAnswers;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    private List<Answer> answers;
 
 
     public Long getId() {
@@ -82,13 +83,23 @@ public class Player implements Serializable {
         this.token = token;
     }
 
-    public int getScore() {
-        return score;
+    public int getTotalScore() {
+        return totalScore;
     }
 
-    public void addToScore(int score) {
-        this.score += score;
+    public void addToScore(int newScore) {
+        this.totalScore += newScore;
+        this.roundScore = newScore;
     }
+
+    public int getRoundScore() {
+        return roundScore;
+    }
+
+    public void setRoundScore(int lastScore) {
+        this.roundScore = lastScore;
+    }
+
     public int getStreak() {
         return streak;
     }
@@ -105,7 +116,7 @@ public class Player implements Serializable {
         this.correctAnswers = correctAnswers;
     }
 
-    public Long getlobbyId() {
+    public long getlobbyId() {
         return lobbyId;
     }
 
@@ -113,27 +124,15 @@ public class Player implements Serializable {
         this.lobbyId = id;
     }
 
-	public void roundResult(Answer answer, int score, boolean answerResult){
+	/**public void roundResult(Answer answer, int playerScore, boolean answerResult){
 		this.answers.add(answer);
-		this.score += score;
+		this.totalScore += playerScore;
 
 		if (answerResult) {
 			this.streak++;
 			this.correctAnswers++;
 		}
 
-	}
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
-    public void saveAnswer(Answer answer){
-        this.answers.add(answer);
-    }
+	}*/
 }
 

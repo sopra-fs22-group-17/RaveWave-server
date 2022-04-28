@@ -46,7 +46,7 @@ public class PlayerService {
         Player userByUsername = playerRepository.findByPlayerNameAndLobbyId(playerToBeCreated.getPlayerName(),
                 playerToBeCreated.getlobbyId());
 
-        if (userByUsername != null && userByUsername.getlobbyId().equals(playerToBeCreated.getlobbyId())) {
+        if (userByUsername != null && userByUsername.getlobbyId() == playerToBeCreated.getlobbyId()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("This username does already exist!"));
         }
     }
