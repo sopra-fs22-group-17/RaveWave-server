@@ -49,8 +49,6 @@ public class Player implements Serializable {
     @Column(nullable = false)
     private int correctAnswers;
 
-
-
     public Long getId() {
         return id;
     }
@@ -85,6 +83,10 @@ public class Player implements Serializable {
 
     public int getTotalScore() {
         return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
     }
 
     public void addToScore(int newScore) {
@@ -124,15 +126,17 @@ public class Player implements Serializable {
         this.lobbyId = id;
     }
 
-	/**public void roundResult(Answer answer, int playerScore, boolean answerResult){
-		this.answers.add(answer);
-		this.totalScore += playerScore;
-
-		if (answerResult) {
-			this.streak++;
-			this.correctAnswers++;
-		}
-
-	}*/
+    /**
+     * public void roundResult(Answer answer, int playerScore, boolean
+     * answerResult){
+     * this.answers.add(answer);
+     * this.totalScore += playerScore;
+     * 
+     * if (answerResult) {
+     * this.streak++;
+     * this.correctAnswers++;
+     * }
+     * 
+     * }
+     */
 }
-
