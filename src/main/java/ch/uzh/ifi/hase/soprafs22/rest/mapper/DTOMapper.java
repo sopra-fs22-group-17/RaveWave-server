@@ -58,8 +58,13 @@ public interface DTOMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "playerName", target = "playerName")
     @Mapping(source = "token", target = "token")
+<<<<<<< HEAD
     @Mapping(source = "totalScore", target = "totalScore")
     @Mapping(source = "roundScore", target = "roundScore")
+=======
+    @Mapping(source = "roundScore", target = "roundScore")
+    @Mapping(source = "totalScore", target = "totalScore")
+>>>>>>> master
     @Mapping(source = "streak", target = "streak")
     @Mapping(source = "correctAnswers", target = "correctAnswers")
     @Mapping(source = "lobbyId", target = "lobbyId")
