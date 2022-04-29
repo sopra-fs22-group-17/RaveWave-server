@@ -12,15 +12,7 @@ public class PlayerPostDTO {
         this.playerName = playerName;
     }
 
-    public long getLobbyId() {
-        return lobbyId;
-    }
-
-    public void setLobbyId(long lobbyId) {
-        this.lobbyId = lobbyId;
-    }
-
     private String playerName;
 
-    private long lobbyId;
+
 }

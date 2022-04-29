@@ -6,9 +6,9 @@ public enum SongPool {
     TOPHITSOFTHEDAY("37i9dQZF1DXcBWIGoYBM5M"),
     ROCK("37i9dQZF1DWXRqgorJj26U"),
     RNB("37i9dQZF1DX4SBhb3fqCJd"),
-    HIPHOP(""),
-    POP(""),
-    LATINO(""),
+    HIPHOP("37i9dQZF1DXbkfWVLd8wE3"),
+    POP("5TDtuKDbOhrfW7C58XnriZ"),
+    LATINO("3Wnt7xagUhJCWJLjCiWegb"),
     PERSONAL("");
 
     private String value;

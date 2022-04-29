@@ -1,5 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
@@ -7,7 +10,9 @@ public class Question {
     private String question;
     private String songID;
     private List<String> answers;
-    private String correctAnswer;
+    private int correctAnswer;
+    private GameMode gamemode;
+    private ArrayList<String> albumCovers;
 
     public String getSongID() {
         return songID;
@@ -29,18 +34,31 @@ public class Question {
         return answers;
     }
 
-
     public void setAnswers(List<String> answers) {
         this.answers = answers;
     }
 
-    public String getCorrectAnswer() {
+    public int getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public void setCorrectAnswer(String correctAnswer) {
+    public void setCorrectAnswer(int correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
 
+    public GameMode getGamemode() {
+        return gamemode;
+    }
 
+    public void setGamemode(GameMode gamemode) {
+        this.gamemode = gamemode;
+    }
+
+    public ArrayList<String> getAlbumCovers() {
+        return albumCovers;
+    }
+
+    public void setAlbumCovers(ArrayList<String> albumCovers) {
+        this.albumCovers = albumCovers;
+    }
 }

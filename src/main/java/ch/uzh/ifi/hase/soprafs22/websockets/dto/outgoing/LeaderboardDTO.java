@@ -1,65 +1,31 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class LeaderboardDTO {
-    //Reihefolg bedütend i denne liste, evt. andere lösigsasatz nötig
-    private ArrayList<String> PlayerPositions;
-    private ArrayList<String> PrevPlayerPositions;
-    private int[] Scores;
-    private int[] TotalScores;
 
-    public ArrayList<String> getPlayerPositions() {
-        return PlayerPositions;
+    private boolean isGameOver;
+
+    private ArrayList<LeaderboardEntry> players;
+
+    public ArrayList<LeaderboardEntry> getPlayers() {
+        return players;
     }
 
-    public void setPlayerPositions(ArrayList<String> playerPositions) {
-        PlayerPositions = playerPositions;
+    public void setPlayers(ArrayList<LeaderboardEntry> players) {
+        this.players = players;
     }
 
-    public ArrayList<String> getPrevPlayerPositions() {
-        return PrevPlayerPositions;
+    public boolean isGameOver() {
+        return isGameOver;
     }
 
-    public void setPrevPlayerPositions(ArrayList<String> prevPlayerPositions) {
-        PrevPlayerPositions = prevPlayerPositions;
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
     }
-
-    public int[] getScores() {
-        return Scores;
-    }
-
-    public void setScores(int[] scores) {
-        Scores = scores;
-    }
-
-    public int[] getTotalScores() {
-        return TotalScores;
-    }
-
-    public void setTotalScores(int[] totalScores) {
-        TotalScores = totalScores;
-    }
-
-    public int[] getStreaks() {
-        return Streaks;
-    }
-
-    public void setStreaks(int[] streaks) {
-        Streaks = streaks;
-    }
-
-    public ArrayList<String> getProfilePicture() {
-        return ProfilePicture;
-    }
-
-    public void setProfilePicture(ArrayList<String> profilePicture) {
-        ProfilePicture = profilePicture;
-    }
-
-    private int[] Streaks;
-    //welle Datetyp?
-    private ArrayList<String> ProfilePicture;
 
 
 }
