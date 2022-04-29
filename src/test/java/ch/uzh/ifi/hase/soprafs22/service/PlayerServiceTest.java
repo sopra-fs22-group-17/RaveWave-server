@@ -1,7 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Player;
-import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,9 +12,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.hibernate.annotations.UpdateTimestamp;
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 
 public class PlayerServiceTest {
 
@@ -42,16 +43,18 @@ public class PlayerServiceTest {
 
         assertEquals(testPlayer.getId(), createdPlayer.getId());
         assertEquals(testPlayer.getPlayerName(), createdPlayer.getPlayerName());
-        // assertEquals(testPlayer.get(), 0);
         assertEquals(testPlayer.getStreak(), 0);
+        assertEquals(testPlayer.getTotalScore(), 0);
         assertNotNull(createdPlayer.getToken());
+        assertNotNull(createdPlayer.getlobbyId());
     }
 
     @Test
-    public void addPlayerPlayernameTaken() {
-        Player createdPlayer = playerService.addPlayer(testPlayer);
-        Mockito.verify(playerRepository, Mockito.times(1)).save(Mockito.any());
-
+    public void addPlayerPlayernameTakenInSameLobby() {
+        // given
+        playerService.addPlayer(testPlayer);
+        Mockito.when(playerRepository.findByPlayerNameAndLobbyId(testPlayer.getPlayerName(), testPlayer.getlobbyId()))
+                .thenReturn(testPlayer);
         assertThrows(ResponseStatusException.class, () -> playerService.addPlayer(testPlayer));
     }
 
