@@ -25,12 +25,20 @@ public class PlayerGetDTO {
         this.token = token;
     }
 
-    public int getScore() {
-        return score;
+    public int getTotalScore() {
+        return totalScore;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public int getRoundScore() {
+        return roundScore;
+    }
+
+    public void setRoundScore(int roundScore) {
+        this.roundScore = roundScore;
     }
 
     public int getStreak() {
@@ -63,7 +71,9 @@ public class PlayerGetDTO {
 
     private String token;
 
-    private int score;
+    private int totalScore;
+
+    private int roundScore;
 
     private int streak;
 

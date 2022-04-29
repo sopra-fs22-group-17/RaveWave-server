@@ -5,43 +5,35 @@ import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 
 public class Evaluator {
 
-    public int evaluation(Answer playerAnswer, int correctAnswer, RoundDuration roundDuration){
-        //returns points and stores in the answer if it is right or wrong
+    public static int evaluation(Answer playerAnswer, int correctAnswer, RoundDuration roundDuration) {
+        // returns points and stores in the answer if it is right or wrong
         boolean answerResult = isCorrect(playerAnswer, correctAnswer);
 
-		if (!answerResult) {
+        if (!answerResult) {
             return 0;
         }
 
-		// Reward points to player if correctAnswer
+        // Reward points to player if correctAnswer
 
         return calculatePoints(playerAnswer, roundDuration);
-	}
+    }
 
-	private static int calculatePoints(Answer answer, RoundDuration roundDuration){
-		float pointsPossible = 1000;
-		float respondsTime = answer.getAnswerTime();
-		float maximumTime = roundDuration.getEnumRoundDuration();
+    private static int calculatePoints(Answer answer, RoundDuration roundDuration) {
+        float pointsPossible = 1000;
+        float respondsTime = answer.getAnswerTime();
+        float maximumTime = roundDuration.getEnumRoundDuration();
 
-        double test = 1.0;
-
-        System.out.println("Response time" + respondsTime);
-        System.out.println("Maximum time" + maximumTime);
-
-        float multiplyBy = (float)(1.0 - ((respondsTime/maximumTime)/2.0));
+        float multiplyBy = (float) (1.0 - ((respondsTime / maximumTime) / 2.0));
         System.out.println("multiplyBy:" + multiplyBy);
 
-		float points = multiplyBy * pointsPossible;
+        float points = multiplyBy * pointsPossible;
 
-		//return Math.round(points);
-        return (int)points;
-	}
+        return (int) points;
+    }
 
-    private boolean isCorrect(Answer playerAnswer, int correctAnswer) {
+    private static boolean isCorrect(Answer playerAnswer, int correctAnswer) {
         int playersGuess = playerAnswer.getplayerGuess();
         return correctAnswer == playersGuess;
     }
-
-
 
 }
