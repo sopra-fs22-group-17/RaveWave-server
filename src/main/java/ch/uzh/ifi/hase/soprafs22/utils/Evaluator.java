@@ -24,7 +24,6 @@ public class Evaluator {
         float maximumTime = roundDuration.getEnumRoundDuration();
 
         float multiplyBy = (float) (1.0 - ((respondsTime / maximumTime) / 2.0));
-        System.out.println("multiplyBy:" + multiplyBy);
 
         float points = multiplyBy * pointsPossible;
 
