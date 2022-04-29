@@ -21,8 +21,6 @@ public class AuthorizationCode {
 
 
     public static void authorizationCode_Sync(SpotifyApi spotifyApi, String code) {
-        //code = spotifyApi.authorizationCodeUri()
-        System.out.println("This is the code:"  + code);
         final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code)
                 .build();
         try {

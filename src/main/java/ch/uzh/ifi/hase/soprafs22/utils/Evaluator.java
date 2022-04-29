@@ -22,18 +22,10 @@ public class Evaluator {
 		float pointsPossible = 1000;
 		float respondsTime = answer.getAnswerTime();
 		float maximumTime = roundDuration.getEnumRoundDuration();
-
-        double test = 1.0;
-
-        System.out.println("Response time" + respondsTime);
-        System.out.println("Maximum time" + maximumTime);
-
         float multiplyBy = (float)(1.0 - ((respondsTime/maximumTime)/2.0));
-        System.out.println("multiplyBy:" + multiplyBy);
 
 		float points = multiplyBy * pointsPossible;
 
-		//return Math.round(points);
         return (int)points;
 	}
 
