@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
@@ -94,11 +95,11 @@ public class Game {
     public LeaderboardDTO endRound(List<Player> players){
         distributePoints(players);
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
-        if(this.currentGameRound < this.gameRounds){
+        if(this.currentGameRound == this.gameRounds){
            leaderboardDTO.setGameOver(true);
         }
         //TODO handle if player doesnt answer
-        return fillLeaderboard(players);
+        return leaderboardDTO;
     }
 
     private void distributePoints(List<Player> players){
@@ -115,7 +116,7 @@ public class Game {
                 }
             }
 
-            Question currentQuestion = gamePlan.get(currentGameRound).getQuestion();
+            Question currentQuestion = gamePlan.get(currentGameRound-1).getQuestion();
 
             int points = evaluator.evaluation(playerAnswer, currentQuestion.getCorrectAnswer(), roundDuration);
 
@@ -135,8 +136,22 @@ public class Game {
 
     public void fillGamePlan(){
         PlaylistTrack[] songs = spotifyService.getPlaylistsItems(songGenre.getPlaylistId());
-        for(int i = 0; i < songs.length && i < gameRounds; i++){
-            gamePlan.add(new ArtistGame(i, songs));
+        Random rand = new Random();
+        int bound;
+        ArrayList<Integer> pickedSongs = new ArrayList<>();
+        if (songs.length < gameRounds){
+            bound = songs.length;
+        } else{ bound = gameRounds;}
+
+        int i = 0;
+        while( i < bound){
+            int id = rand.nextInt(bound);
+            while (pickedSongs.contains(id)){
+                id = rand.nextInt(bound);
+            }
+            gamePlan.add(new ArtistGame(id, songs));
+            pickedSongs.add(id);
+            i++;
         }
     }
 
@@ -157,8 +172,9 @@ public class Game {
             leaderboardEntry.setPlayerPosition(i);
             //leaderboardEntry.setPrevPosition(1);
             leaderboardEntry.setRoundScore(player.getRoundScore());
-            i++;
+
             playersRankingInformation.add(leaderboardEntry);
+            i++;
         }
 
         LeaderboardDTO leaderboard = new LeaderboardDTO();
