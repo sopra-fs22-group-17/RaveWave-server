@@ -23,10 +23,10 @@ public class SpotifyService {
     private static final String clientId = "d7d44473ad6a47cd86c580fcee015449";
 
 
-    private static final String clientSecret = System.getenv("clientSecret");
+    //private static final String clientSecret = System.getenv("clientSecret");
 
     //clientSecret for localhost
-    //private static final String clientSecret = "";
+    private static final String clientSecret = "b2aeb3094dbc4aa59bc39766f6afcb9d";
 
 
     private static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:3000/connectspotify");
