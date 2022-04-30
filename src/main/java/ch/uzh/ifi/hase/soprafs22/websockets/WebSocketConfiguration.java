@@ -40,9 +40,4 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     }
 
 
-    @Bean
-    public TaskScheduler heartBeatScheduler() {
-        return new ThreadPoolTaskScheduler();
-    }
-
 }
