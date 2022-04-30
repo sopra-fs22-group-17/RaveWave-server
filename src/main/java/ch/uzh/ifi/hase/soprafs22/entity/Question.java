@@ -14,6 +14,8 @@ public class Question {
     private GameMode gamemode;
     private ArrayList<String> albumCovers;
 
+    private String songTitle;
+
     public String getPreviewUrl() {
         return previewUrl;
     }
@@ -60,5 +62,13 @@ public class Question {
 
     public void setAlbumCovers(ArrayList<String> albumCovers) {
         this.albumCovers = albumCovers;
+    }
+
+    public String getSongTitle() {
+        return songTitle;
+    }
+
+    public void setSongTitle(String songTitle) {
+        this.songTitle = songTitle;
     }
 }

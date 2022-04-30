@@ -160,8 +160,6 @@ public class Game {
             gamePlan.add(new ArtistGame(id, songs));
             pickedSongs.add(id);
             i++;
-
-            System.out.println("round: " + i);
         }
     }
 

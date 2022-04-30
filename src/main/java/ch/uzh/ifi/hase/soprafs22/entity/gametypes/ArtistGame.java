@@ -55,10 +55,11 @@ public class ArtistGame implements GameType {
             wrongAnswersIndex.add(i);
         }
 
+
         Random rand;
         rand = new Random();
-
-        for (int i = 0; i < 3; i++) {
+        int a = 3;
+        for (int i = 0; i < a; i++) {
             //pick a random number to compute the wrong answers
             int wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
 
@@ -72,8 +73,12 @@ public class ArtistGame implements GameType {
                 answer.append(", ");
             }
             answer.delete(answer.length() - 2, answer.length());
-            answers.add(answer.toString());
 
+            if(answers.contains(answer.toString())){
+                a++;
+            } else{
+                answers.add(answer.toString());
+            }
             answerSongs.add((Track) songs[wrongAnswerIndex].getTrack());
         }
 
@@ -82,10 +87,11 @@ public class ArtistGame implements GameType {
         answerSongs.add(correctAnswerIndex, (Track) songs[songToPick].getTrack());
 
         question.setAnswers(answers);
-
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.ARTISTGAME);
         question.setAlbumCovers(getAllAnswersSongCovers());
+        question.setSongTitle(((Track) songs[songToPick].getTrack()).getName());
+
     }
 
     @Override
