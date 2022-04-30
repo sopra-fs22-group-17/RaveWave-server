@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import org.springframework.web.server.ResponseStatusException;
 
 public class GameRepositoryTest {
 
@@ -32,7 +34,7 @@ public class GameRepositoryTest {
     @Test
     public void removeGameTest() {
         GameRepository.removeGame(1);
-        assertEquals(null, GameRepository.findByLobbyId(1));
+        assertThrows(ResponseStatusException.class,() -> GameRepository.findByLobbyId(1));
 
     }
 

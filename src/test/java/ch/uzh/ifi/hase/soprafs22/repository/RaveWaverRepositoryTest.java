@@ -50,7 +50,7 @@ public class RaveWaverRepositoryTest {
         assertEquals(raveWaver.getCreationDate(), found.getCreationDate());
 
     }
-
+/*
     @Test
     public void findByIdTest() {
         Optional<RaveWaver> optFound = raveWaverRepository.findById(1L);
@@ -61,6 +61,6 @@ public class RaveWaverRepositoryTest {
         assertEquals(raveWaver.getToken(), found.getToken());
         assertEquals(raveWaver.getLevel(), found.getLevel());
         assertEquals(raveWaver.getCreationDate(), found.getCreationDate());
-    }
+    }*/
 
 }
