@@ -6,6 +6,7 @@ public class QuestionDTO {
     private String question;
     private String previewURL;
     private String songTitle;
+    private String playBackDuration;
     private ArrayList<AnswerOptions> answers;
 
 
@@ -41,5 +42,11 @@ public class QuestionDTO {
         this.songTitle = songTitle;
     }
 
+    public String getPlayBackDuration() {
+        return playBackDuration;
+    }
 
+    public void setPlayBackDuration(String playBackDuration) {
+        this.playBackDuration = playBackDuration;
+    }
 }

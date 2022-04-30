@@ -71,6 +71,7 @@ public class Game {
 
     public Question startNextTurn() {
         Question question = gamePlan.get(currentGameRound).getQuestion();
+        question.setPlaybackDuration(playbackDuration);
         currentGameRound++;
         this.answers.clear();
         return question;

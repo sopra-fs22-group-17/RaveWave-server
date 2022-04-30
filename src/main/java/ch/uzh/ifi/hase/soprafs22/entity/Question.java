@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
+import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class Question {
     private int correctAnswer;
     private GameMode gamemode;
     private ArrayList<String> albumCovers;
-
+    private PlaybackDuration playbackDuration;
     private String songTitle;
 
     public String getPreviewUrl() {
@@ -70,5 +71,13 @@ public class Question {
 
     public void setSongTitle(String songTitle) {
         this.songTitle = songTitle;
+    }
+
+    public PlaybackDuration getPlaybackDuration() {
+        return playbackDuration;
+    }
+
+    public void setPlaybackDuration(PlaybackDuration playbackDuration) {
+        this.playbackDuration = playbackDuration;
     }
 }
