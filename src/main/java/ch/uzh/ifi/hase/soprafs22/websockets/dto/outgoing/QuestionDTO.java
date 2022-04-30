@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class QuestionDTO {
     private String question;
     private String previewURL;
+    private String songTitle;
     private ArrayList<AnswerOptions> answers;
 
 
@@ -31,5 +32,14 @@ public class QuestionDTO {
     public void setAnswers(ArrayList<AnswerOptions> answers) {
         this.answers = answers;
     }
+
+    public String getSongTitle() {
+        return songTitle;
+    }
+
+    public void setSongTitle(String songTitle) {
+        this.songTitle = songTitle;
+    }
+
 
 }

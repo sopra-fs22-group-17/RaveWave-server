@@ -70,6 +70,7 @@ public class GameService {
 
         nextQuestionDTO.setQuestion(nextQuestion.getQuestion());
         nextQuestionDTO.setPreviewURL(nextQuestion.getPreviewUrl());
+        nextQuestionDTO.setSongTitle(nextQuestion.getSongTitle());
 
         ArrayList<AnswerOptions> options = new ArrayList<>();
         List<String> singleAnswer = nextQuestion.getAnswers();
