@@ -26,6 +26,9 @@ public class SpotifyService {
 
     private static final String clientSecret = System.getenv("clientSecret");
 
+    //clientSecret for localhost
+    //private static final String clientSecret = "";
+
 
     private static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:3000/connectspotify");
 
