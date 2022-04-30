@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
@@ -52,6 +53,7 @@ public class Game {
 
     }
 
+
     public void updateGameSettings(GameSettingsDTO updatedSettings) {
         this.roundDuration = updatedSettings.getRoundDuration();
         this.playbackDuration = updatedSettings.getPlayBackDuration();
@@ -91,18 +93,14 @@ public class Game {
         this.answers.add(answer);
     }
 
-    public List<Answer> getListOfAnswers() {
-        return this.answers;
-    }
-
-    public LeaderboardDTO endRound(List<Player> players) {
+    public LeaderboardDTO endRound(List<Player> players){
         distributePoints(players);
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
-        if (this.currentGameRound < this.gameRounds) {
-            leaderboardDTO.setGameOver(true);
+        if(this.currentGameRound == this.gameRounds){
+           leaderboardDTO.setGameOver(true);
         }
-        // TODO handle if player doesnt answer
-        return fillLeaderboard(players);
+        //TODO handle if player doesnt answer
+        return leaderboardDTO;
     }
 
     private void distributePoints(List<Player> players) {
@@ -119,7 +117,7 @@ public class Game {
                 }
             }
 
-            Question currentQuestion = gamePlan.get(currentGameRound).getQuestion();
+            Question currentQuestion = gamePlan.get(currentGameRound-1).getQuestion();
 
             int points = Evaluator.evaluation(playerAnswer, currentQuestion.getCorrectAnswer(), roundDuration);
 
@@ -133,13 +131,28 @@ public class Game {
         }
     }
 
-    // private void updateRaveWaver() {
-    // }
+    public void endGame(){}
 
-    public void fillGamePlan() {
+    private void updateRaveWaver(){}
+
+    public void fillGamePlan(){
         PlaylistTrack[] songs = spotifyService.getPlaylistsItems(songGenre.getPlaylistId());
-        for (int i = 0; i < songs.length && i < gameRounds; i++) {
-            gamePlan.add(new ArtistGame(i, songs));
+        Random rand = new Random();
+        int bound;
+        ArrayList<Integer> pickedSongs = new ArrayList<>();
+        if (songs.length < gameRounds){
+            bound = songs.length;
+        } else{ bound = gameRounds;}
+
+        int i = 0;
+        while( i < bound){
+            int id = rand.nextInt(bound);
+            while (pickedSongs.contains(id)){
+                id = rand.nextInt(bound);
+            }
+            gamePlan.add(new ArtistGame(id, songs));
+            pickedSongs.add(id);
+            i++;
         }
     }
 
@@ -179,13 +192,12 @@ public class Game {
         for (int i = 0; i < players.size(); i++) {
             pos = i;
             for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(j).getTotalScore() > players.get(pos).getTotalScore()) // find the index of the minimum
-                                                                                       // element
+                if (players.get(j).getTotalScore() > players.get(pos).getTotalScore())                  //find the index of the minimum element
                 {
                     pos = j;
                 }
             }
-            temp = players.get(pos); // swap the current element with the minimum element
+            temp = players.get(pos);  //swap the current element with the minimum element
 
             players.set(pos, players.get(i));
             players.set(i, temp);
@@ -199,13 +211,12 @@ public class Game {
         for (int i = 0; i < players.size(); i++) {
             pos = i;
             for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(j).getTotalScore() - players.get(j).getRoundScore() > players.get(pos).getTotalScore()
-                        - players.get(pos).getRoundScore()) // find the index of the minimum element
+                if (players.get(j).getTotalScore()-players.get(j).getRoundScore() > players.get(pos).getTotalScore() - players.get(pos).getRoundScore())                  //find the index of the minimum element
                 {
                     pos = j;
                 }
             }
-            temp = players.get(pos); // swap the current element with the minimum element
+            temp = players.get(pos);  //swap the current element with the minimum element
             players.set(pos, players.get(i));
             players.set(i, temp);
         }
