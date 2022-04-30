@@ -6,7 +6,6 @@ public class QuestionDTO {
     private String question;
     private String previewURL;
     private String songTitle;
-    private String artist;
     private ArrayList<AnswerOptions> answers;
 
 
@@ -42,12 +41,5 @@ public class QuestionDTO {
         this.songTitle = songTitle;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
 
 }

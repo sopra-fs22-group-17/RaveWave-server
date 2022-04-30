@@ -90,7 +90,7 @@ public class ArtistGame implements GameType {
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.ARTISTGAME);
         question.setAlbumCovers(getAllAnswersSongCovers());
-        question.setSongTitle(((Track) songs[songToPick].getTrack()).getName());
+        question.setSongTitle((songs[songToPick].getTrack()).getName());
 
     }
 

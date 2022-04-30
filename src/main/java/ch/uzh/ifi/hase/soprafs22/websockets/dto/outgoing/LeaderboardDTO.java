@@ -6,6 +6,12 @@ public class LeaderboardDTO {
 
     private boolean isGameOver;
 
+    private String coverUrl;
+
+    private String songTitle;
+
+    private String artist;
+
     private ArrayList<LeaderboardEntry> players;
 
     public ArrayList<LeaderboardEntry> getPlayers() {
@@ -24,5 +30,28 @@ public class LeaderboardDTO {
         isGameOver = gameOver;
     }
 
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
+    }
+
+    public String getSongTitle() {
+        return songTitle;
+    }
+
+    public void setSongTitle(String songTitle) {
+        this.songTitle = songTitle;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
 
 }

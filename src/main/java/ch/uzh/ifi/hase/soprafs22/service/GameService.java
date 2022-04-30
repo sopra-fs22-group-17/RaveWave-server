@@ -73,7 +73,6 @@ public class GameService {
 
         nextQuestionDTO.setQuestion(nextQuestion.getQuestion());
         nextQuestionDTO.setPreviewURL(nextQuestion.getPreviewUrl());
-        nextQuestionDTO.setArtist(nextQuestion.getAnswers().get(nextQuestion.getCorrectAnswer()-1));
         nextQuestionDTO.setSongTitle(nextQuestion.getSongTitle());
 
         ArrayList<AnswerOptions> options = new ArrayList<AnswerOptions>();
