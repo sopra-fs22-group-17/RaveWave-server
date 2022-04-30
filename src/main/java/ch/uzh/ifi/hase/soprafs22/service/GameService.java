@@ -89,14 +89,21 @@ public class GameService {
         nextQuestionDTO.setAnswers(options);
 
         return nextQuestionDTO;
-
     }
 
     public LeaderboardDTO endRound(long lobbyId) {
         Game game = GameRepository.findByLobbyId((int) lobbyId);
         List<Player> players = playerRepository.findByLobbyId(lobbyId);
-        return game.endRound(players);
+        LeaderboardDTO leaderboardDTO = game.endRound(players);
+        if(leaderboardDTO.isGameOver()){
+            endGame(lobbyId);
+        }
+        return leaderboardDTO;
+    }
 
+    private void endGame(long lobbyId){
+        playerRepository.deleteByLobbyId(lobbyId);
+        GameRepository.removeGame((int)lobbyId);
     }
 
 }

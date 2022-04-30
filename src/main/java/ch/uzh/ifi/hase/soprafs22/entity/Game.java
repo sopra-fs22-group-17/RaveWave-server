@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -98,7 +99,6 @@ public class Game {
         if (this.currentGameRound == this.gameRounds) {
             leaderboardDTO.setGameOver(true);
         }
-        //TODO handle if player doesnt answer
         return leaderboardDTO;
     }
 
@@ -131,7 +131,8 @@ public class Game {
         }
     }
 
-    public void endGame() {
+    public void endGame(long lobbyId, PlayerRepository playerRepository) {
+
     }
 
     private void updateRaveWaver() {
