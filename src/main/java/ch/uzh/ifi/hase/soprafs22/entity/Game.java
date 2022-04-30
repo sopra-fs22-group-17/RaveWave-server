@@ -6,15 +6,12 @@ import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
-import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardEntry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 
 import java.util.ArrayList;
@@ -22,35 +19,27 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
-    private final Logger log = LoggerFactory.getLogger(Game.class);
 
-    // Game settings and getters and setters
+    private final GameMode gameMode;
+    private final ArrayList<GameType> gamePlan;
+    private final ArrayList<Answer> answers;
+    private final SpotifyService spotifyService;
+    private final Random rand;
     private RoundDuration roundDuration;
     private PlaybackDuration playbackDuration;
     private SongPool songGenre;
     private int gameRounds;
-    private final GameMode gameMode;
-
-    private boolean startedGame;
-
-    private final ArrayList<GameType> gamePlan;
-    private final ArrayList<Answer> answers;
-    private int lobbyId;
-    private List<Player> players;
     private int currentGameRound;
-    private String playlistId;
-    private final SpotifyService spotifyService;
 
     public Game(SpotifyService spotifyService, SongPool songGenre) {
         this.spotifyService = spotifyService;
-        // mapEnumToPlaylist(songGenre);
         this.gamePlan = new ArrayList<>();
         this.songGenre = songGenre;
         this.currentGameRound = 0;
-        this.startedGame = false;
         this.gameMode = GameMode.ARTISTGAME;
-        this.answers = new ArrayList<Answer>();
+        this.answers = new ArrayList<>();
         this.gameRounds = 15;
+        this.rand = new Random();
 
     }
 
@@ -65,7 +54,6 @@ public class Game {
     // TODO exception
     public void startGame() {
         fillGamePlan();
-        this.startedGame = true;
 
     }
 
@@ -75,16 +63,6 @@ public class Game {
         currentGameRound++;
         this.answers.clear();
         return question;
-    }
-
-    private void startTimer(int timer) {
-    }
-
-    public boolean checkAnswers() {
-        return true;
-    }
-
-    public void notifyPlayers() {
     }
 
     private void resetAnswers() {
@@ -106,7 +84,6 @@ public class Game {
     }
 
     private void distributePoints(List<Player> players) {
-        Evaluator evaluator = new Evaluator();
         for (Player player : players) {
             Answer playerAnswer = new Answer();
             playerAnswer.setplayerGuess(5);
@@ -134,16 +111,11 @@ public class Game {
         }
     }
 
-    public void endGame(long lobbyId, PlayerRepository playerRepository) {
-
-    }
-
     private void updateRaveWaver() {
     }
 
     public void fillGamePlan() {
         PlaylistTrack[] songs = spotifyService.getPlaylistsItems(songGenre.getPlaylistId());
-        Random rand = new Random();
         int bound;
         ArrayList<Integer> pickedSongs = new ArrayList<>();
         if (songs.length < gameRounds) {
@@ -162,13 +134,13 @@ public class Game {
             gamePlan.add(new ArtistGame(id, songs));
             pickedSongs.add(id);
             i++;
+
         }
     }
 
     private LeaderboardDTO fillLeaderboard(List<Player> players) {
 
         List<Player> sortedPlayers = sortPlayers(players);
-        // List<Player> sortedPlayersPrevious = sortPlayersPreviousScore(players);
 
         ArrayList<LeaderboardEntry> playersRankingInformation = new ArrayList<>();
 
@@ -180,18 +152,15 @@ public class Game {
             leaderboardEntry.setStreak(player.getStreak());
             leaderboardEntry.setTotalScore(player.getTotalScore());
             leaderboardEntry.setPlayerPosition(i);
-            // leaderboardEntry.setPrevPosition(1);
             leaderboardEntry.setRoundScore(player.getRoundScore());
             i++;
             playersRankingInformation.add(leaderboardEntry);
         }
 
         LeaderboardDTO leaderboard = new LeaderboardDTO();
-        //leaderboard.setGameOver(false);
         leaderboard.setPlayers(playersRankingInformation);
 
 
-        // leaderboard.setPrevPlayerPositions(sortPlayersPreviousScore(players));
         return leaderboard;
     }
 
@@ -254,5 +223,9 @@ public class Game {
 
     public List<Answer> getListOfAnswers() {
         return this.answers;
+    }
+
+    public boolean hasStarted() {
+        return currentGameRound != 0;
     }
 }

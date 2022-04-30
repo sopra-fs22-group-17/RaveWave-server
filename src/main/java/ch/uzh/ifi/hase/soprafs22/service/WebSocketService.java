@@ -44,7 +44,6 @@ public class WebSocketService {
 
     public void sendMessageToClients(String destination, Object dto) {
         this.smesg.convertAndSend(destination, dto);
-        //this.smesg.convertAndSendToUser(id, "/topic/testing", dto);
 
     }
 

@@ -13,7 +13,6 @@ public class PrincipalHandshake extends DefaultHandshakeHandler {
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wshandler,
                                       Map<String, Object> attributes) {
 
-        //UUID.randomUUID().toString()
         return new StompPrincipal(UUID.randomUUID().toString());
     }
 

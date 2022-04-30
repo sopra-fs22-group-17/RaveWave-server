@@ -19,7 +19,6 @@ import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeU
 @Service
 @Transactional
 public class SpotifyService {
-    //private static final String accessToken = "BQAaj-lzAbhmapRS58RRVg0BXxj_HyCIAZdYYS_u6avym2zx   bCNPTWDb4P8QI-c7d_qF1T0m7gZzCbjohjjO9cAAhjSg9v6mhgphr9ankW6Dk8BRh_ns_SD4vLnin5DwxFbqVeiZoeVi_osHgjq4NliiVZXq";
     private static final String clientId = "d7d44473ad6a47cd86c580fcee015449";
 
 
@@ -31,8 +30,6 @@ public class SpotifyService {
 
     private static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:3000/connectspotify");
 
-
-    //private static final String playlistId = "37i9dQZEVXbJiyhoAPEfMK";
 
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId(clientId)
@@ -48,6 +45,7 @@ public class SpotifyService {
         authorizationCodeRefresh_Sync(spotifyApi);
     }
 
+
     public void authorizationCode(SpotifyPostDTO spotifyPostDTO) {
         authorizationCode_Sync(spotifyApi, spotifyPostDTO.getCode());
     }
@@ -58,7 +56,6 @@ public class SpotifyService {
     }
 
     public PlaylistTrack[] getPlaylistsItems(String playlistId) {
-        //TODO handle null exception
         return fetchPlaylistsItems(spotifyApi, playlistId);
     }
 

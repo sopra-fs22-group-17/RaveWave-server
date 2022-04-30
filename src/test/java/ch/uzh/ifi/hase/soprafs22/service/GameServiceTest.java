@@ -73,10 +73,4 @@ public class GameServiceTest {
         assertEquals(testAnswer, testGame.getListOfAnswers().get(0));
     }
 
-    @Test
-    public void starteNextRoundTest() {
-        Question testQuestion = new Question();
-
-    }
-
 }

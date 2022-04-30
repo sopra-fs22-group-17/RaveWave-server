@@ -10,15 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class WebSocketController {
-    Logger log = LoggerFactory.getLogger(WebSocketController.class);
-    private SimpMessageSendingOperations messTemplate;
     private final GameService gameService;
     private final WebSocketService webSocketService;
+    private final String destination = "/topic/lobbies/";
+    Logger log = LoggerFactory.getLogger(WebSocketController.class);
 
     public WebSocketController(GameService gameService, WebSocketService webSocketService) {
         this.gameService = gameService;
@@ -30,8 +29,7 @@ public class WebSocketController {
         // GameSettingsDTO gameSettingsDTO
         log.info("Lobby" + lobbyId + ": Game settings updated");
         gameService.updateGameSettings(gameSettingsDTO, lobbyId);
-        String destination = "/topic/lobbies/" + lobbyId;
-        this.webSocketService.sendMessageToClients(destination, gameSettingsDTO);
+        this.webSocketService.sendMessageToClients(destination + lobbyId, gameSettingsDTO);
     }
 
     @MessageMapping("/lobbies/{lobbyId}/start-game")
@@ -39,8 +37,7 @@ public class WebSocketController {
         log.info("Lobby" + lobbyId + ": Game started.");
         gameService.startGame(lobbyId);
         QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
-        String destination = "/topic/lobbies/" + lobbyId;
-        this.webSocketService.sendMessageToClients(destination, questionToSend);
+        this.webSocketService.sendMessageToClients(destination + lobbyId, questionToSend);
     }
 
     @MessageMapping("/lobbies/{lobbyId}/player/{playerId}/save-answer")
@@ -54,16 +51,14 @@ public class WebSocketController {
         log.info("Lobby" + lobbyId + ": round is over");
         // GameService rüeft evaluator uf
         LeaderboardDTO leaderboard = gameService.endRound(lobbyId);
-        String destination = "/topic/lobbies/" + lobbyId;
-        this.webSocketService.sendMessageToClients(destination, leaderboard);
+        this.webSocketService.sendMessageToClients(destination + lobbyId, leaderboard);
     }
 
     @MessageMapping("/lobbies/{lobbyId}/next-round")
     public void startNextRound(@DestinationVariable int lobbyId) {
         log.info("Next round started");
         QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
-        String destination = "/topic/lobbies/" + lobbyId;
-        this.webSocketService.sendMessageToClients(destination, questionToSend);
+        this.webSocketService.sendMessageToClients(destination + lobbyId, questionToSend);
     }
 
 }
