@@ -2,6 +2,8 @@ package ch.uzh.ifi.hase.soprafs22.spotify;
 
 
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
@@ -12,6 +14,9 @@ import java.io.IOException;
 
 
 public class GetPlaylistsItems {
+    private GetPlaylistsItems() {
+    }
+
     public static PlaylistTrack[] fetchPlaylistsItems(SpotifyApi spotifyApi, String playlistId) {
 
         final GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi
@@ -26,13 +31,10 @@ public class GetPlaylistsItems {
         try {
             final Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsItemsRequest.execute();
 
-
-            //System.out.println(playlistTrackPaging.getItems());
             return playlistTrackPaging.getItems();
         }
         catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An error while fetching the song information occured: " + e.getMessage());
         }
     }
 

@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
+import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ public class PlayerService {
     // returns playerToken
     public Player addPlayer(Player newPlayer) {
         checkIfPlayerExists(newPlayer);
+        checkIfLobbyForPlayerExists(newPlayer);
         newPlayer.setToken(UUID.randomUUID().toString());
         newPlayer.addToScore(0);
         newPlayer.setStreak(0);
@@ -45,8 +47,19 @@ public class PlayerService {
                 playerToBeCreated.getlobbyId());
 
         if (userByUsername != null && userByUsername.getlobbyId() == playerToBeCreated.getlobbyId()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("This username does already exist!"));
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This username does already exist!");
         }
+    }
+
+    private void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
+        try {
+            GameRepository.findByLobbyId((int) playerToBeCreated.getlobbyId());
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adding the player failed: " + e.getMessage());
+
+        }
+
     }
 
 }

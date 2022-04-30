@@ -30,8 +30,6 @@ public class GameService {
     private final PlayerRepository playerRepository;
     Logger log = LoggerFactory.getLogger(GameService.class);
     private int lobbyToCreate;
-    // private final PlayerService playerService;
-    // private Game game;
 
     @Autowired
     public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
@@ -39,7 +37,6 @@ public class GameService {
         this.lobbyToCreate = 0;
     }
 
-    // TODO lobbyId is hardcoded so far
     public int createNewLobby(SpotifyService spotifyService) {
         lobbyToCreate++;
         Game newGame = new Game(spotifyService, SongPool.SWITZERLAND);
@@ -74,7 +71,7 @@ public class GameService {
         nextQuestionDTO.setQuestion(nextQuestion.getQuestion());
         nextQuestionDTO.setPreviewURL(nextQuestion.getPreviewUrl());
 
-        ArrayList<AnswerOptions> options = new ArrayList<AnswerOptions>();
+        ArrayList<AnswerOptions> options = new ArrayList<>();
         List<String> singleAnswer = nextQuestion.getAnswers();
 
         int i = 1;
@@ -95,15 +92,15 @@ public class GameService {
         Game game = GameRepository.findByLobbyId((int) lobbyId);
         List<Player> players = playerRepository.findByLobbyId(lobbyId);
         LeaderboardDTO leaderboardDTO = game.endRound(players);
-        if(leaderboardDTO.isGameOver()){
+        if (leaderboardDTO.isGameOver()) {
             endGame(lobbyId);
         }
         return leaderboardDTO;
     }
 
-    private void endGame(long lobbyId){
+    private void endGame(long lobbyId) {
         playerRepository.deleteByLobbyId(lobbyId);
-        GameRepository.removeGame((int)lobbyId);
+        GameRepository.removeGame((int) lobbyId);
     }
 
 }

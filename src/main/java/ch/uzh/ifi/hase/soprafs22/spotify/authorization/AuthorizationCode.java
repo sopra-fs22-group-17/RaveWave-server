@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.spotify.authorization;
 
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
@@ -9,10 +11,6 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import java.io.IOException;
 
 public class AuthorizationCode {
-    //private static final String clientId = "zyuxhfo1c51b5hxjk09x2uhv5n0svgd6g";
-    //private static final String clientSecret = "zudknyqbh3wunbhcvg9uyvo7uwzeu6nne";
-    //private static final URI redirectUri = SpotifyHttpManager.makeUri("https://www.google.ch");
-    //private static final String code = "";
 
 
     public static void authorizationCode_Sync(SpotifyApi spotifyApi, String code) {
@@ -28,7 +26,7 @@ public class AuthorizationCode {
             System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
         }
         catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The authorization code is invalid: " + e.getMessage());
         }
     }
 
