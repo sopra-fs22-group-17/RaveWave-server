@@ -46,7 +46,6 @@ public class SpotifyService {
     }
 
 
-
     public void authorizationCode(SpotifyPostDTO spotifyPostDTO) {
         authorizationCode_Sync(spotifyApi, spotifyPostDTO.getCode());
     }
