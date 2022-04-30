@@ -43,10 +43,10 @@ public class PlayerServiceTest {
 
         assertEquals(testPlayer.getId(), createdPlayer.getId());
         assertEquals(testPlayer.getPlayerName(), createdPlayer.getPlayerName());
-        assertEquals(testPlayer.getStreak(), 0);
-        assertEquals(testPlayer.getTotalScore(), 0);
+        assertEquals(0, createdPlayer.getStreak());
+        assertEquals(0, createdPlayer.getTotalScore());
         assertNotNull(createdPlayer.getToken());
-        assertNotNull(createdPlayer.getlobbyId());
+        assertEquals(1L, testPlayer.getlobbyId());
     }
 
     @Test

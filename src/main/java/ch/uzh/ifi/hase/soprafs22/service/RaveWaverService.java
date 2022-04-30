@@ -47,19 +47,19 @@ public class RaveWaverService {
     return this.raveWaverRepository.findAll();
   }
 
-  public RaveWaver createRaveWaver(RaveWaver newRaveWaver) {
-    newRaveWaver.setToken(UUID.randomUUID().toString());
-    newRaveWaver.setCreationDate(LocalDate.now());
+  public RaveWaver createRaveWaver(RaveWaver raveWaver) {
+    raveWaver.setToken(UUID.randomUUID().toString());
+    raveWaver.setCreationDate(LocalDate.now());
 
-    checkIfRaveWaverExists(newRaveWaver);
+    checkIfRaveWaverExists(raveWaver);
 
     // saves the given entity but data is only persisted in the database once
     // flush() is called
-    newRaveWaver = raveWaverRepository.save(newRaveWaver);
+    raveWaver = raveWaverRepository.save(raveWaver);
     raveWaverRepository.flush();
 
-    log.debug("Created Information for User: {}", newRaveWaver);
-    return newRaveWaver;
+    log.debug("Created Information for User: {}", raveWaver);
+    return raveWaver;
   }
 
   /**
@@ -141,8 +141,7 @@ public class RaveWaverService {
   }
 
   public RaveWaver updateRaveWaver(RaveWaverPutDTO raveWaverPutDTO, Long id) {
-    RaveWaver raveWaverToUpdate = getRaveWaverById(id);
 
-    return raveWaverToUpdate;
+    return null;
   }
 }
