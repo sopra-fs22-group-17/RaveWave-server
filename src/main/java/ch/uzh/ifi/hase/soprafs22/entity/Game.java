@@ -40,19 +40,15 @@ public class Game {
     private String playlistId;
     private SpotifyService spotifyService;
 
-    public Game(SpotifyService spotifyService) {
+    public Game(SpotifyService spotifyService, SongPool songGenre) {
         this.spotifyService = spotifyService;
         // mapEnumToPlaylist(songGenre);
         this.gamePlan = new ArrayList<>();
-        // Set default --> switzerland
-        this.songGenre = SongPool.SWITZERLAND;
+        this.songGenre = songGenre;
         this.currentGameRound = 0;
         this.startedGame = false;
         this.gameMode = GameMode.ARTISTGAME;
         this.answers = new ArrayList<Answer>();
-        this.roundDuration = RoundDuration.EIGHTEEN;
-        this.playbackDuration = PlaybackDuration.EIGHTEEN;
-        this.gameRounds = 10;
 
     }
 
@@ -125,7 +121,7 @@ public class Game {
 
             Question currentQuestion = gamePlan.get(currentGameRound).getQuestion();
 
-            int points = evaluator.evaluation(playerAnswer, currentQuestion.getCorrectAnswer(), roundDuration);
+            int points = Evaluator.evaluation(playerAnswer, currentQuestion.getCorrectAnswer(), roundDuration);
 
             player.addToScore(points);
 

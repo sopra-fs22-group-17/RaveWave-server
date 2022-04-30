@@ -44,7 +44,7 @@ public class GameServiceTest {
         testPlayer = new Player();
         testPlayer.setId(1L);
         testPlayer.setLobbyId(1L);
-        testGame = new Game(spotifyService);
+        testGame = new Game(spotifyService, SongPool.COUNTRY);
 
         Mockito.when(playerRepository.save(Mockito.any())).thenReturn(testPlayer);
     }
@@ -70,29 +70,6 @@ public class GameServiceTest {
         gameService.saveAnswer(testAnswer, 1);
 
         assertEquals(testAnswer, testGame.getListOfAnswers().get(0));
-
-    }
-
-    @Test
-    public void updateGameSettings() {
-        GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
-        GameRepository.addGame(1, testGame);
-        gameSettingsDTO.setGameMode(GameMode.ALBUMCOVERGAME);
-        gameSettingsDTO.setGameRounds(8);
-        gameSettingsDTO.setPlayBackDuration(PlaybackDuration.SIXTEEN);
-        gameSettingsDTO.setRoundDuration(RoundDuration.SIXTEEN);
-        gameSettingsDTO.setSongPool(SongPool.ROCK);
-
-        gameService.createNewLobby(spotifyService);
-        gameService.updateGameSettings(gameSettingsDTO, 1);
-
-        // assertEquals(testGame.getGameMode(), gameSettingsDTO.getGameMode());
-        // assertEquals(testGame.getGameRounds(), gameSettingsDTO.getGameRounds());
-        // assertEquals(testGame.getPlaybackDuration(),
-        // gameSettingsDTO.getPlayBackDuration());
-        // assertEquals(testGame.getRoundDuration(),
-        // gameSettingsDTO.getRoundDuration());
-        // assertEquals(testGame.getSongPool(), gameSettingsDTO.getSongPool());
 
     }
 
