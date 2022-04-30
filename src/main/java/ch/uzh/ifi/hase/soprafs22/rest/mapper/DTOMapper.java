@@ -36,10 +36,11 @@ public interface DTOMapper {
     @Mapping(source = "creationDate", target = "creationDate")
     RaveWaverGetDTO convertEntityToRaveWaverGetDTO(RaveWaver raveWaver);
 
-    @Mapping(source = "username", target = "username")
+    // @Mapping(source = "username", target = "username")
     // @Mapping(source = "password", target = "password")
-    @Mapping(source = "spotifyToken", target = "spotifyToken")
-    RaveWaverPutDTO convertRaveWaverPutDTOtoEntity(RaveWaverPutDTO raveWaverPutDTO);
+    // @Mapping(source = "spotifyToken", target = "spotifyToken")
+    // RaveWaverPutDTO convertRaveWaverPutDTOtoEntity(RaveWaverPutDTO
+    // raveWaverPutDTO);
 
     /*
      * @Mapping(source = "question", target = "question")
@@ -62,6 +63,5 @@ public interface DTOMapper {
     @Mapping(source = "correctAnswers", target = "correctAnswers")
     @Mapping(source = "lobbyId", target = "lobbyId")
     PlayerGetDTO convertEntityToPlayerGetDTO(Player player);
-
 
 }
