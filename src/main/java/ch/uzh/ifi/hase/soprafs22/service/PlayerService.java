@@ -20,7 +20,7 @@ import java.util.UUID;
 @Service
 @Transactional
 public class PlayerService {
-    Logger log = LoggerFactory.getLogger(GameService.class);
+    Logger log = LoggerFactory.getLogger(PlayerService.class);
 
     private final PlayerRepository playerRepository;
 

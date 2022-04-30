@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
+import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,15 +26,13 @@ public class LobbyController {
     private SpotifyService spotifyService;
     private PlayerService playerService;
 
-    //private Game game;
+    // private Game game;
 
     LobbyController(GameService gameService, SpotifyService spotifyService, PlayerService playerService) {
         this.gameService = gameService;
         this.spotifyService = spotifyService;
         this.playerService = playerService;
     }
-
-
 
     @PostMapping("/lobbies")
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,14 +42,15 @@ public class LobbyController {
         lobbyIdDTO.setLobbyId(gameService.createNewLobby(spotifyService));
         return lobbyIdDTO;
 
-        //return DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(1));
+        // return
+        // DTOMapper.INSTANCE.convertEntityToQuestionDTO(gameService.startNextRound(1));
     }
-
 
     @PostMapping("/lobbies/{lobbyId}")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public PlayerGetDTO createPlayer(@RequestBody PlayerPostDTO playerPostDTO, @PathVariable Long lobbyId, HttpServletResponse response) {
+    public PlayerGetDTO createPlayer(@RequestBody PlayerPostDTO playerPostDTO, @PathVariable Long lobbyId,
+            HttpServletResponse response) {
         Player playerToAdd = DTOMapper.INSTANCE.convertPlayerPostDTOtoEntity(playerPostDTO);
         playerToAdd.setLobbyId(lobbyId);
         Player newPlayer = playerService.addPlayer(playerToAdd);

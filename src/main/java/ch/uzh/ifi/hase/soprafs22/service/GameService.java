@@ -33,9 +33,8 @@ public class GameService {
     private int lobbyToCreate;
 
     private final PlayerRepository playerRepository;
-    //private final PlayerService playerService;
-    //private Game game;
-
+    // private final PlayerService playerService;
+    // private Game game;
 
     @Autowired
     public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
@@ -43,38 +42,35 @@ public class GameService {
         this.lobbyToCreate = 0;
     }
 
-    //TODO lobbyId is hardcoded so far
-    public int createNewLobby(SpotifyService spotifyService){
+    // TODO lobbyId is hardcoded so far
+    public int createNewLobby(SpotifyService spotifyService) {
         lobbyToCreate++;
         Game newGame = new Game(spotifyService, SongPool.SWITZERLAND);
         GameRepository.addGame(lobbyToCreate, newGame);
         return lobbyToCreate;
     }
 
-    public void startGame(int lobbyId){
+    public void startGame(int lobbyId) {
         GameRepository.findByLobbyId(lobbyId).startGame();
     }
 
-    public void saveAnswer(Answer answer, int playerId){
-        Player player= playerRepository.findById(playerId);
-        Game game = GameRepository.findByLobbyId((int)player.getlobbyId());
-        answer.setPlayerId((long)playerId);
+    public void saveAnswer(Answer answer, int playerId) {
+        Player player = playerRepository.findById(playerId);
+        Game game = GameRepository.findByLobbyId((int) player.getlobbyId());
+        answer.setPlayerId((long) playerId);
         game.addAnswers(answer);
-        //save received answer to the corresponding player
+        // save received answer to the corresponding player
     }
 
-    public void endGame(){
-    }
-
-    public void updateGameSettings(GameSettingsDTO gameSettingsDTO, int lobbyId){
+    public void updateGameSettings(GameSettingsDTO gameSettingsDTO, int lobbyId) {
         Game game = GameRepository.findByLobbyId(lobbyId);
 
-        //update game settings
+        // update game settings
         game.updateGameSettings(gameSettingsDTO);
         // GameRepository.findByLobbyId("1").
     }
 
-    public QuestionDTO startNextRound(int lobbyId){
+    public QuestionDTO startNextRound(int lobbyId) {
         Question nextQuestion = GameRepository.findByLobbyId(lobbyId).startNextTurn();
         QuestionDTO nextQuestionDTO = new QuestionDTO();
 
@@ -84,26 +80,23 @@ public class GameService {
         ArrayList<AnswerOptions> options = new ArrayList<AnswerOptions>();
         List<String> singleAnswer = nextQuestion.getAnswers();
 
-
         int i = 1;
-        for(String answer : singleAnswer){
+        for (String answer : singleAnswer) {
             AnswerOptions option = new AnswerOptions();
             option.setAnswer(answer);
             option.setAnswerId(i);
             options.add(option);
-            option.setAlbumPicture(nextQuestion.getAlbumCovers().get(i-1));
+            option.setAlbumPicture(nextQuestion.getAlbumCovers().get(i - 1));
             i++;
         }
         nextQuestionDTO.setAnswers(options);
 
-
         return nextQuestionDTO;
-
 
     }
 
-    public LeaderboardDTO endRound(long lobbyId){
-        Game game = GameRepository.findByLobbyId((int)lobbyId);
+    public LeaderboardDTO endRound(long lobbyId) {
+        Game game = GameRepository.findByLobbyId((int) lobbyId);
         List<Player> players = playerRepository.findByLobbyId(lobbyId);
         return game.endRound(players);
 

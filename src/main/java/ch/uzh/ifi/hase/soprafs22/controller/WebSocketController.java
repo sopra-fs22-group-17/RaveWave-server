@@ -53,12 +53,11 @@ public class WebSocketController {
     @MessageMapping("/lobbies/{lobbyId}/end-round")
     public void endRound(@DestinationVariable Long lobbyId) {
         log.info("Lobby" + lobbyId + ": round is over");
-        //GameService rüeft evaluator uf
+        // GameService rüeft evaluator uf
         LeaderboardDTO leaderboard = gameService.endRound(lobbyId);
         String destination = "/topic/lobbies/" + lobbyId;
         this.webSocketService.sendMessageToClients(destination, leaderboard);
     }
-
 
     @MessageMapping("/lobbies/{lobbyId}/next-round")
     public void startNextRound(@DestinationVariable int lobbyId) {
@@ -67,6 +66,5 @@ public class WebSocketController {
         String destination = "/topic/lobbies/" + lobbyId;
         this.webSocketService.sendMessageToClients(destination, questionToSend);
     }
-
 
 }
