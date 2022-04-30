@@ -5,8 +5,6 @@ import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 
-import java.util.ArrayList;
-
 public class GameSettingsDTO {
 
     private RoundDuration roundDuration;
@@ -16,8 +14,8 @@ public class GameSettingsDTO {
     private GameMode gameMode;
 
     public GameMode getGameMode() {
-    return gameMode;
-}
+        return gameMode;
+    }
 
     public void setGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
@@ -54,8 +52,6 @@ public class GameSettingsDTO {
     public void setGameRounds(int gameRounds) {
         this.gameRounds = gameRounds;
     }
-
-
 
 
 }

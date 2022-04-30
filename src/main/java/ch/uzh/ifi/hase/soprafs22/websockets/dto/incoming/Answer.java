@@ -1,10 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-
 public class Answer {
 
     private int playerGuess;

@@ -11,13 +11,13 @@ public enum SongPool {
     LATINO("3Wnt7xagUhJCWJLjCiWegb"),
     PERSONAL("");
 
-    private String value;
+    private final String value;
 
-    SongPool(String value){
+    SongPool(String value) {
         this.value = value;
     }
 
-    public String getPlaylistId(){
+    public String getPlaylistId() {
         return value;
     }
 }

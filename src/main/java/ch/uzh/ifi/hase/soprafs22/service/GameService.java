@@ -1,10 +1,12 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
+import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.AnswerOptions;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
@@ -16,9 +18,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
-import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +27,9 @@ import java.util.List;
 @Service
 @Transactional
 public class GameService {
-    Logger log = LoggerFactory.getLogger(GameService.class);
-
-    private int lobbyToCreate;
-
     private final PlayerRepository playerRepository;
+    Logger log = LoggerFactory.getLogger(GameService.class);
+    private int lobbyToCreate;
     // private final PlayerService playerService;
     // private Game game;
 

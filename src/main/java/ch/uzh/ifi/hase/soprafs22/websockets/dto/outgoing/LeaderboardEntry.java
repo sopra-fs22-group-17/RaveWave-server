@@ -27,15 +27,16 @@ public class LeaderboardEntry {
     public void setPlayerPosition(int playerPosition) {
         this.playerPosition = playerPosition;
     }
-/*
-    public int getPrevPosition() {
-        return prevPosition;
-    }
 
-    public void setPrevPosition(int prevPosition) {
-        this.prevPosition = prevPosition;
-    }
-*/
+    /*
+        public int getPrevPosition() {
+            return prevPosition;
+        }
+
+        public void setPrevPosition(int prevPosition) {
+            this.prevPosition = prevPosition;
+        }
+    */
     public int getRoundScore() {
         return roundScore;
     }
@@ -67,7 +68,6 @@ public class LeaderboardEntry {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
-
 
 
 }

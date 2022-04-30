@@ -1,11 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
+import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
+import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
+import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
+import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -14,12 +14,11 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
-import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
-import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
-import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Game {
     private final Logger log = LoggerFactory.getLogger(Game.class);
@@ -29,17 +28,17 @@ public class Game {
     private PlaybackDuration playbackDuration;
     private SongPool songGenre;
     private int gameRounds;
-    private GameMode gameMode;
+    private final GameMode gameMode;
 
     private boolean startedGame;
 
-    private ArrayList<GameType> gamePlan;
-    private ArrayList<Answer> answers;
+    private final ArrayList<GameType> gamePlan;
+    private final ArrayList<Answer> answers;
     private int lobbyId;
     private List<Player> players;
     private int currentGameRound;
     private String playlistId;
-    private SpotifyService spotifyService;
+    private final SpotifyService spotifyService;
 
     public Game(SpotifyService spotifyService, SongPool songGenre) {
         this.spotifyService = spotifyService;
@@ -93,11 +92,11 @@ public class Game {
         this.answers.add(answer);
     }
 
-    public LeaderboardDTO endRound(List<Player> players){
+    public LeaderboardDTO endRound(List<Player> players) {
         distributePoints(players);
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
-        if(this.currentGameRound == this.gameRounds){
-           leaderboardDTO.setGameOver(true);
+        if (this.currentGameRound == this.gameRounds) {
+            leaderboardDTO.setGameOver(true);
         }
         //TODO handle if player doesnt answer
         return leaderboardDTO;
@@ -117,7 +116,7 @@ public class Game {
                 }
             }
 
-            Question currentQuestion = gamePlan.get(currentGameRound-1).getQuestion();
+            Question currentQuestion = gamePlan.get(currentGameRound - 1).getQuestion();
 
             int points = Evaluator.evaluation(playerAnswer, currentQuestion.getCorrectAnswer(), roundDuration);
 
@@ -125,29 +124,35 @@ public class Game {
 
             if (points != 0) {
                 player.setStreak(player.getStreak() + 1);
-            } else {
+            }
+            else {
                 player.setStreak(0);
             }
         }
     }
 
-    public void endGame(){}
+    public void endGame() {
+    }
 
-    private void updateRaveWaver(){}
+    private void updateRaveWaver() {
+    }
 
-    public void fillGamePlan(){
+    public void fillGamePlan() {
         PlaylistTrack[] songs = spotifyService.getPlaylistsItems(songGenre.getPlaylistId());
         Random rand = new Random();
         int bound;
         ArrayList<Integer> pickedSongs = new ArrayList<>();
-        if (songs.length < gameRounds){
+        if (songs.length < gameRounds) {
             bound = songs.length;
-        } else{ bound = gameRounds;}
+        }
+        else {
+            bound = gameRounds;
+        }
 
         int i = 0;
-        while( i < bound){
+        while (i < bound) {
             int id = rand.nextInt(bound);
-            while (pickedSongs.contains(id)){
+            while (pickedSongs.contains(id)) {
                 id = rand.nextInt(bound);
             }
             gamePlan.add(new ArtistGame(id, songs));
@@ -211,7 +216,7 @@ public class Game {
         for (int i = 0; i < players.size(); i++) {
             pos = i;
             for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(j).getTotalScore()-players.get(j).getRoundScore() > players.get(pos).getTotalScore() - players.get(pos).getRoundScore())                  //find the index of the minimum element
+                if (players.get(j).getTotalScore() - players.get(j).getRoundScore() > players.get(pos).getTotalScore() - players.get(pos).getRoundScore())                  //find the index of the minimum element
                 {
                     pos = j;
                 }
@@ -241,5 +246,9 @@ public class Game {
 
     public SongPool getSongPool() {
         return this.songGenre;
+    }
+
+    public List<Answer> getListOfAnswers() {
+        return this.answers;
     }
 }

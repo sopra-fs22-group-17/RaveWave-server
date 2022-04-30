@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Internal User Representation
@@ -131,12 +130,12 @@ public class Player implements Serializable {
      * answerResult){
      * this.answers.add(answer);
      * this.totalScore += playerScore;
-     * 
+     *
      * if (answerResult) {
      * this.streak++;
      * this.correctAnswers++;
      * }
-     * 
+     *
      * }
      */
 }

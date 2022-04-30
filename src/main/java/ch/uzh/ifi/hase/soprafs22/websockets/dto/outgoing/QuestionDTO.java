@@ -8,7 +8,6 @@ public class QuestionDTO {
     private ArrayList<AnswerOptions> answers;
 
 
-
     public String getQuestion() {
         return question;
     }

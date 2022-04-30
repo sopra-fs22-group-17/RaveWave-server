@@ -22,13 +22,13 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
         registry.setUserDestinationPrefix("/user");
     }
 
-   @Override
-   public void registerStompEndpoints(StompEndpointRegistry registry) {
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Registers the endpoint where the connection will take place
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("*")
                 .setHandshakeHandler(new PrincipalHandshake());
-                //.withSockJS();
+        //.withSockJS();
     }
 
 

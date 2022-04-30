@@ -1,6 +1,15 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
 public class PlayerGetDTO {
+    private Long id;
+    private String playerName;
+    private String token;
+    private int totalScore;
+    private int roundScore;
+    private int streak;
+    private int correctAnswers;
+    private long lobbyId;
+
     public Long getId() {
         return id;
     }
@@ -64,20 +73,4 @@ public class PlayerGetDTO {
     public void setLobbyId(long lobbyId) {
         this.lobbyId = lobbyId;
     }
-
-    private Long id;
-
-    private String playerName;
-
-    private String token;
-
-    private int totalScore;
-
-    private int roundScore;
-
-    private int streak;
-
-    private int correctAnswers;
-
-    private long lobbyId;
 }

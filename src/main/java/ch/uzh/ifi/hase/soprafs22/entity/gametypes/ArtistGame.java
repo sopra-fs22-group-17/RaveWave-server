@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ArtistGame implements GameType {
-    private Question question;
+    private final Question question;
     //private Answer answer; //überflüssig??
 
-    private PlaylistTrack[] songs;
-    private int songToPick;
-    private ArrayList<Track> answerSongs;
+    private final PlaylistTrack[] songs;
+    private final int songToPick;
+    private final ArrayList<Track> answerSongs;
 
 
     public ArtistGame(int songToPick, PlaylistTrack[] songs) {
@@ -40,12 +40,12 @@ public class ArtistGame implements GameType {
         //store id of the song to be played
         question.setPreviewUrl(((Track) songs[songToPick].getTrack()).getPreviewUrl());
 
-        StringBuilder correctAnswer= new StringBuilder();
-        for(ArtistSimplified artist : ((Track) songs[songToPick].getTrack()).getArtists()) {
+        StringBuilder correctAnswer = new StringBuilder();
+        for (ArtistSimplified artist : ((Track) songs[songToPick].getTrack()).getArtists()) {
             correctAnswer.append(artist.getName());
             correctAnswer.append(", ");
         }
-        correctAnswer.delete(correctAnswer.length()-2, correctAnswer.length());
+        correctAnswer.delete(correctAnswer.length() - 2, correctAnswer.length());
 
         ArrayList<String> answers = new ArrayList<String>();
 
@@ -66,11 +66,11 @@ public class ArtistGame implements GameType {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
             StringBuilder answer = new StringBuilder();
-            for(ArtistSimplified artist : ((Track) songs[wrongAnswerIndex].getTrack()).getArtists()) {
+            for (ArtistSimplified artist : ((Track) songs[wrongAnswerIndex].getTrack()).getArtists()) {
                 answer.append(artist.getName());
                 answer.append(", ");
             }
-            answer.delete(answer.length()-2, answer.length());
+            answer.delete(answer.length() - 2, answer.length());
             answers.add(answer.toString());
 
             answerSongs.add((Track) songs[wrongAnswerIndex].getTrack());
@@ -78,11 +78,11 @@ public class ArtistGame implements GameType {
 
         int correctAnswerIndex = rand.nextInt(4);
         answers.add(correctAnswerIndex, correctAnswer.toString());
-        answerSongs.add(correctAnswerIndex,(Track) songs[songToPick].getTrack());
+        answerSongs.add(correctAnswerIndex, (Track) songs[songToPick].getTrack());
 
         question.setAnswers(answers);
 
-        question.setCorrectAnswer(correctAnswerIndex+1);
+        question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.ARTISTGAME);
         question.setAlbumCovers(getAllAnswersSongCovers());
     }

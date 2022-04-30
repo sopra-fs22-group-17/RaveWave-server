@@ -1,8 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
-import java.security.NoSuchAlgorithmException;
-import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
-
 public class RaveWaverPutDTO {
 
     private String username;

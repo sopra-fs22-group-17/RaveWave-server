@@ -1,9 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
-import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.WebSocketService;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
@@ -18,8 +17,8 @@ import org.springframework.stereotype.Controller;
 public class WebSocketController {
     Logger log = LoggerFactory.getLogger(WebSocketController.class);
     private SimpMessageSendingOperations messTemplate;
-    private GameService gameService;
-    private WebSocketService webSocketService;
+    private final GameService gameService;
+    private final WebSocketService webSocketService;
 
     public WebSocketController(GameService gameService, WebSocketService webSocketService) {
         this.gameService = gameService;

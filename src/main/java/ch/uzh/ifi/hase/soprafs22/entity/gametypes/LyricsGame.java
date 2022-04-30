@@ -1,7 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 
 public class LyricsGame implements GameType {
     private Question question;

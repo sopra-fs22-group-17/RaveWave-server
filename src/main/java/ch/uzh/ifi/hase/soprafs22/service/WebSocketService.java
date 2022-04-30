@@ -1,8 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 
-import java.util.List;
-
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,40 +12,37 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Player;
-import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
+import java.util.List;
 
 @Service
 @Transactional
 public class WebSocketService {
 
-	Logger log = LoggerFactory.getLogger(WebSocketService.class);
+    protected final PlayerRepository playerRepo;
+    private final PlayerService playerService;
+    @Autowired // Automatic injection of beans
+    protected SimpMessagingTemplate smesg;
+    Logger log = LoggerFactory.getLogger(WebSocketService.class);
 
-	protected final PlayerRepository playerRepo;
-	private final PlayerService playerService;
+    public WebSocketService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
+                            @Lazy PlayerService playerService) {
+        this.playerRepo = playerRepository;
+        this.playerService = playerService;
+    }
 
-	public WebSocketService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
-			@Lazy PlayerService playerService) {
-		this.playerRepo = playerRepository;
-		this.playerService = playerService;
-	}
+    protected void convertAndSendToPlayer(Long id, String path, Object dto) {
+        String stringId = Long.toString(id);
+        this.smesg.convertAndSendToUser(stringId, path, dto);
+    }
 
-	@Autowired // Automatic injection of beans
-	protected SimpMessagingTemplate smesg;
+    protected void convertAndSendToAllInLobby(String path, String dest, Object dto, long lobbyId) {
+        List<Player> lobby = this.playerRepo.findByLobbyId(lobbyId);
+        for (Player player : lobby) {
+            convertAndSendToPlayer(player.getId(), path + lobbyId + dest, dto);
+        }
+    }
 
-	protected void convertAndSendToPlayer(Long id, String path, Object dto) {
-		String stringId = Long.toString(id);
-		this.smesg.convertAndSendToUser(stringId, path, dto);
-	}
-
-	protected void convertAndSendToAllInLobby(String path, String dest, Object dto, long lobbyId) {
-		List<Player> lobby = this.playerRepo.findByLobbyId(lobbyId);
-		for (Player player : lobby) {
-			convertAndSendToPlayer(player.getId(), path + lobbyId + dest, dto);
-		}
-	}
-
-    public void sendMessageToClients(String destination, Object dto){
+    public void sendMessageToClients(String destination, Object dto) {
         this.smesg.convertAndSend(destination, dto);
         //this.smesg.convertAndSendToUser(id, "/topic/testing", dto);
 

@@ -1,13 +1,12 @@
 package ch.uzh.ifi.hase.soprafs22.spotify;
 
 
-import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
-import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
 
@@ -30,7 +29,8 @@ public class GetPlaylistsItems {
 
             //System.out.println(playlistTrackPaging.getItems());
             return playlistTrackPaging.getItems();
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
+        }
+        catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
             return null;
         }

@@ -1,15 +1,15 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
-import java.security.NoSuchAlgorithmException;
-
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
+
+import java.security.NoSuchAlgorithmException;
 
 
 public class RaveWaverPostDTO {
 
 
     private String username;
-	private String password;
+    private String password;
 
     public String getUsername() {
         return username;
@@ -19,12 +19,12 @@ public class RaveWaverPostDTO {
         this.username = username;
     }
 
-	public String getPassword() {
-    return password;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setPassword(String password) throws NoSuchAlgorithmException {
-    this.password = RaveWaverService.hashPasswordSHA256(password);
-  }
+    public void setPassword(String password) throws NoSuchAlgorithmException {
+        this.password = RaveWaverService.hashPasswordSHA256(password);
+    }
 
 }

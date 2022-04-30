@@ -11,7 +11,7 @@ import java.util.UUID;
 public class PrincipalHandshake extends DefaultHandshakeHandler {
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wshandler,
-                                      Map<String, Object> attributes){
+                                      Map<String, Object> attributes) {
 
         //UUID.randomUUID().toString()
         return new StompPrincipal(UUID.randomUUID().toString());

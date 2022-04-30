@@ -3,7 +3,6 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.spotify.GetUsersTopArtistsAndTracksExample;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -13,9 +12,9 @@ import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import java.net.URI;
 
 import static ch.uzh.ifi.hase.soprafs22.spotify.GetPlaylistsItems.fetchPlaylistsItems;
-import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeUri.authorizationCodeUri_Sync;
-import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeRefresh.authorizationCodeRefresh_Sync;
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCode.authorizationCode_Sync;
+import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeRefresh.authorizationCodeRefresh_Sync;
+import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeUri.authorizationCodeUri_Sync;
 
 @Service
 @Transactional
@@ -41,11 +40,11 @@ public class SpotifyService {
             .setRedirectUri(redirectUri)
             .build();
 
-    public String authorizationCodeUri(){
+    public String authorizationCodeUri() {
         return authorizationCodeUri_Sync(spotifyApi);
     }
 
-    public void authorizationCodeRefresh(){
+    public void authorizationCodeRefresh() {
         authorizationCodeRefresh_Sync(spotifyApi);
     }
 
@@ -54,16 +53,16 @@ public class SpotifyService {
     }
 
     //TODO not working
-    public void getUsersFavoriteSongs(){
+    public void getUsersFavoriteSongs() {
         GetUsersTopArtistsAndTracksExample.getUsersTopArtistsAndTracks_Sync(spotifyApi);
     }
 
-    public PlaylistTrack[] getPlaylistsItems(String playlistId){
+    public PlaylistTrack[] getPlaylistsItems(String playlistId) {
         //TODO handle null exception
         return fetchPlaylistsItems(spotifyApi, playlistId);
     }
 
-    public String getAccessToken(){
+    public String getAccessToken() {
         return spotifyApi.getAccessToken();
     }
 }

@@ -1,7 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.utils;
 
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 
 public class Evaluator {
 
@@ -13,10 +13,10 @@ public class Evaluator {
             return 0;
         }
 
-		// Reward points to player if correctAnswer
+        // Reward points to player if correctAnswer
 
         return calculatePoints(playerAnswer, roundDuration);
-	}
+    }
 
     private static int calculatePoints(Answer answer, RoundDuration roundDuration) {
         float pointsPossible = 1000;
@@ -34,7 +34,6 @@ public class Evaluator {
         int playersGuess = playerAnswer.getplayerGuess();
         return correctAnswer == playersGuess;
     }
-
 
 
 }
