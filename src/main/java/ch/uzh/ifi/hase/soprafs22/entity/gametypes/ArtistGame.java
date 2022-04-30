@@ -55,7 +55,8 @@ public class ArtistGame implements GameType {
             wrongAnswersIndex.add(i);
         }
 
-        Random rand = new Random();
+        Random rand;
+        rand = new Random();
 
         for (int i = 0; i < 3; i++) {
             //pick a random number to compute the wrong answers
