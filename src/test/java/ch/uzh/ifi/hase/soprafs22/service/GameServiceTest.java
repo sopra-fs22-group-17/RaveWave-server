@@ -16,6 +16,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
+import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -70,6 +71,11 @@ public class GameServiceTest {
         gameService.saveAnswer(testAnswer, 1);
 
         assertEquals(testAnswer, testGame.getListOfAnswers().get(0));
+    }
+
+    @Test
+    public void starteNextRoundTest() {
+        Question testQuestion = new Question();
 
     }
 
