@@ -23,7 +23,6 @@ public class SpotifyAuthController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public SpotifyAuthCodeGetDTO generateAuthorizationCodeUri() {
-        System.out.println("We're here");
         SpotifyAuthCodeGetDTO URL = new SpotifyAuthCodeGetDTO();
         SpotifyGetDTO test = new SpotifyGetDTO();
         test.setAccessToken(spotifyService.authorizationCodeUri());
