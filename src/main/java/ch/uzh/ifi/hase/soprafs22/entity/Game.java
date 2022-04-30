@@ -50,6 +50,7 @@ public class Game {
         this.startedGame = false;
         this.gameMode = GameMode.ARTISTGAME;
         this.answers = new ArrayList<Answer>();
+        this.gameRounds = 15;
 
     }
 
@@ -152,13 +153,15 @@ public class Game {
 
         int i = 0;
         while (i < bound) {
-            int id = rand.nextInt(bound);
+            int id = rand.nextInt(songs.length);
             while (pickedSongs.contains(id)) {
-                id = rand.nextInt(bound);
+                id = rand.nextInt(songs.length);
             }
             gamePlan.add(new ArtistGame(id, songs));
             pickedSongs.add(id);
             i++;
+
+            System.out.println("round: " + i);
         }
     }
 
