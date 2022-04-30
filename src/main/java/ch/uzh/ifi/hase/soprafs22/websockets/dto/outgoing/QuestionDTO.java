@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class QuestionDTO {
     private String question;
-    private String songID;
+    private String previewURL;
     private ArrayList<AnswerOptions> answers;
 
 
@@ -17,12 +17,12 @@ public class QuestionDTO {
         this.question = question;
     }
 
-    public String getSongID() {
-        return songID;
+    public String getPreviewURL() {
+        return previewURL;
     }
 
-    public void setSongID(String songID) {
-        this.songID = songID;
+    public void setPreviewURL(String previewURL) {
+        this.previewURL = previewURL;
     }
 
     public ArrayList<AnswerOptions> getAnswers() {

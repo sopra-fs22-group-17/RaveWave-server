@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
+import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyAuthCodeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 //import ch.uzh.ifi.hase.soprafs22.spotify.GetUsersFavoriteSongs;
@@ -18,11 +19,16 @@ public class SpotifyAuthController {
 
     }
 
-    @GetMapping(value = "/Spotify/authorizationCodeUri", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "/Spotify/authorizationCodeUri")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String generateAuthorizationCodeUri() {
-        return spotifyService.authorizationCodeUri();
+    public SpotifyAuthCodeGetDTO generateAuthorizationCodeUri() {
+        SpotifyAuthCodeGetDTO URL = new SpotifyAuthCodeGetDTO();
+        SpotifyGetDTO test = new SpotifyGetDTO();
+        test.setAccessToken(spotifyService.authorizationCodeUri());
+
+        URL.setRedirectionURL(spotifyService.authorizationCodeUri());
+        return URL;
     }
 
     //get code from spotify API-Login Page

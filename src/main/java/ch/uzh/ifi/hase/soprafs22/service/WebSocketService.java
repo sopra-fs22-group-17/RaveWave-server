@@ -45,9 +45,7 @@ public class WebSocketService {
 		}
 	}
 
-    //i work bitch <3
     public void sendMessageToClients(String destination, Object dto){
-        //System.out.println(id);
         this.smesg.convertAndSend(destination, dto);
         //this.smesg.convertAndSendToUser(id, "/topic/testing", dto);
 

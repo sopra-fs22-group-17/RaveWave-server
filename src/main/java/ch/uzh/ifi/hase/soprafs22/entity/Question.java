@@ -8,18 +8,18 @@ import java.util.List;
 public class Question {
 
     private String question;
-    private String songID;
+    private String previewUrl;
     private List<String> answers;
     private int correctAnswer;
     private GameMode gamemode;
     private ArrayList<String> albumCovers;
 
-    public String getSongID() {
-        return songID;
+    public String getPreviewUrl() {
+        return previewUrl;
     }
 
-    public void setSongID(String songId) {
-        this.songID = songId;
+    public void setPreviewUrl(String songId) {
+        this.previewUrl = songId;
     }
 
     public String getQuestion() {

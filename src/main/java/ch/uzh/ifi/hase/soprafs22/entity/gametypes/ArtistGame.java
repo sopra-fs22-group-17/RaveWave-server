@@ -3,13 +3,10 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
-import se.michaelthelin.spotify.model_objects.specification.Image;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class ArtistGame implements GameType {
@@ -41,7 +38,7 @@ public class ArtistGame implements GameType {
         //TODO get all artists if there are multiple ones?
         question.setQuestion("Guess the song artist");
         //store id of the song to be played
-        question.setSongID(songs[songToPick].getTrack().getId());
+        question.setPreviewUrl(((Track) songs[songToPick].getTrack()).getPreviewUrl());
 
         StringBuilder correctAnswer= new StringBuilder();
         for(ArtistSimplified artist : ((Track) songs[songToPick].getTrack()).getArtists()) {
@@ -85,7 +82,7 @@ public class ArtistGame implements GameType {
 
         question.setAnswers(answers);
 
-        question.setCorrectAnswer(correctAnswerIndex);
+        question.setCorrectAnswer(correctAnswerIndex+1);
         question.setGamemode(GameMode.ARTISTGAME);
         question.setAlbumCovers(getAllAnswersSongCovers());
     }

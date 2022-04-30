@@ -67,9 +67,4 @@ public class WebSocketController {
         this.webSocketService.sendMessageToClients(destination, questionToSend);
     }
 
-    @MessageMapping("/lobbies/{lobbyId}/end-game")
-    public void endGame(@DestinationVariable int lobbyId) {
-        log.info("Lobby" + lobbyId + ": Game ended");
-    }
-
 }

@@ -26,7 +26,6 @@ public class AuthorizationCodeUri {
                 .build();
         final URI uri = authorizationCodeUriRequest.execute();
 
-        //System.out.println("URI: " + uri.toString());
         return uri.toString();
     }
 

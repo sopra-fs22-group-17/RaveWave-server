@@ -45,9 +45,9 @@ public interface DTOMapper {
 
     /*
      * @Mapping(source = "question", target = "question")
-     * 
+     *
      * @Mapping(source = "songID", target = "songID")
-     * 
+     *
      * @Mapping(source = "answers", target = "answers")
      * QuestionDTO convertEntityToQuestionDTO(Question question);
      */
@@ -64,5 +64,6 @@ public interface DTOMapper {
     @Mapping(source = "correctAnswers", target = "correctAnswers")
     @Mapping(source = "lobbyId", target = "lobbyId")
     PlayerGetDTO convertEntityToPlayerGetDTO(Player player);
+
 
 }

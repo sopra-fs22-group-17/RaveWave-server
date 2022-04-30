@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
-import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +75,7 @@ public class GameService {
         QuestionDTO nextQuestionDTO = new QuestionDTO();
 
         nextQuestionDTO.setQuestion(nextQuestion.getQuestion());
-        nextQuestionDTO.setSongID(nextQuestion.getSongID());
+        nextQuestionDTO.setPreviewURL(nextQuestion.getPreviewUrl());
 
         ArrayList<AnswerOptions> options = new ArrayList<AnswerOptions>();
         List<String> singleAnswer = nextQuestion.getAnswers();
