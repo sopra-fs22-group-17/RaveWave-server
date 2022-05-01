@@ -10,17 +10,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
-import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
-import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
-import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 
 public class GameServiceTest {
     @Mock
