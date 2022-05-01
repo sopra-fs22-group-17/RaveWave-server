@@ -78,6 +78,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
@@ -103,7 +104,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @AutoConfigureMockMvc
 public class WebSocketServiceTest {
 
-    static final String WEBSOCKET_URI = "ws://localhost:8080/ws";
+    static final String WEBSOCKET_URI = "ws://sopra-fs22-group17-server.herokuapp.com/ws";
     static final String WEBSOCKET_TOPIC = "/topic";
 
     BlockingQueue<String> blockingQueue;
@@ -118,14 +119,10 @@ public class WebSocketServiceTest {
 
     @Test
     public void shouldReceiveAMessageFromTheServer() throws Exception {
-        System.out.println(WEBSOCKET_URI);
 
         StompSession session = stompClient
                 .connect(WEBSOCKET_URI, new StompSessionHandlerAdapter() {})
                 .get(1, SECONDS);
-
-
-
         session.subscribe(WEBSOCKET_TOPIC, new DefaultStompFrameHandler());
 
         GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
