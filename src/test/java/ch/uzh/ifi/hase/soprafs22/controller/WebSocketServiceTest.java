@@ -63,17 +63,23 @@ public class WebSocketServiceTest {
     }
 }*/
 
+import ch.uzh.ifi.hase.soprafs22.Application;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.service.WebSocketService;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -82,11 +88,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
-import org.junit.jupiter.api.Test;
 import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.lang.reflect.Type;
 import java.util.concurrent.BlockingQueue;
@@ -96,8 +99,8 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@WebAppConfiguration
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.DEFINED_PORT)
+@AutoConfigureMockMvc
 public class WebSocketServiceTest {
 
     static final String WEBSOCKET_URI = "ws://localhost:8080/ws";
@@ -115,10 +118,14 @@ public class WebSocketServiceTest {
 
     @Test
     public void shouldReceiveAMessageFromTheServer() throws Exception {
+        System.out.println(WEBSOCKET_URI);
 
         StompSession session = stompClient
                 .connect(WEBSOCKET_URI, new StompSessionHandlerAdapter() {})
                 .get(1, SECONDS);
+
+
+
         session.subscribe(WEBSOCKET_TOPIC, new DefaultStompFrameHandler());
 
         GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();

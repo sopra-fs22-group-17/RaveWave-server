@@ -65,9 +65,6 @@ public class Game {
         return question;
     }
 
-    private void resetAnswers() {
-        this.answers.clear();
-    }
 
     public void addAnswers(Answer answer) {
         this.answers.add(answer);
@@ -111,9 +108,11 @@ public class Game {
         }
     }
 
+    //TODO in progress
+    /*
     private void updateRaveWaver() {
     }
-
+*/
     public void fillGamePlan() {
         PlaylistTrack[] songs = spotifyService.getPlaylistsItems(songGenre.getPlaylistId());
         int bound;
@@ -183,6 +182,8 @@ public class Game {
         return players;
     }
 
+    //TODO in progress
+    /*
     private List<Player> sortPlayersPreviousScore(List<Player> players) {
         int pos;
         Player temp;
@@ -200,27 +201,7 @@ public class Game {
         }
         return players;
     }
-
-    public GameMode getGameMode() {
-        return this.gameMode;
-    }
-
-    public PlaybackDuration getPlaybackDuration() {
-        return this.playbackDuration;
-    }
-
-    public int getGameRounds() {
-        return this.gameRounds;
-    }
-
-    public RoundDuration getRoundDuration() {
-        return this.roundDuration;
-    }
-
-    public SongPool getSongPool() {
-        return this.songGenre;
-    }
-
+*/
     public List<Answer> getListOfAnswers() {
         return this.answers;
     }
