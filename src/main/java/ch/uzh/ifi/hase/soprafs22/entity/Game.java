@@ -77,8 +77,8 @@ public class Game {
         distributePoints(players);
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
         leaderboardDTO.setGameOver(this.currentGameRound == this.gameRounds);
-        leaderboardDTO.setArtist(gamePlan.get(currentGameRound - 1).getQuestion().getAnswers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer()-1));
-        leaderboardDTO.setCoverUrl(gamePlan.get(currentGameRound - 1).getQuestion().getAlbumCovers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer()-1));
+        leaderboardDTO.setArtist(gamePlan.get(currentGameRound - 1).getQuestion().getAnswers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
+        leaderboardDTO.setCoverUrl(gamePlan.get(currentGameRound - 1).getQuestion().getAlbumCovers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
         leaderboardDTO.setSongTitle(gamePlan.get(currentGameRound - 1).getQuestion().getSongTitle());
         return leaderboardDTO;
     }

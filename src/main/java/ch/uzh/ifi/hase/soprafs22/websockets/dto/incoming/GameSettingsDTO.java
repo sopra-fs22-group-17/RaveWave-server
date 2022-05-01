@@ -7,11 +7,16 @@ import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 
 public class GameSettingsDTO {
 
+    private final String type = "setup";
     private RoundDuration roundDuration;
     private PlaybackDuration playBackDuration;
     private SongPool songPool;
     private int gameRounds;
     private GameMode gameMode;
+
+    public String getType() {
+        return type;
+    }
 
     public GameMode getGameMode() {
         return gameMode;

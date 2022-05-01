@@ -5,6 +5,7 @@ public class AnswerOptions {
     private int answerId;
     private String albumPicture;
 
+
     public String getAnswer() {
         return answer;
     }

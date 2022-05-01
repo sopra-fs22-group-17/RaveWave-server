@@ -34,6 +34,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
                 .setHandshakeHandler(new PrincipalHandshake());
         //.withSockJS();
     }
+
     @Bean
     public TaskScheduler heartBeatScheduler() {
         return new ThreadPoolTaskScheduler();

@@ -11,3 +11,4 @@ public class LobbyIdDTO {
         this.lobbyId = lobbyId;
     }
 }
+

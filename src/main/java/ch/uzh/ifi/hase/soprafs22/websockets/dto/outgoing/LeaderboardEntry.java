@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
 public class LeaderboardEntry {
-
     private Long playerId;
 
     private String playerName;

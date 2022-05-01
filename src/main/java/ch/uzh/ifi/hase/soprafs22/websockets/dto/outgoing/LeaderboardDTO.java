@@ -3,16 +3,16 @@ package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 import java.util.ArrayList;
 
 public class LeaderboardDTO {
-
+    private final String type = "result";
     private boolean isGameOver;
-
     private String coverUrl;
-
     private String songTitle;
-
     private String artist;
-
     private ArrayList<LeaderboardEntry> players;
+
+    public String getType() {
+        return type;
+    }
 
     public ArrayList<LeaderboardEntry> getPlayers() {
         return players;

@@ -74,9 +74,10 @@ public class ArtistGame implements GameType {
             }
             answer.delete(answer.length() - 2, answer.length());
 
-            if(answers.contains(answer.toString())){
+            if (answers.contains(answer.toString())) {
                 a++;
-            } else{
+            }
+            else {
                 answers.add(answer.toString());
             }
             answerSongs.add((Track) songs[wrongAnswerIndex].getTrack());
