@@ -73,6 +73,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
@@ -96,8 +97,7 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@WebAppConfiguration
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class WebSocketServiceTest {
 
     static final String WEBSOCKET_URI = "ws://sopra-fs22-group17-server.herokuapp.com/ws";
