@@ -74,6 +74,17 @@ public class GameTest {
 
 
         assertEquals(leaderboard.getPlayers().get(0).getPlayerId(), player1.getId());
+        assertEquals(leaderboard.getPlayers().get(0).getPlayerName(), player1.getPlayerName());
+        assertEquals(leaderboard.getPlayers().get(0).getRoundScore(), player1.getRoundScore());
+        assertEquals(leaderboard.getPlayers().get(0).getStreak(), player1.getStreak());
+        assertEquals(leaderboard.getPlayers().get(0).getPlayerPosition(), 1);
+
+        assertEquals(leaderboard.getPlayers().get(1).getPlayerId(), player2.getId());
+        assertEquals(leaderboard.getPlayers().get(1).getPlayerName(), player2.getPlayerName());
+        assertEquals(leaderboard.getPlayers().get(1).getRoundScore(), player2.getRoundScore());
+        assertEquals(leaderboard.getPlayers().get(1).getStreak(), player2.getStreak());
+        assertEquals(leaderboard.getPlayers().get(1).getPlayerPosition(), 2);
+
 
 
     }

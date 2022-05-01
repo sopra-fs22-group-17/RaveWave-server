@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.controller;
+package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
