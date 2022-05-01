@@ -62,6 +62,7 @@ public class WebSocketServiceTest {
         Mockito.verify(webSocketService, Mockito.times(1)).sendMessageToClients(Mockito.matches("/topic/lobbies/200"), Mockito.any());
     }
 }*/
+/*
 
 import ch.uzh.ifi.hase.soprafs22.Application;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
@@ -101,7 +102,7 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
 public class WebSocketServiceTest {
 
@@ -152,3 +153,4 @@ public class WebSocketServiceTest {
         }
     }
 }
+*/
