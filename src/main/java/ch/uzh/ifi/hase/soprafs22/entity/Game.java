@@ -222,14 +222,4 @@ public class Game {
         return currentGameRound != 0;
     }
 
-    public GameSettingsDTO getGameSettings(){
-        GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
-        gameSettingsDTO.setGameRounds(this.gameRounds);
-        gameSettingsDTO.setGameMode(this.gameMode);
-        gameSettingsDTO.setSongPool(this.songGenre);
-        gameSettingsDTO.setPlayBackDuration(this.playbackDuration);
-        gameSettingsDTO.setRoundDuration(this.roundDuration);
-
-        return gameSettingsDTO;
-    }
 }
