@@ -50,7 +50,9 @@ public class Question {
     }
 
     /*
-    public GameMode getGamemode() {
+    publ
+
+    ic GameMode getGamemode() {
         return gamemode;
     }
 */
