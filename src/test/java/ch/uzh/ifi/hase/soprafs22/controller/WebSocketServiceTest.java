@@ -100,7 +100,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @WebAppConfiguration
 public class WebSocketServiceTest {
 
-    static final String WEBSOCKET_URI = "ws://localhost:8080/ws";
+    static final String WEBSOCKET_URI = "ws://sopra-fs22-group17-server.herokuapp.com/ws";
     static final String WEBSOCKET_TOPIC = "/topic";
 
     BlockingQueue<String> blockingQueue;
