@@ -24,7 +24,7 @@ public class EvaluatorTest {
         int correctAnswer = 1;
         RoundDuration roundDuration = RoundDuration.TEN;
 
-        assertEquals(Evaluator.evaluation(playerAnswer, correctAnswer, roundDuration), 760);
+        assertEquals(760, Evaluator.evaluation(playerAnswer, correctAnswer, roundDuration));
     }
 
     @Test
@@ -32,6 +32,6 @@ public class EvaluatorTest {
         int correctAnswer = 2;
         RoundDuration roundDuration = RoundDuration.TEN;
 
-        assertEquals(Evaluator.evaluation(playerAnswer, correctAnswer, roundDuration), 0);
+        assertEquals(0, Evaluator.evaluation(playerAnswer, correctAnswer, roundDuration));
     }
 }
