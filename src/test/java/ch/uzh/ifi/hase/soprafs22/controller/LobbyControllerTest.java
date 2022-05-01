@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.BeforeMapping;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -93,16 +94,13 @@ public class LobbyControllerTest {
 
         mockMvc.perform(postRequest).andExpect(status().isCreated()).andExpect(jsonPath("$.lobbyId", is(1)));
     }
-/*
+
     @Test
     public void createPlayerPOSTTest() throws Exception {
     PlayerPostDTO playerPostDTO = new PlayerPostDTO();
     playerPostDTO.setPlayerName("playerName");
 
-    GameRepository.addGame(1, game);
-    given(playerService.addPlayer(player)).willReturn(player);
-    long id = player.getlobbyId();
-
+    given(playerService.addPlayer(Mockito.any())).willReturn(player);
 
     MockHttpServletRequestBuilder postRequest = post("/lobbies/1")
             .contentType(MediaType.APPLICATION_JSON)
@@ -111,6 +109,6 @@ public class LobbyControllerTest {
     mockMvc.perform(postRequest).andExpect(status().isCreated())
             .andExpect(jsonPath("$.playerName", is(player.getPlayerName())));
 
-     }*/
+     }
 
 }

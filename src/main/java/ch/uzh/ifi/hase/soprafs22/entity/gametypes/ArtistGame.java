@@ -11,7 +11,6 @@ import java.util.Random;
 
 public class ArtistGame implements GameType {
     private final Question question;
-    //private Answer answer; //überflüssig??
 
     private final PlaylistTrack[] songs;
     private final int songToPick;
@@ -19,7 +18,6 @@ public class ArtistGame implements GameType {
 
 
     public ArtistGame(int songToPick, PlaylistTrack[] songs) {
-        //TODO map songPools onto playlistIds
         this.question = new Question();
         this.songs = songs;
         this.songToPick = songToPick;
@@ -29,13 +27,7 @@ public class ArtistGame implements GameType {
     }
 
     @Override
-    public Question displayQuestion() {
-        return null;
-    }
-
-    @Override
     public void generateQuestion() {
-        //TODO get all artists if there are multiple ones?
         question.setQuestion("Guess the song artist");
         //store id of the song to be played
         question.setPreviewUrl(((Track) songs[songToPick].getTrack()).getPreviewUrl());

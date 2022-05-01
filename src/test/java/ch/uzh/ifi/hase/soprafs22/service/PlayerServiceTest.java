@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
+import ch.uzh.ifi.hase.soprafs22.entity.Game;
+import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,7 +30,10 @@ public class PlayerServiceTest {
 
     @BeforeEach
     public void setup() {
+        SpotifyService spotifyService = new SpotifyService();
+        Game game = new Game(spotifyService, SongPool.SWITZERLAND);
         MockitoAnnotations.openMocks(this);
+        GameRepository.addGame(1, game);
         // given
         testPlayer = new Player();
         testPlayer.setPlayerName("test");
@@ -35,7 +41,7 @@ public class PlayerServiceTest {
         testPlayer.setId(1L);
         Mockito.when(playerRepository.save(Mockito.any())).thenReturn(testPlayer);
     }
-/*
+
     @Test
     public void addPlayerSuccess() {
         Player createdPlayer = playerService.addPlayer(testPlayer);
@@ -57,5 +63,5 @@ public class PlayerServiceTest {
                 .thenReturn(testPlayer);
         assertThrows(ResponseStatusException.class, () -> playerService.addPlayer(testPlayer));
     }
-*/
+
 }

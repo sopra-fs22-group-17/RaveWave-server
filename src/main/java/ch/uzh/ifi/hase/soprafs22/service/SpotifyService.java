@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
-import ch.uzh.ifi.hase.soprafs22.spotify.GetUsersTopArtistsAndTracksExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -13,7 +12,6 @@ import java.net.URI;
 
 import static ch.uzh.ifi.hase.soprafs22.spotify.GetPlaylistsItems.fetchPlaylistsItems;
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCode.authorizationCode_Sync;
-import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeRefresh.authorizationCodeRefresh_Sync;
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeUri.authorizationCodeUri_Sync;
 
 @Service

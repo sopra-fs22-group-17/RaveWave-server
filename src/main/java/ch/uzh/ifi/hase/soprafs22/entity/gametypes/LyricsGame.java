@@ -8,11 +8,6 @@ public class LyricsGame implements GameType {
     private Answer answer;
 
     @Override
-    public Question displayQuestion() {
-        return null;
-    }
-
-    @Override
     public void generateQuestion() {
 
     }

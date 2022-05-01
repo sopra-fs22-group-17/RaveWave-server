@@ -49,10 +49,6 @@ public class LobbyController {
         Player playerToAdd = DTOMapper.INSTANCE.convertPlayerPostDTOtoEntity(playerPostDTO);
         playerToAdd.setLobbyId(lobbyId);
 
-        if (GameRepository.findByLobbyId(lobbyId.intValue()).hasStarted()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "The game has already started, you cannot add a user to this lobby!");
-        }
-
         Player newPlayer = playerService.addPlayer(playerToAdd);
         response.addHeader("Authorization", "Basic" + playerToAdd.getToken());
 

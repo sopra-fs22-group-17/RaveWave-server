@@ -30,6 +30,11 @@ public class PlayerService {
 
     // returns playerToken
     public Player addPlayer(Player newPlayer) {
+        Long lobbyId = newPlayer.getlobbyId();
+
+        if (GameRepository.findByLobbyId(lobbyId.intValue()).hasStarted()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "The game has already started, you cannot add a user to this lobby!");
+        }
         checkIfPlayerExists(newPlayer);
         checkIfLobbyForPlayerExists(newPlayer);
         newPlayer.setToken(UUID.randomUUID().toString());
