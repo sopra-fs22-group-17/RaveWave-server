@@ -49,10 +49,11 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
+    /*
     public GameMode getGamemode() {
         return gamemode;
     }
-
+*/
     public void setGamemode(GameMode gamemode) {
         this.gamemode = gamemode;
     }
