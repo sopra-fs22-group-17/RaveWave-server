@@ -121,6 +121,7 @@ public class Game {
         if (songs.length < gameRounds) {
             bound = songs.length;
         }
+
         else {
             bound = gameRounds;
         }
