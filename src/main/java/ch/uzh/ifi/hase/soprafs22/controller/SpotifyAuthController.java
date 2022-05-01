@@ -22,8 +22,8 @@ public class SpotifyAuthController {
     @ResponseBody
     public SpotifyAuthCodeGetDTO generateAuthorizationCodeUri() {
         SpotifyAuthCodeGetDTO URL = new SpotifyAuthCodeGetDTO();
-        SpotifyGetDTO test = new SpotifyGetDTO();
-        test.setAccessToken(spotifyService.authorizationCodeUri());
+        //SpotifyGetDTO test = new SpotifyGetDTO();
+        //test.setAccessToken(spotifyService.authorizationCodeUri());
 
         URL.setRedirectionURL(spotifyService.authorizationCodeUri());
         return URL;
