@@ -138,7 +138,7 @@ public class Game {
         }
     }
 
-    private LeaderboardDTO fillLeaderboard(List<Player> players) {
+    public LeaderboardDTO fillLeaderboard(List<Player> players) {
 
         List<Player> sortedPlayers = sortPlayers(players);
 
@@ -205,6 +205,17 @@ public class Game {
 */
     public List<Answer> getListOfAnswers() {
         return this.answers;
+    }
+
+    public GameSettingsDTO getGameSettings(){
+        GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
+        gameSettingsDTO.setGameRounds(this.gameRounds);
+        gameSettingsDTO.setGameMode(this.gameMode);
+        gameSettingsDTO.setSongPool(this.songGenre);
+        gameSettingsDTO.setPlayBackDuration(this.playbackDuration);
+        gameSettingsDTO.setRoundDuration(this.roundDuration);
+
+        return gameSettingsDTO;
     }
 
     public boolean hasStarted() {

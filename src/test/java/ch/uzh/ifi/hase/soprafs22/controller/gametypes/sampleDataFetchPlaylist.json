@@ -1,0 +1,472 @@
+{
+  "name": "sampleDataFetchPlaylist",
+  "items":{
+    "href": "https://api.spotify.com/v1/playlists/6vDGVr652ztNWKZuHvsFvx/tracks?offset=0&limit=4&market=CH&locale=en-GB,en;q=0.9",
+    "items": [
+      {
+        "added_at": "2022-04-29T11:34:15Z",
+        "added_by": {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/selectedbase"
+          },
+          "href": "https://api.spotify.com/v1/users/selectedbase",
+          "id": "selectedbase",
+          "type": "user",
+          "uri": "spotify:user:selectedbase"
+        },
+        "is_local": false,
+        "primary_color": null,
+        "track": {
+          "album": {
+            "album_type": "single",
+            "artists": [
+              {
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/2o5jDhtHVPhrJdv3cEQ99Z"
+                },
+                "href": "https://api.spotify.com/v1/artists/2o5jDhtHVPhrJdv3cEQ99Z",
+                "id": "2o5jDhtHVPhrJdv3cEQ99Z",
+                "name": "Tiësto",
+                "type": "artist",
+                "uri": "spotify:artist:2o5jDhtHVPhrJdv3cEQ99Z"
+              },
+              {
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/4npEfmQ6YuiwW1GpUmaq3F"
+                },
+                "href": "https://api.spotify.com/v1/artists/4npEfmQ6YuiwW1GpUmaq3F",
+                "id": "4npEfmQ6YuiwW1GpUmaq3F",
+                "name": "Ava Max",
+                "type": "artist",
+                "uri": "spotify:artist:4npEfmQ6YuiwW1GpUmaq3F"
+              }
+            ],
+            "external_urls": {
+              "spotify": "https://open.spotify.com/album/278z9UXJaMNDH9Bel9uAxV"
+            },
+            "href": "https://api.spotify.com/v1/albums/278z9UXJaMNDH9Bel9uAxV",
+            "id": "278z9UXJaMNDH9Bel9uAxV",
+            "images": [
+              {
+                "height": 640,
+                "url": "https://i.scdn.co/image/ab67616d0000b2736b64f7a7e0e7af3d604ab41e",
+                "width": 640
+              },
+              {
+                "height": 300,
+                "url": "https://i.scdn.co/image/ab67616d00001e026b64f7a7e0e7af3d604ab41e",
+                "width": 300
+              },
+              {
+                "height": 64,
+                "url": "https://i.scdn.co/image/ab67616d000048516b64f7a7e0e7af3d604ab41e",
+                "width": 64
+              }
+            ],
+            "name": "The Motto",
+            "release_date": "2021-11-04",
+            "release_date_precision": "day",
+            "total_tracks": 1,
+            "type": "album",
+            "uri": "spotify:album:278z9UXJaMNDH9Bel9uAxV"
+          },
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/2o5jDhtHVPhrJdv3cEQ99Z"
+              },
+              "href": "https://api.spotify.com/v1/artists/2o5jDhtHVPhrJdv3cEQ99Z",
+              "id": "2o5jDhtHVPhrJdv3cEQ99Z",
+              "name": "Tiësto",
+              "type": "artist",
+              "uri": "spotify:artist:2o5jDhtHVPhrJdv3cEQ99Z"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4npEfmQ6YuiwW1GpUmaq3F"
+              },
+              "href": "https://api.spotify.com/v1/artists/4npEfmQ6YuiwW1GpUmaq3F",
+              "id": "4npEfmQ6YuiwW1GpUmaq3F",
+              "name": "Ava Max",
+              "type": "artist",
+              "uri": "spotify:artist:4npEfmQ6YuiwW1GpUmaq3F"
+            }
+          ],
+          "disc_number": 1,
+          "duration_ms": 164818,
+          "episode": false,
+          "explicit": false,
+          "external_ids": {
+            "isrc": "CYA112001070"
+          },
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/18asYwWugKjjsihZ0YvRxO"
+          },
+          "href": "https://api.spotify.com/v1/tracks/18asYwWugKjjsihZ0YvRxO",
+          "id": "18asYwWugKjjsihZ0YvRxO",
+          "is_local": false,
+          "is_playable": true,
+          "name": "The Motto",
+          "popularity": 90,
+          "preview_url": "https://p.scdn.co/mp3-preview/bf5bc1080a2416f74152f30febd4495e310c8140?cid=adaaf209fb064dfab873a71817029e0d",
+          "track": true,
+          "track_number": 1,
+          "type": "track",
+          "uri": "spotify:track:18asYwWugKjjsihZ0YvRxO"
+        },
+        "video_thumbnail": {
+          "url": null
+        }
+      },
+      {
+        "added_at": "2022-04-29T11:34:15Z",
+        "added_by": {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/selectedbase"
+          },
+          "href": "https://api.spotify.com/v1/users/selectedbase",
+          "id": "selectedbase",
+          "type": "user",
+          "uri": "spotify:user:selectedbase"
+        },
+        "is_local": false,
+        "primary_color": null,
+        "track": {
+          "album": {
+            "album_type": "album",
+            "artists": [
+              {
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/5fMUXHkw8R8eOP2RNVYEZX"
+                },
+                "href": "https://api.spotify.com/v1/artists/5fMUXHkw8R8eOP2RNVYEZX",
+                "id": "5fMUXHkw8R8eOP2RNVYEZX",
+                "name": "Diplo",
+                "type": "artist",
+                "uri": "spotify:artist:5fMUXHkw8R8eOP2RNVYEZX"
+              }
+            ],
+            "external_urls": {
+              "spotify": "https://open.spotify.com/album/2Lm2otWdTB4ChDfvbRXHIu"
+            },
+            "href": "https://api.spotify.com/v1/albums/2Lm2otWdTB4ChDfvbRXHIu",
+            "id": "2Lm2otWdTB4ChDfvbRXHIu",
+            "images": [
+              {
+                "height": 640,
+                "url": "https://i.scdn.co/image/ab67616d0000b2732cfa4b40e2d7b56fb171dd53",
+                "width": 640
+              },
+              {
+                "height": 300,
+                "url": "https://i.scdn.co/image/ab67616d00001e022cfa4b40e2d7b56fb171dd53",
+                "width": 300
+              },
+              {
+                "height": 64,
+                "url": "https://i.scdn.co/image/ab67616d000048512cfa4b40e2d7b56fb171dd53",
+                "width": 64
+              }
+            ],
+            "name": "Diplo",
+            "release_date": "2022-03-04",
+            "release_date_precision": "day",
+            "total_tracks": 14,
+            "type": "album",
+            "uri": "spotify:album:2Lm2otWdTB4ChDfvbRXHIu"
+          },
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/5fMUXHkw8R8eOP2RNVYEZX"
+              },
+              "href": "https://api.spotify.com/v1/artists/5fMUXHkw8R8eOP2RNVYEZX",
+              "id": "5fMUXHkw8R8eOP2RNVYEZX",
+              "name": "Diplo",
+              "type": "artist",
+              "uri": "spotify:artist:5fMUXHkw8R8eOP2RNVYEZX"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/360IAlyVv4PCEVjgyMZrxK"
+              },
+              "href": "https://api.spotify.com/v1/artists/360IAlyVv4PCEVjgyMZrxK",
+              "id": "360IAlyVv4PCEVjgyMZrxK",
+              "name": "Miguel",
+              "type": "artist",
+              "uri": "spotify:artist:360IAlyVv4PCEVjgyMZrxK"
+            }
+          ],
+          "disc_number": 1,
+          "duration_ms": 199090,
+          "episode": false,
+          "explicit": false,
+          "external_ids": {
+            "isrc": "USZ4V2200009"
+          },
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/3LnETnq2xyUpKcGqAQLJy1"
+          },
+          "href": "https://api.spotify.com/v1/tracks/3LnETnq2xyUpKcGqAQLJy1",
+          "id": "3LnETnq2xyUpKcGqAQLJy1",
+          "is_local": false,
+          "is_playable": true,
+          "linked_from": {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/2OZZpID4LgZ0GGm8XB99e3"
+            },
+            "href": "https://api.spotify.com/v1/tracks/2OZZpID4LgZ0GGm8XB99e3",
+            "id": "2OZZpID4LgZ0GGm8XB99e3",
+            "type": "track",
+            "uri": "spotify:track:2OZZpID4LgZ0GGm8XB99e3"
+          },
+          "name": "Don’t Forget My Love",
+          "popularity": 67,
+          "preview_url": "https://p.scdn.co/mp3-preview/ed15f8f99e831c3689e4921df2ef280cd2f08f7e?cid=adaaf209fb064dfab873a71817029e0d",
+          "track": true,
+          "track_number": 1,
+          "type": "track",
+          "uri": "spotify:track:3LnETnq2xyUpKcGqAQLJy1"
+        },
+        "video_thumbnail": {
+          "url": null
+        }
+      },
+      {
+        "added_at": "2022-04-29T11:34:15Z",
+        "added_by": {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/selectedbase"
+          },
+          "href": "https://api.spotify.com/v1/users/selectedbase",
+          "id": "selectedbase",
+          "type": "user",
+          "uri": "spotify:user:selectedbase"
+        },
+        "is_local": false,
+        "primary_color": null,
+        "track": {
+          "album": {
+            "album_type": "single",
+            "artists": [
+              {
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/5344K3N7rx7kw1HjO8psuq"
+                },
+                "href": "https://api.spotify.com/v1/artists/5344K3N7rx7kw1HjO8psuq",
+                "id": "5344K3N7rx7kw1HjO8psuq",
+                "name": "James Carter",
+                "type": "artist",
+                "uri": "spotify:artist:5344K3N7rx7kw1HjO8psuq"
+              },
+              {
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/2xDZ8qyyE2Ti4wL1Ob1T7V"
+                },
+                "href": "https://api.spotify.com/v1/artists/2xDZ8qyyE2Ti4wL1Ob1T7V",
+                "id": "2xDZ8qyyE2Ti4wL1Ob1T7V",
+                "name": "Hanne Mjøen",
+                "type": "artist",
+                "uri": "spotify:artist:2xDZ8qyyE2Ti4wL1Ob1T7V"
+              }
+            ],
+            "external_urls": {
+              "spotify": "https://open.spotify.com/album/7qnMJEfvGH0G9X6Y3RgJrP"
+            },
+            "href": "https://api.spotify.com/v1/albums/7qnMJEfvGH0G9X6Y3RgJrP",
+            "id": "7qnMJEfvGH0G9X6Y3RgJrP",
+            "images": [
+              {
+                "height": 640,
+                "url": "https://i.scdn.co/image/ab67616d0000b2733f0b2da552c0989388b1b1a2",
+                "width": 640
+              },
+              {
+                "height": 300,
+                "url": "https://i.scdn.co/image/ab67616d00001e023f0b2da552c0989388b1b1a2",
+                "width": 300
+              },
+              {
+                "height": 64,
+                "url": "https://i.scdn.co/image/ab67616d000048513f0b2da552c0989388b1b1a2",
+                "width": 64
+              }
+            ],
+            "name": "Tell Me",
+            "release_date": "2022-02-11",
+            "release_date_precision": "day",
+            "total_tracks": 1,
+            "type": "album",
+            "uri": "spotify:album:7qnMJEfvGH0G9X6Y3RgJrP"
+          },
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/5344K3N7rx7kw1HjO8psuq"
+              },
+              "href": "https://api.spotify.com/v1/artists/5344K3N7rx7kw1HjO8psuq",
+              "id": "5344K3N7rx7kw1HjO8psuq",
+              "name": "James Carter",
+              "type": "artist",
+              "uri": "spotify:artist:5344K3N7rx7kw1HjO8psuq"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/2xDZ8qyyE2Ti4wL1Ob1T7V"
+              },
+              "href": "https://api.spotify.com/v1/artists/2xDZ8qyyE2Ti4wL1Ob1T7V",
+              "id": "2xDZ8qyyE2Ti4wL1Ob1T7V",
+              "name": "Hanne Mjøen",
+              "type": "artist",
+              "uri": "spotify:artist:2xDZ8qyyE2Ti4wL1Ob1T7V"
+            }
+          ],
+          "disc_number": 1,
+          "duration_ms": 127500,
+          "episode": false,
+          "explicit": false,
+          "external_ids": {
+            "isrc": "DES232200050"
+          },
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/19BoXyNUZB8M9PgAyMHVRg"
+          },
+          "href": "https://api.spotify.com/v1/tracks/19BoXyNUZB8M9PgAyMHVRg",
+          "id": "19BoXyNUZB8M9PgAyMHVRg",
+          "is_local": false,
+          "is_playable": true,
+          "name": "Tell Me",
+          "popularity": 64,
+          "preview_url": "https://p.scdn.co/mp3-preview/92bb96da11e62c5db42b315d066b64e078246630?cid=adaaf209fb064dfab873a71817029e0d",
+          "track": true,
+          "track_number": 1,
+          "type": "track",
+          "uri": "spotify:track:19BoXyNUZB8M9PgAyMHVRg"
+        },
+        "video_thumbnail": {
+          "url": null
+        }
+      },
+      {
+        "added_at": "2022-04-29T11:34:15Z",
+        "added_by": {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/selectedbase"
+          },
+          "href": "https://api.spotify.com/v1/users/selectedbase",
+          "id": "selectedbase",
+          "type": "user",
+          "uri": "spotify:user:selectedbase"
+        },
+        "is_local": false,
+        "primary_color": null,
+        "track": {
+          "album": {
+            "album_type": "single",
+            "artists": [
+              {
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/656ibQgcoUQrUPdhQWRcI3"
+                },
+                "href": "https://api.spotify.com/v1/artists/656ibQgcoUQrUPdhQWRcI3",
+                "id": "656ibQgcoUQrUPdhQWRcI3",
+                "name": "SOMMA",
+                "type": "artist",
+                "uri": "spotify:artist:656ibQgcoUQrUPdhQWRcI3"
+              },
+              {
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/7ypPN35cJ9wfF2Zs7aYS33"
+                },
+                "href": "https://api.spotify.com/v1/artists/7ypPN35cJ9wfF2Zs7aYS33",
+                "id": "7ypPN35cJ9wfF2Zs7aYS33",
+                "name": "Dillistone",
+                "type": "artist",
+                "uri": "spotify:artist:7ypPN35cJ9wfF2Zs7aYS33"
+              }
+            ],
+            "external_urls": {
+              "spotify": "https://open.spotify.com/album/3B90f5X9qYr2MFflbC8tRu"
+            },
+            "href": "https://api.spotify.com/v1/albums/3B90f5X9qYr2MFflbC8tRu",
+            "id": "3B90f5X9qYr2MFflbC8tRu",
+            "images": [
+              {
+                "height": 640,
+                "url": "https://i.scdn.co/image/ab67616d0000b273e54f11ce3072698a801559d9",
+                "width": 640
+              },
+              {
+                "height": 300,
+                "url": "https://i.scdn.co/image/ab67616d00001e02e54f11ce3072698a801559d9",
+                "width": 300
+              },
+              {
+                "height": 64,
+                "url": "https://i.scdn.co/image/ab67616d00004851e54f11ce3072698a801559d9",
+                "width": 64
+              }
+            ],
+            "name": "Body on Fire",
+            "release_date": "2022-04-01",
+            "release_date_precision": "day",
+            "total_tracks": 2,
+            "type": "album",
+            "uri": "spotify:album:3B90f5X9qYr2MFflbC8tRu"
+          },
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/656ibQgcoUQrUPdhQWRcI3"
+              },
+              "href": "https://api.spotify.com/v1/artists/656ibQgcoUQrUPdhQWRcI3",
+              "id": "656ibQgcoUQrUPdhQWRcI3",
+              "name": "SOMMA",
+              "type": "artist",
+              "uri": "spotify:artist:656ibQgcoUQrUPdhQWRcI3"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/7ypPN35cJ9wfF2Zs7aYS33"
+              },
+              "href": "https://api.spotify.com/v1/artists/7ypPN35cJ9wfF2Zs7aYS33",
+              "id": "7ypPN35cJ9wfF2Zs7aYS33",
+              "name": "Dillistone",
+              "type": "artist",
+              "uri": "spotify:artist:7ypPN35cJ9wfF2Zs7aYS33"
+            }
+          ],
+          "disc_number": 1,
+          "duration_ms": 159180,
+          "episode": false,
+          "explicit": false,
+          "external_ids": {
+            "isrc": "DES232200150"
+          },
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/5Bl32FoKm0kTiMe6hcRNkV"
+          },
+          "href": "https://api.spotify.com/v1/tracks/5Bl32FoKm0kTiMe6hcRNkV",
+          "id": "5Bl32FoKm0kTiMe6hcRNkV",
+          "is_local": false,
+          "is_playable": true,
+          "name": "Body on Fire",
+          "popularity": 62,
+          "preview_url": "https://p.scdn.co/mp3-preview/4214e7f92a516481d7f04061173cdf0e8a3563d7?cid=adaaf209fb064dfab873a71817029e0d",
+          "track": true,
+          "track_number": 1,
+          "type": "track",
+          "uri": "spotify:track:5Bl32FoKm0kTiMe6hcRNkV"
+        },
+        "video_thumbnail": {
+          "url": null
+        }
+      }
+    ],
+    "limit": 4,
+    "next": "https://api.spotify.com/v1/playlists/6vDGVr652ztNWKZuHvsFvx/tracks?offset=4&limit=4&market=CH&locale=en-GB,en;q=0.9",
+    "offset": 0,
+    "previous": null,
+    "total": 90
+  }
+}
