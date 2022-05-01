@@ -207,6 +207,17 @@ public class Game {
         return this.answers;
     }
 
+    public GameSettingsDTO getGameSettings(){
+        GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
+        gameSettingsDTO.setGameRounds(this.gameRounds);
+        gameSettingsDTO.setGameMode(this.gameMode);
+        gameSettingsDTO.setSongPool(this.songGenre);
+        gameSettingsDTO.setPlayBackDuration(this.playbackDuration);
+        gameSettingsDTO.setRoundDuration(this.roundDuration);
+
+        return gameSettingsDTO;
+    }
+
     public boolean hasStarted() {
         return currentGameRound != 0;
     }
