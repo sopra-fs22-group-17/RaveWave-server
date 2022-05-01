@@ -30,18 +30,6 @@ public class WebSocketService {
         this.playerService = playerService;
     }
 
-    protected void convertAndSendToPlayer(Long id, String path, Object dto) {
-        String stringId = Long.toString(id);
-        this.smesg.convertAndSendToUser(stringId, path, dto);
-    }
-
-    protected void convertAndSendToAllInLobby(String path, String dest, Object dto, long lobbyId) {
-        List<Player> lobby = this.playerRepo.findByLobbyId(lobbyId);
-        for (Player player : lobby) {
-            convertAndSendToPlayer(player.getId(), path + lobbyId + dest, dto);
-        }
-    }
-
     public void sendMessageToClients(String destination, Object dto) {
         this.smesg.convertAndSend(destination, dto);
 

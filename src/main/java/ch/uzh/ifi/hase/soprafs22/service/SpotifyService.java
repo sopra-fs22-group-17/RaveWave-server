@@ -41,19 +41,19 @@ public class SpotifyService {
         return authorizationCodeUri_Sync(spotifyApi);
     }
 
-    public void authorizationCodeRefresh() {
+    /*public void authorizationCodeRefresh() {
         authorizationCodeRefresh_Sync(spotifyApi);
-    }
+    }*/
 
 
     public void authorizationCode(SpotifyPostDTO spotifyPostDTO) {
         authorizationCode_Sync(spotifyApi, spotifyPostDTO.getCode());
     }
 
-    //TODO not working
+    /*
     public void getUsersFavoriteSongs() {
         GetUsersTopArtistsAndTracksExample.getUsersTopArtistsAndTracks_Sync(spotifyApi);
-    }
+    }*/
 
     public PlaylistTrack[] getPlaylistsItems(String playlistId) {
         return fetchPlaylistsItems(spotifyApi, playlistId);
