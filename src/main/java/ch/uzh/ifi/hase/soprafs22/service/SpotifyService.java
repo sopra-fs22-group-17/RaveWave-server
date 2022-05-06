@@ -23,7 +23,7 @@ public class SpotifyService {
     private static final String clientSecret = System.getenv("clientSecret");
 
     // clientSecret for localhost
-    // private static final String clientSecret = "";
+    //private static final String clientSecret = "";
 
     private static final URI redirectUri = SpotifyHttpManager
             .makeUri("https://sopra-fs22-group17-clientv2.herokuapp.com/selectgamemode");

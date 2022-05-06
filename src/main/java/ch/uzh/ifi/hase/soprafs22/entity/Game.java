@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
+import ch.uzh.ifi.hase.soprafs22.entity.gametypes.SongTitleGame;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -33,12 +34,12 @@ public class Game {
     private int gameRounds;
     private int currentGameRound;
 
-    public Game(SpotifyService spotifyService, SongPool songGenre) {
+    public Game(SpotifyService spotifyService, SongPool songGenre, GameMode gameMode) {
         this.spotifyService = spotifyService;
         this.gamePlan = new ArrayList<>();
         this.songGenre = songGenre;
         this.currentGameRound = 0;
-        this.gameMode = GameMode.ARTISTGAME;
+        this.gameMode = gameMode;
         this.answers = new ArrayList<>();
         this.gameRounds = 15;
         this.rand = new Random();
@@ -124,13 +125,7 @@ public class Game {
         }
         int bound;
         ArrayList<Integer> pickedSongs = new ArrayList<>();
-        if (songs.size() < gameRounds) {
-            bound = songs.size();
-        }
-
-        else {
-            bound = gameRounds;
-        }
+        bound = Math.min(songs.size(), gameRounds);
 
         int i = 0;
         while (i < bound) {
@@ -138,10 +133,9 @@ public class Game {
             while (pickedSongs.contains(id)) {
                 id = rand.nextInt(songs.size());
             }
-            gamePlan.add(new ArtistGame(id, songs));
+            gamePlan.add(new SongTitleGame(id, songs));
             pickedSongs.add(id);
             i++;
-
         }
     }
 

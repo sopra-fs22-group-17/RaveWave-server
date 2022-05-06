@@ -3,12 +3,14 @@ package ch.uzh.ifi.hase.soprafs22.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.server.ResponseStatusException;
 
 public class GameRepositoryTest {
@@ -22,7 +24,7 @@ public class GameRepositoryTest {
     @BeforeEach
     void setup() {
         spotifyService = new SpotifyService();
-        game = new Game(spotifyService, SongPool.SWITZERLAND);
+        game = new Game(spotifyService, SongPool.SWITZERLAND, GameMode.SONGTITLEGAME);
         GameRepository.addGame(1, game);
     }
 

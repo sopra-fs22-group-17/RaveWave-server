@@ -8,14 +8,14 @@ import se.michaelthelin.spotify.model_objects.specification.Track;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ArtistGame implements GameType {
+public class SongTitleGame implements GameType {
 
     private final Question question;
     private final ArrayList<Track> songs;
     private final int songToPick;
     private final ArrayList<Track> answerSongs;
 
-    public ArtistGame(int songToPick, ArrayList<Track> songs) {
+    public SongTitleGame(int songToPick, ArrayList<Track> songs) {
         this.question = new Question();
         this.songs = songs;
         this.songToPick = songToPick;
@@ -25,16 +25,10 @@ public class ArtistGame implements GameType {
 
     @Override
     public void generateQuestion() {
-        question.setQuestion("Guess the song artist");
-        // store id of the song to be played
+        question.setQuestion("Guess the song title");
         question.setPreviewUrl(songs.get(songToPick).getPreviewUrl());
 
-        StringBuilder correctAnswer = new StringBuilder();
-        for (ArtistSimplified artist : songs.get(songToPick).getArtists()) {
-            correctAnswer.append(artist.getName());
-            correctAnswer.append(", ");
-        }
-        correctAnswer.delete(correctAnswer.length() - 2, correctAnswer.length());
+        String correctAnswer = songs.get(songToPick).getName();
 
         ArrayList<String> answers = new ArrayList<String>();
 
@@ -55,28 +49,23 @@ public class ArtistGame implements GameType {
             while (wrongAnswerIndex == songToPick && wrongAnswersIndex.size() > 0) {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
-            StringBuilder answer = new StringBuilder();
-            for (ArtistSimplified artist : songs.get(wrongAnswerIndex).getArtists()) {
-                answer.append(artist.getName());
-                answer.append(", ");
-            }
-            answer.delete(answer.length() - 2, answer.length());
+            String answer = songs.get(wrongAnswerIndex).getName();
 
-            if (answers.contains(answer.toString())) {
+            if (answers.contains(answer)) {
                 a++;
             } else {
-                answers.add(answer.toString());
+                answers.add(answer);
             }
             answerSongs.add(songs.get(wrongAnswerIndex));
         }
 
         int correctAnswerIndex = rand.nextInt(4);
-        answers.add(correctAnswerIndex, correctAnswer.toString());
+        answers.add(correctAnswerIndex, correctAnswer);
         answerSongs.add(correctAnswerIndex, songs.get(songToPick));
 
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
-        question.setGamemode(GameMode.ARTISTGAME);
+        question.setGamemode(GameMode.SONGTITLEGAME);
         question.setAlbumCovers(getAllAnswersSongCovers());
         question.setSongTitle(songs.get(songToPick).getName());
 

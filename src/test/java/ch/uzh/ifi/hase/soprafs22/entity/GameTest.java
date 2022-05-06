@@ -31,7 +31,7 @@ public class GameTest {
 
     @BeforeEach
     void setup() {
-        game = new Game(spotifyService, SongPool.SWITZERLAND);
+        game = new Game(spotifyService, SongPool.SWITZERLAND, GameMode.ARTISTGAME);
           }
 
     @Test
@@ -94,7 +94,7 @@ public class GameTest {
         Player player2 = new Player();
         Player player3 = new Player();
 
-        game = new Game(spotifyService, SongPool.SWITZERLAND);
+        game = new Game(spotifyService, SongPool.SWITZERLAND, GameMode.ARTISTGAME);
 
         ArrayList<Player> players = new ArrayList<>();
 

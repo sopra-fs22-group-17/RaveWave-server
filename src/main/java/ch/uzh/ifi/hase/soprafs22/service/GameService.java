@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
@@ -39,7 +40,7 @@ public class GameService {
 
     public int createNewLobby(SpotifyService spotifyService) {
         lobbyToCreate++;
-        Game newGame = new Game(spotifyService, SongPool.SWITZERLAND);
+        Game newGame = new Game(spotifyService, SongPool.SWITZERLAND, GameMode.SONGTITLEGAME);
         GameRepository.addGame(lobbyToCreate, newGame);
         return lobbyToCreate;
     }
