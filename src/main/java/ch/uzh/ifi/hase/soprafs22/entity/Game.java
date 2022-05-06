@@ -13,6 +13,7 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardEntry;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +116,8 @@ public class Game {
 */
     public void fillGamePlan() {
         PlaylistTrack[] songs = spotifyService.getPlaylistsItems(songGenre.getPlaylistId());
+
+
         int bound;
         ArrayList<Integer> pickedSongs = new ArrayList<>();
         if (songs.length < gameRounds) {
