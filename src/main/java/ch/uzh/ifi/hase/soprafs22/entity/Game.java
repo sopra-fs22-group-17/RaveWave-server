@@ -13,8 +13,10 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardEntry;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -43,7 +45,6 @@ public class Game {
 
     }
 
-
     public void updateGameSettings(GameSettingsDTO updatedSettings) {
         this.roundDuration = updatedSettings.getRoundDuration();
         this.playbackDuration = updatedSettings.getPlayBackDuration();
@@ -65,7 +66,6 @@ public class Game {
         return question;
     }
 
-
     public void addAnswers(Answer answer) {
         this.answers.add(answer);
     }
@@ -74,8 +74,10 @@ public class Game {
         distributePoints(players);
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
         leaderboardDTO.setGameOver(this.currentGameRound == this.gameRounds);
-        leaderboardDTO.setArtist(gamePlan.get(currentGameRound - 1).getQuestion().getAnswers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
-        leaderboardDTO.setCoverUrl(gamePlan.get(currentGameRound - 1).getQuestion().getAlbumCovers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
+        leaderboardDTO.setArtist(gamePlan.get(currentGameRound - 1).getQuestion().getAnswers()
+                .get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
+        leaderboardDTO.setCoverUrl(gamePlan.get(currentGameRound - 1).getQuestion().getAlbumCovers()
+                .get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
         leaderboardDTO.setSongTitle(gamePlan.get(currentGameRound - 1).getQuestion().getSongTitle());
         return leaderboardDTO;
     }
@@ -101,24 +103,29 @@ public class Game {
 
             if (points != 0) {
                 player.setStreak(player.getStreak() + 1);
-            }
-            else {
+            } else {
                 player.setStreak(0);
             }
         }
     }
 
-    //TODO in progress
+    // TODO in progress
     /*
-    private void updateRaveWaver() {
-    }
-*/
+     * private void updateRaveWaver() {
+     * }
+     */
     public void fillGamePlan() {
-        PlaylistTrack[] songs = spotifyService.getPlaylistsItems(songGenre.getPlaylistId());
+        ArrayList<Track> songs;
+        if (this.songGenre == SongPool.USERSTOPTRACKS) {
+            songs = trackToTrackList(spotifyService.getPersonalizedPlaylistsItems());
+
+        } else {
+            songs = playlistTrackToTrackList(spotifyService.getPlaylistsItems(songGenre.getPlaylistId()));
+        }
         int bound;
         ArrayList<Integer> pickedSongs = new ArrayList<>();
-        if (songs.length < gameRounds) {
-            bound = songs.length;
+        if (songs.size() < gameRounds) {
+            bound = songs.size();
         }
 
         else {
@@ -127,9 +134,9 @@ public class Game {
 
         int i = 0;
         while (i < bound) {
-            int id = rand.nextInt(songs.length);
+            int id = rand.nextInt(songs.size());
             while (pickedSongs.contains(id)) {
-                id = rand.nextInt(songs.length);
+                id = rand.nextInt(songs.size());
             }
             gamePlan.add(new ArtistGame(id, songs));
             pickedSongs.add(id);
@@ -160,7 +167,6 @@ public class Game {
         LeaderboardDTO leaderboard = new LeaderboardDTO();
         leaderboard.setPlayers(playersRankingInformation);
 
-
         return leaderboard;
     }
 
@@ -170,12 +176,13 @@ public class Game {
         for (int i = 0; i < players.size(); i++) {
             pos = i;
             for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(j).getTotalScore() > players.get(pos).getTotalScore())                  //find the index of the minimum element
+                if (players.get(j).getTotalScore() > players.get(pos).getTotalScore()) // find the index of the minimum
+                                                                                       // element
                 {
                     pos = j;
                 }
             }
-            temp = players.get(pos);  //swap the current element with the minimum element
+            temp = players.get(pos); // swap the current element with the minimum element
 
             players.set(pos, players.get(i));
             players.set(i, temp);
@@ -183,31 +190,33 @@ public class Game {
         return players;
     }
 
-    //TODO in progress
+    // TODO in progress
     /*
-    private List<Player> sortPlayersPreviousScore(List<Player> players) {
-        int pos;
-        Player temp;
-        for (int i = 0; i < players.size(); i++) {
-            pos = i;
-            for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(j).getTotalScore() - players.get(j).getRoundScore() > players.get(pos).getTotalScore() - players.get(pos).getRoundScore())                  //find the index of the minimum element
-                {
-                    pos = j;
-                }
-            }
-            temp = players.get(pos);  //swap the current element with the minimum element
-            players.set(pos, players.get(i));
-            players.set(i, temp);
-        }
-        return players;
-    }
-*/
+     * private List<Player> sortPlayersPreviousScore(List<Player> players) {
+     * int pos;
+     * Player temp;
+     * for (int i = 0; i < players.size(); i++) {
+     * pos = i;
+     * for (int j = i + 1; j < players.size(); j++) {
+     * if (players.get(j).getTotalScore() - players.get(j).getRoundScore() >
+     * players.get(pos).getTotalScore() - players.get(pos).getRoundScore()) //find
+     * the index of the minimum element
+     * {
+     * pos = j;
+     * }
+     * }
+     * temp = players.get(pos); //swap the current element with the minimum element
+     * players.set(pos, players.get(i));
+     * players.set(i, temp);
+     * }
+     * return players;
+     * }
+     */
     public List<Answer> getListOfAnswers() {
         return this.answers;
     }
 
-    public GameSettingsDTO getGameSettings(){
+    public GameSettingsDTO getGameSettings() {
         GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
         gameSettingsDTO.setGameRounds(this.gameRounds);
         gameSettingsDTO.setGameMode(this.gameMode);
@@ -222,4 +231,17 @@ public class Game {
         return currentGameRound != 0;
     }
 
+    private ArrayList<Track> playlistTrackToTrackList(PlaylistTrack[] playlist) {
+        ArrayList songs = new ArrayList<>();
+        ArrayList playlistArray = new ArrayList<PlaylistTrack>(Arrays.asList(playlist));
+        for (int i = 0; i < playlist.length; i++) {
+            songs.add(((PlaylistTrack) playlistArray.get(i)).getTrack());
+        }
+
+        return songs;
+    }
+
+    private ArrayList<Track> trackToTrackList(Track[] tracks) {
+        return new ArrayList<Track>(Arrays.asList(tracks));
+    }
 }
