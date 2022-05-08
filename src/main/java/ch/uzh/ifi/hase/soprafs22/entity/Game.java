@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
+import ch.uzh.ifi.hase.soprafs22.entity.gametypes.AlbumCoverGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.SongTitleGame;
@@ -23,7 +24,7 @@ import java.util.Random;
 
 public class Game {
 
-    private final GameMode gameMode;
+    private GameMode gameMode;
     private final ArrayList<GameType> gamePlan;
     private final ArrayList<Answer> answers;
     private final SpotifyService spotifyService;
@@ -51,12 +52,13 @@ public class Game {
         this.playbackDuration = updatedSettings.getPlayBackDuration();
         this.songGenre = updatedSettings.getSongPool();
         this.gameRounds = updatedSettings.getGameRounds();
+        this.gameMode = updatedSettings.getGameMode();
+        System.out.println("update Game settings, neue mode:"+ this.gameMode);
     }
 
     // TODO exception
     public void startGame() {
         fillGamePlan();
-
     }
 
     public Question startNextTurn() {
@@ -130,10 +132,15 @@ public class Game {
         int i = 0;
         while (i < bound) {
             int id = rand.nextInt(songs.size());
-            while (pickedSongs.contains(id)) {
+            while (pickedSongs.contains(id) || songs.get(id).getPreviewUrl() == null || songs.get(id).getAlbum().getImages()[1] == null) {
                 id = rand.nextInt(songs.size());
             }
-            gamePlan.add(new SongTitleGame(id, songs));
+            if (this.gameMode == GameMode.ARTISTGAME){
+            gamePlan.add(new ArtistGame(id, songs));}
+            else if (this.gameMode == GameMode.SONGTITLEGAME){
+                gamePlan.add(new SongTitleGame(id, songs));
+            } else {gamePlan.add(new ArtistGame(id, songs));
+                System.out.println("didn't work");}
             pickedSongs.add(id);
             i++;
         }

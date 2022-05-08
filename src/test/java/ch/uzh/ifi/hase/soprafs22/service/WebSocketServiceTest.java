@@ -23,7 +23,7 @@ public class WebSocketServiceTest {
     @BeforeEach
     void setup(){
         MockitoAnnotations.openMocks(this);
-        testLobby = new Game(new SpotifyService(), SongPool.LATINO);
+        testLobby = new Game(new SpotifyService(), SongPool.LATINO, GameMode.ARTISTGAME);
         GameRepository.addGame(200, testLobby);
 
     }

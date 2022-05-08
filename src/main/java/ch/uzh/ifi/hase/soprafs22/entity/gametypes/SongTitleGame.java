@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
-import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
@@ -66,7 +65,7 @@ public class SongTitleGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.SONGTITLEGAME);
-        question.setAlbumCovers(getAllAnswersSongCovers());
+        question.setAlbumCovers(getSongCovers());
         question.setSongTitle(songs.get(songToPick).getName());
 
     }
@@ -81,7 +80,8 @@ public class SongTitleGame implements GameType {
         return question.getCorrectAnswer();
     }
 
-    public ArrayList<String> getAllAnswersSongCovers() {
+    @Override
+    public ArrayList<String> getSongCovers() {
         ArrayList<String> albumCovers = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {

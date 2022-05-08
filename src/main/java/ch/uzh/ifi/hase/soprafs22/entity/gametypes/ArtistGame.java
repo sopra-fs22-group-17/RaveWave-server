@@ -77,7 +77,7 @@ public class ArtistGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.ARTISTGAME);
-        question.setAlbumCovers(getAllAnswersSongCovers());
+        question.setAlbumCovers(getSongCovers());
         question.setSongTitle(songs.get(songToPick).getName());
 
     }
@@ -92,7 +92,8 @@ public class ArtistGame implements GameType {
         return question.getCorrectAnswer();
     }
 
-    public ArrayList<String> getAllAnswersSongCovers() {
+    @Override
+    public ArrayList<String> getSongCovers() {
         ArrayList<String> albumCovers = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {

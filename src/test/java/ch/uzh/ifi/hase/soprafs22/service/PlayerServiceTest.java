@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
@@ -31,7 +32,7 @@ public class PlayerServiceTest {
     @BeforeEach
     public void setup() {
         SpotifyService spotifyService = new SpotifyService();
-        Game game = new Game(spotifyService, SongPool.SWITZERLAND);
+        Game game = new Game(spotifyService, SongPool.SWITZERLAND, GameMode.ARTISTGAME);
         MockitoAnnotations.openMocks(this);
         GameRepository.addGame(1, game);
         // given
