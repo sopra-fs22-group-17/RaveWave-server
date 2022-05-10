@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.repository;
-
+/*
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -62,5 +62,6 @@ public class RaveWaverRepositoryTest {
         assertEquals(raveWaver.getLevel(), found.getLevel());
         assertEquals(raveWaver.getCreationDate(), found.getCreationDate());
     }*/
-
+/*
 }
+*/
