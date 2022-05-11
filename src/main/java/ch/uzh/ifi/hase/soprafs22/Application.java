@@ -13,6 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class Application {
 
     public static void main(String[] args) {
+        System.out.println(System.getenv("SPRING_DATASOURCE_URL"));
+        System.out.println(System.getenv("SPRING_DATASOURCE_USERNAME"));
         SpringApplication.run(Application.class, args);
     }
 
