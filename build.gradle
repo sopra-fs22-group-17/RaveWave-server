@@ -53,6 +53,9 @@ dependencies {
     implementation 'se.michaelthelin.spotify:spotify-web-api-java:7.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-websocket:2.6.5'
 
+    implementation 'org.springframework:spring-jdbc:5.2.21.RELEASE'
+
+    implementation 'org.postgresql:postgresql:42.3.4'
 }
 
 bootJar {
