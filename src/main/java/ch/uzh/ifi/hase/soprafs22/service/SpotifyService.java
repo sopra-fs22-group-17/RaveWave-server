@@ -59,4 +59,8 @@ public class SpotifyService {
     public String getAccessToken() {
         return spotifyApi.getAccessToken();
     }
+
+    public String getRefreshToken(){
+        return spotifyApi.getRefreshToken();
+    }
 }

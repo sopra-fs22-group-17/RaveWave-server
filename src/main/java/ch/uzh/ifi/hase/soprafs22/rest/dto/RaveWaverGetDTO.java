@@ -6,9 +6,10 @@ public class RaveWaverGetDTO {
 
     private Long id;
     private String username;
-    private String token;
     private int level;
-    private String spotifyToken;
+    //private String spotifyToken;
+
+    //private String spotifyRefreshToken;
     private LocalDate creationDate;
 
     public Long getId() {
@@ -27,28 +28,12 @@ public class RaveWaverGetDTO {
         this.username = username;
     }
 
-    public String getToken() {
-        return this.token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public int getLevel() {
         return this.level;
     }
 
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public String getSpotifyToken() {
-        return this.spotifyToken;
-    }
-
-    public void setSpotifyToken(String spotifyToken) {
-        this.spotifyToken = spotifyToken;
     }
 
     public LocalDate getCreationDate() {
@@ -58,4 +43,5 @@ public class RaveWaverGetDTO {
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
+
 }

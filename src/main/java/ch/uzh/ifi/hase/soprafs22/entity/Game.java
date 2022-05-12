@@ -53,7 +53,6 @@ public class Game {
         this.songGenre = updatedSettings.getSongPool();
         this.gameRounds = updatedSettings.getGameRounds();
         this.gameMode = updatedSettings.getGameMode();
-        System.out.println("update Game settings, neue mode:"+ this.gameMode);
     }
 
     // TODO exception
@@ -193,26 +192,24 @@ public class Game {
 
     // TODO in progress
     /*
-     * private List<Player> sortPlayersPreviousScore(List<Player> players) {
-     * int pos;
-     * Player temp;
-     * for (int i = 0; i < players.size(); i++) {
-     * pos = i;
-     * for (int j = i + 1; j < players.size(); j++) {
-     * if (players.get(j).getTotalScore() - players.get(j).getRoundScore() >
-     * players.get(pos).getTotalScore() - players.get(pos).getRoundScore()) //find
-     * the index of the minimum element
-     * {
-     * pos = j;
-     * }
-     * }
-     * temp = players.get(pos); //swap the current element with the minimum element
-     * players.set(pos, players.get(i));
-     * players.set(i, temp);
-     * }
-     * return players;
-     * }
-     */
+    private List<Player> sortPlayersPreviousScore(List<Player> players) {
+        int pos;
+        Player temp;
+        for (int i = 0; i < players.size(); i++) {
+            pos = i;
+            for (int j = i + 1; j < players.size(); j++) {
+                if (players.get(j).getTotalScore() - players.get(j).getRoundScore() > players.get(pos).getTotalScore() - players.get(pos).getRoundScore())                  //find the index of the minimum element
+                {
+                    pos = j;
+                }
+            }
+            temp = players.get(pos);  //swap the current element with the minimum element
+            players.set(pos, players.get(i));
+            players.set(i, temp);
+        }
+        return players;
+    }
+*/
     public List<Answer> getListOfAnswers() {
         return this.answers;
     }

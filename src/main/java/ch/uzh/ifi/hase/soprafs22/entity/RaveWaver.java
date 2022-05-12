@@ -34,8 +34,11 @@ public class RaveWaver implements Serializable {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(unique = true)
+    @Column
     private String spotifyToken;
+
+    @Column
+    private String spotifyRefreshToken;
 
     @Column(nullable = false)
     private LocalDate creationDate;
@@ -45,6 +48,14 @@ public class RaveWaver implements Serializable {
 
     @Column(nullable = true)
     private byte[] profilePicture;
+
+    public String getSpotifyRefreshToken() {
+        return spotifyRefreshToken;
+    }
+
+    public void setSpotifyRefreshToken(String spotifyRefreshToken) {
+        this.spotifyRefreshToken = spotifyRefreshToken;
+    }
 
     public Long getId() {
         return id;

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -104,6 +105,7 @@ public class RaveWaverService {
         RaveWaver raveWaver = getUserByUsername(loginPostDTO.getUsername());
 
         RaveWaverService.verifyPassword(raveWaver.getPassword(), loginPostDTO.getPassword());
+
         // set user online
         return raveWaver;
     }
@@ -128,6 +130,18 @@ public class RaveWaverService {
         return optionalRaveWaver.get();
     }
 
+    public RaveWaver getRaveWaverByToken(String token) {
+        // Get user from repo by id
+        RaveWaver raveWaver = this.raveWaverRepository.findByToken(token);
+
+        if(raveWaver == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "A RaveWaver with the given token does not exist!");
+        }
+
+        // return user
+        return raveWaver;
+    }
+
     private void checkIfIdExists(Optional<RaveWaver> userToBeUpdated, Long id) {
         if (!userToBeUpdated.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -140,4 +154,13 @@ public class RaveWaverService {
 
         return raveWaverToUpdate;
     }
+
+    public void updateSpotifyToken(HttpServletRequest token, SpotifyService spotifyService){
+        String tokenString = token.getHeader("Authorization");
+        RaveWaver raveWaverToUpdate = getRaveWaverByToken(tokenString);
+        raveWaverToUpdate.setSpotifyToken(spotifyService.getAccessToken());
+        raveWaverToUpdate.setSpotifyRefreshToken(spotifyService.getRefreshToken());
+    }
+
+
 }

@@ -135,7 +135,7 @@ public class RaveWaverControllerTest {
 
     given(raveWaverService.loginRaveWaver(Mockito.any())).willReturn(raveWaver);
 
-    MockHttpServletRequestBuilder postRequest = post("/login")
+    MockHttpServletRequestBuilder postRequest = post("/ravewavers/login")
         .contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(loginPostDTO));
 

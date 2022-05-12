@@ -33,28 +33,14 @@ public interface DTOMapper {
     // TODO: Profile Picture
     @Mapping(source = "id", target = "id")
     @Mapping(source = "username", target = "username")
-    @Mapping(source = "token", target = "token")
     @Mapping(source = "level", target = "level")
-    @Mapping(source = "spotifyToken", target = "spotifyToken")
+    //@Mapping(source = "spotifyToken", target = "spotifyToken")
+    //@Mapping(source = "spotifyRefreshToken", target = "spotifyRefreshToken")
     @Mapping(source = "creationDate", target = "creationDate")
     RaveWaverGetDTO convertEntityToRaveWaverGetDTO(RaveWaver raveWaver);
 
-    // @Mapping(source = "username", target = "username")
-    // @Mapping(source = "password", target = "password")
-    // @Mapping(source = "spotifyToken", target = "spotifyToken")
-    // RaveWaverPutDTO convertRaveWaverPutDTOtoEntity(RaveWaverPutDTO
-    // raveWaverPutDTO);
 
-    /*
-     * @Mapping(source = "question", target = "question")
-     *
-     * @Mapping(source = "songID", target = "songID")
-     *
-     * @Mapping(source = "answers", target = "answers")
-     * QuestionDTO convertEntityToQuestionDTO(Question question);
-     */
     @Mapping(source = "playerName", target = "playerName")
-    // @Mapping(source = "lobbyId", target = "lobbyId")
     Player convertPlayerPostDTOtoEntity(PlayerPostDTO playerPostDTO);
 
     @Mapping(source = "id", target = "id")

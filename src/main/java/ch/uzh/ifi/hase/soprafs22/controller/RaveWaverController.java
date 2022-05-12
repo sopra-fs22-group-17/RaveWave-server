@@ -10,6 +10,7 @@ import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,22 +57,27 @@ public class RaveWaverController {
     @PostMapping("/ravewavers")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public RaveWaverGetDTO createRaveWaver(@RequestBody RaveWaverPostDTO raveWaverPostDTO) {
+    public RaveWaverGetDTO createRaveWaver(@RequestBody RaveWaverPostDTO raveWaverPostDTO, HttpServletResponse response) {
         // convert API raveWaver to internal representation
         RaveWaver raveWaverInput = DTOMapper.INSTANCE.convertRaveWaverPostDTOtoEntity(raveWaverPostDTO);
 
         // create raveWaver
         RaveWaver createdRaveWaver = raveWaverService.createRaveWaver(raveWaverInput);
 
+        response.addHeader("Authorization", createdRaveWaver.getToken());
+
         // convert internal representation of raveWaver back to API
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(createdRaveWaver);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/ravewavers/login")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public RaveWaverGetDTO loginRaveWaver(@RequestBody LoginPostDTO loginPostDTO) {
+    public RaveWaverGetDTO loginRaveWaver(@RequestBody LoginPostDTO loginPostDTO, HttpServletResponse response) {
         RaveWaver raveWaver = raveWaverService.loginRaveWaver(loginPostDTO);
+
+        response.addHeader("Authorization", raveWaver.getToken());
+
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaver);
     }
 
