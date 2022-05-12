@@ -42,9 +42,9 @@ public class SpotifyAuthController {
 
         spotifyService.authorizationCode(spotifyPostDTO);
 
-        if(token != null){
-            raveWaverService.updateSpotifyToken(token, spotifyService);
-        }
+        //if(token != null){
+          //  raveWaverService.updateSpotifyToken(token, spotifyService);
+        //}
 
         SpotifyGetDTO response = new SpotifyGetDTO();
         response.setAccessToken(spotifyService.getAccessToken());

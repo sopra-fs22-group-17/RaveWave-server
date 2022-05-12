@@ -12,6 +12,8 @@ public class RaveWaverGetDTO {
     //private String spotifyRefreshToken;
     private LocalDate creationDate;
 
+    private String profilePicture;
+
     public Long getId() {
         return id;
     }
@@ -44,4 +46,11 @@ public class RaveWaverGetDTO {
         this.creationDate = creationDate;
     }
 
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
 }

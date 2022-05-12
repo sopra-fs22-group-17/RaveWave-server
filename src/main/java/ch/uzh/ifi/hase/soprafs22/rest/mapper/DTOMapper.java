@@ -37,6 +37,7 @@ public interface DTOMapper {
     //@Mapping(source = "spotifyToken", target = "spotifyToken")
     //@Mapping(source = "spotifyRefreshToken", target = "spotifyRefreshToken")
     @Mapping(source = "creationDate", target = "creationDate")
+    @Mapping(source = "profilePicture", target = "profilePicture")
     RaveWaverGetDTO convertEntityToRaveWaverGetDTO(RaveWaver raveWaver);
 
 

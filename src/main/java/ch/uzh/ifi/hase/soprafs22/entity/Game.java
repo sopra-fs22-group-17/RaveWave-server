@@ -160,8 +160,10 @@ public class Game {
             leaderboardEntry.setTotalScore(player.getTotalScore());
             leaderboardEntry.setPlayerPosition(i);
             leaderboardEntry.setRoundScore(player.getRoundScore());
+            leaderboardEntry.setProfilePicture(player.getProfilePicture());
             i++;
             playersRankingInformation.add(leaderboardEntry);
+
         }
 
         LeaderboardDTO leaderboard = new LeaderboardDTO();

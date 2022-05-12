@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
+import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -66,10 +69,10 @@ public class RaveWaverService {
         return this.raveWaverRepository.findAll();
     }
 
-    public RaveWaver createRaveWaver(RaveWaver newRaveWaver) {
+    public RaveWaver createRaveWaver(RaveWaver newRaveWaver) throws IOException, ParseException, SpotifyWebApiException {
         newRaveWaver.setToken(UUID.randomUUID().toString());
         newRaveWaver.setCreationDate(LocalDate.now());
-
+        newRaveWaver.setProfilePicture(new SpotifyService().getRaveWaverProfilePicture());
         checkIfRaveWaverExists(newRaveWaver);
 
         // saves the given entity but data is only persisted in the database once
