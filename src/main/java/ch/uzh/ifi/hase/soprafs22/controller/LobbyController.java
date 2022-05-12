@@ -48,6 +48,7 @@ public class LobbyController {
                                      HttpServletResponse response) {
         Player playerToAdd = DTOMapper.INSTANCE.convertPlayerPostDTOtoEntity(playerPostDTO);
         playerToAdd.setLobbyId(lobbyId);
+        playerToAdd.setProfilePicture("https://robohash.org/" + playerToAdd.getPlayerName() +".png");
 
         Player newPlayer = playerService.addPlayer(playerToAdd);
         response.addHeader("Authorization", "Basic" + playerToAdd.getToken());

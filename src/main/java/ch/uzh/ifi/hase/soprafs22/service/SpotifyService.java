@@ -26,7 +26,7 @@ public class SpotifyService {
     //private static final String clientSecret = "";
 
     private static final URI redirectUri = SpotifyHttpManager
-            .makeUri("https://sopra-fs22-group17-clientv2.herokuapp.com/selectgamemode");
+            .makeUri("https://sopra-fs22-group17-clientv3.herokuapp.com/selectgamemode");
 
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId(clientId)

@@ -65,6 +65,7 @@ public interface DTOMapper {
     @Mapping(source = "streak", target = "streak")
     @Mapping(source = "correctAnswers", target = "correctAnswers")
     @Mapping(source = "lobbyId", target = "lobbyId")
+    @Mapping(source = "profilePicture", target = "profilePicture")
     PlayerGetDTO convertEntityToPlayerGetDTO(Player player);
 
 }
