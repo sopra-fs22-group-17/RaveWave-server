@@ -9,7 +9,8 @@ public enum SongPool {
     HIPHOP("37i9dQZF1DXbkfWVLd8wE3"),
     POP("5TDtuKDbOhrfW7C58XnriZ"),
     LATINO("3Wnt7xagUhJCWJLjCiWegb"),
-    PERSONAL("");
+    USERSTOPTRACKS(""),
+    USERSSAVEDTRACKS("");
 
     private final String value;
 

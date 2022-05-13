@@ -31,14 +31,13 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
         // Registers the endpoint where the connection will take place
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("*")
-                .setHandshakeHandler(new PrincipalHandshake())
-                .withSockJS();
+                .setHandshakeHandler(new PrincipalHandshake());
+        // .withSockJS();
     }
 
     @Bean
     public TaskScheduler heartBeatScheduler() {
         return new ThreadPoolTaskScheduler();
     }
-
 
 }

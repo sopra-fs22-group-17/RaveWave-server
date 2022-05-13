@@ -45,7 +45,9 @@ public class GameService {
     }
 
     public void startGame(int lobbyId) {
-        GameRepository.findByLobbyId(lobbyId).startGame();
+        List<Player> players = playerRepository.findByLobbyId((long) lobbyId);
+
+        GameRepository.findByLobbyId(lobbyId).startGame(players);
     }
 
     public void saveAnswer(Answer answer, int playerId) {
