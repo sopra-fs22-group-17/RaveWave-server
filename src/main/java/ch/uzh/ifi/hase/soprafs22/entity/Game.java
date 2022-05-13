@@ -4,8 +4,10 @@ import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
+import ch.uzh.ifi.hase.soprafs22.entity.gametypes.AlbumCoverGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
+//import ch.uzh.ifi.hase.soprafs22.entity.gametypes.SongTitleGame;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -16,16 +18,18 @@ import se.michaelthelin.spotify.model_objects.specification.Playlist;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class Game {
 
-    private final GameMode gameMode;
+    private GameMode gameMode;
     private final ArrayList<GameType> gamePlan;
     private final ArrayList<Answer> answers;
     private final SpotifyService spotifyService;
@@ -53,6 +57,7 @@ public class Game {
         this.playbackDuration = updatedSettings.getPlayBackDuration();
         this.songGenre = updatedSettings.getSongPool();
         this.gameRounds = updatedSettings.getGameRounds();
+        this.gameMode = updatedSettings.getGameMode();
     }
 
     // TODO exception
@@ -148,13 +153,17 @@ public class Game {
         int i = 0;
         while (i < bound) {
             int id = rand.nextInt(songs.size());
-            while (pickedSongs.contains(id)) {
+            while (pickedSongs.contains(id) || songs.get(id).getPreviewUrl() == null || songs.get(id).getAlbum().getImages()[1] == null) {
                 id = rand.nextInt(songs.size());
             }
-            gamePlan.add(new ArtistGame(id, songs));
+            if (this.gameMode == GameMode.ARTISTGAME){
+            gamePlan.add(new ArtistGame(id, songs));}
+            else if (this.gameMode == GameMode.SONGTITLEGAME){
+                gamePlan.add(new SongTitleGame(id, songs));
+            } else {gamePlan.add(new ArtistGame(id, songs));
+                System.out.println("didn't work");}
             pickedSongs.add(id);
             i++;
-
         }
     }
 
@@ -199,8 +208,10 @@ public class Game {
             leaderboardEntry.setTotalScore(player.getTotalScore());
             leaderboardEntry.setPlayerPosition(i);
             leaderboardEntry.setRoundScore(player.getRoundScore());
+            leaderboardEntry.setProfilePicture(player.getProfilePicture());
             i++;
             playersRankingInformation.add(leaderboardEntry);
+
         }
 
         LeaderboardDTO leaderboard = new LeaderboardDTO();
@@ -270,4 +281,17 @@ public class Game {
         return currentGameRound != 0;
     }
 
+    private ArrayList<Track> playlistTrackToTrackList(PlaylistTrack[] playlist) {
+        ArrayList songs = new ArrayList<>();
+        ArrayList playlistArray = new ArrayList<PlaylistTrack>(Arrays.asList(playlist));
+        for (int i = 0; i < playlist.length; i++) {
+            songs.add(((PlaylistTrack) playlistArray.get(i)).getTrack());
+        }
+
+        return songs;
+    }
+
+    private ArrayList<Track> trackToTrackList(Track[] tracks) {
+        return new ArrayList<Track>(Arrays.asList(tracks));
+    }
 }

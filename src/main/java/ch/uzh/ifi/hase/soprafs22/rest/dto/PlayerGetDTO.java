@@ -10,6 +10,8 @@ public class PlayerGetDTO {
     private int correctAnswers;
     private long lobbyId;
 
+    private String profilePicture;
+
     public Long getId() {
         return id;
     }
@@ -72,5 +74,13 @@ public class PlayerGetDTO {
 
     public void setLobbyId(long lobbyId) {
         this.lobbyId = lobbyId;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

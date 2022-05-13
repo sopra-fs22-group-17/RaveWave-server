@@ -48,6 +48,17 @@ public class Player implements Serializable {
     @Column(nullable = false)
     private int correctAnswers;
 
+    @Column(nullable = false)
+    private String profilePicture;
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
     public Long getId() {
         return id;
     }

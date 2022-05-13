@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,7 +79,7 @@ public class LobbyControllerTest {
         player.setPlayerName("playerName");
         player.setLobbyId(1L);
 
-        game = new Game(spotifyService, SongPool.ROCK);
+        game = new Game(spotifyService, SongPool.ROCK, GameMode.ARTISTGAME);
     }
 
     @Test
