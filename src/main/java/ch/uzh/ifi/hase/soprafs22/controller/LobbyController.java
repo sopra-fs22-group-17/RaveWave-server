@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
-import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LobbyIdDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerPostDTO;
@@ -9,13 +8,15 @@ import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.PlayerService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 public class LobbyController {
@@ -45,10 +46,9 @@ public class LobbyController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public PlayerGetDTO createPlayer(@RequestBody PlayerPostDTO playerPostDTO, @PathVariable Long lobbyId,
-                                     HttpServletResponse response) {
+                                     HttpServletResponse response) throws IOException, ParseException, SpotifyWebApiException {
         Player playerToAdd = DTOMapper.INSTANCE.convertPlayerPostDTOtoEntity(playerPostDTO);
         playerToAdd.setLobbyId(lobbyId);
-        playerToAdd.setProfilePicture("https://robohash.org/" + playerToAdd.getPlayerName() +".png");
 
         Player newPlayer = playerService.addPlayer(playerToAdd);
         response.addHeader("Authorization", "Basic" + playerToAdd.getToken());

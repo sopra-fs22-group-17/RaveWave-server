@@ -6,12 +6,14 @@ import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.service.WebSocketService;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import org.mockito.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class WebSocketServiceTest {
 
@@ -20,10 +22,13 @@ public class WebSocketServiceTest {
     @InjectMocks
     private Game testLobby;
 
+    @MockBean
+    private RaveWaverRepository raveWaverRepository;
+
     @BeforeEach
     void setup(){
         MockitoAnnotations.openMocks(this);
-        testLobby = new Game(new SpotifyService(), SongPool.LATINO, GameMode.ARTISTGAME);
+        testLobby = new Game(new SpotifyService(), SongPool.LATINO, raveWaverRepository);
         GameRepository.addGame(200, testLobby);
 
     }

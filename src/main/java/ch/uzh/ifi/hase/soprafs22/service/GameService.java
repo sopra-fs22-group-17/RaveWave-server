@@ -1,24 +1,27 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.AnswerOptions;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
+import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,22 +34,27 @@ public class GameService {
     private final PlayerRepository playerRepository;
     Logger log = LoggerFactory.getLogger(GameService.class);
     private int lobbyToCreate;
+    private RaveWaverRepository raveWaverRepository;
 
     @Autowired
-    public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
+    public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository, @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
         this.playerRepository = playerRepository;
+        this.raveWaverRepository = raveWaverRepository;
         this.lobbyToCreate = 0;
     }
 
     public int createNewLobby(SpotifyService spotifyService) {
         lobbyToCreate++;
-        Game newGame = new Game(spotifyService, SongPool.SWITZERLAND, GameMode.SONGTITLEGAME);
+        Game newGame = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
         GameRepository.addGame(lobbyToCreate, newGame);
         return lobbyToCreate;
     }
 
-    public void startGame(int lobbyId) {
+    public void startGame(int lobbyId) throws IOException, ParseException, SpotifyWebApiException {
         List<Player> players = playerRepository.findByLobbyId((long) lobbyId);
+        Game game = GameRepository.findByLobbyId(lobbyId);
+        game.generateAvatar(players);
+
 
         GameRepository.findByLobbyId(lobbyId).startGame(players);
     }

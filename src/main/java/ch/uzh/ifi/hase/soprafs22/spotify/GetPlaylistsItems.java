@@ -1,18 +1,15 @@
 package ch.uzh.ifi.hase.soprafs22.spotify;
 
-import java.io.IOException;
-
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
-import se.michaelthelin.spotify.model_objects.specification.Track;
-import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
+
+import java.io.IOException;
 
 public class GetPlaylistsItems {
     private GetPlaylistsItems() {
@@ -33,12 +30,13 @@ public class GetPlaylistsItems {
             final Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsItemsRequest.execute();
 
             return playlistTrackPaging.getItems();
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
+        }
+        catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "An error while fetching the song information occured: " + e.getMessage());
         }
     }
-
+/*
     public static Track[] fetchUsersTopTracks(SpotifyApi spotifyApi) {
         final GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks()
                 // .limit(10)
@@ -55,5 +53,5 @@ public class GetPlaylistsItems {
                     "An error while fetching the song information occured: " + e.getMessage());
         }
     }
-
+*/
 }

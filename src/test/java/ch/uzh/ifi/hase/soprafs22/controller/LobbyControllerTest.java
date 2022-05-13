@@ -2,7 +2,9 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.BeforeMapping;
 import org.mockito.Mockito;
@@ -38,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+
 @WebMvcTest(LobbyController.class)
 public class LobbyControllerTest {
 
@@ -52,6 +55,9 @@ public class LobbyControllerTest {
 
     @MockBean
     private GameService gameService;
+
+    @MockBean
+    private RaveWaverRepository raveWaverRepository;
 
     @MockBean
     private SpotifyService spotifyService;
@@ -79,7 +85,7 @@ public class LobbyControllerTest {
         player.setPlayerName("playerName");
         player.setLobbyId(1L);
 
-        game = new Game(spotifyService, SongPool.ROCK, GameMode.ARTISTGAME);
+        game = new Game(spotifyService, SongPool.ROCK, raveWaverRepository);
     }
 
     @Test

@@ -25,7 +25,7 @@ public class LikedSongGame implements GameType {
     }
 
     @Override
-    public ArrayList<String> getSongCovers(){
+    public ArrayList<String> getSongCovers() {
         return new ArrayList<String>();
     }
 

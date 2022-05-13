@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
@@ -52,7 +51,8 @@ public class AlbumCoverGame implements GameType {
 
             if (answers.contains(answer)) {
                 a++;
-            } else {
+            }
+            else {
                 answers.add(answer);
             }
             answerSongs.add(songs.get(wrongAnswerIndex));
@@ -81,7 +81,7 @@ public class AlbumCoverGame implements GameType {
     }
 
     @Override
-    public ArrayList<String> getSongCovers(){
+    public ArrayList<String> getSongCovers() {
         ArrayList<String> albumCovers = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {

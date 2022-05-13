@@ -1,14 +1,18 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyAuthCodeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import org.apache.hc.core5.http.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 public class SpotifyAuthController {
@@ -38,13 +42,14 @@ public class SpotifyAuthController {
     @PostMapping("/Spotify/authorizationCode")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public SpotifyGetDTO getAuthorizationCode(@RequestBody SpotifyPostDTO spotifyPostDTO, HttpServletRequest token) {
+    public SpotifyGetDTO getAuthorizationCode(@RequestBody SpotifyPostDTO spotifyPostDTO, HttpServletRequest token) throws IOException, ParseException, SpotifyWebApiException {
 
         spotifyService.authorizationCode(spotifyPostDTO);
 
-        //if(token != null){
-          //  raveWaverService.updateSpotifyToken(token, spotifyService);
-        //}
+        if(token != null){
+          raveWaverService.updateSpotifyToken(token, spotifyService);
+
+        }
 
         SpotifyGetDTO response = new SpotifyGetDTO();
         response.setAccessToken(spotifyService.getAccessToken());

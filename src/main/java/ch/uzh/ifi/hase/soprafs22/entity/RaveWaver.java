@@ -22,7 +22,7 @@ public class RaveWaver implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -46,7 +46,7 @@ public class RaveWaver implements Serializable {
     @Column(nullable = false)
     private int level;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String profilePicture;
 
     public String getSpotifyRefreshToken() {

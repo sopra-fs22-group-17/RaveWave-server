@@ -1,25 +1,17 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
+import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import org.apache.hc.core5.http.ParseException;
-import static ch.uzh.ifi.hase.soprafs22.spotify.GetPlaylistsItems.fetchPlaylistsItems;
-import static ch.uzh.ifi.hase.soprafs22.spotify.GetUserSaveTracks.fetchUserSaveTracks;
-import static ch.uzh.ifi.hase.soprafs22.spotify.GetUserTopTracks.fetchUsersTopTracks;
-import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCode.authorizationCode_Sync;
-import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeUri.authorizationCodeUri_Sync;
-
-import java.net.URI;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
-import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.model_objects.specification.User;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
@@ -28,7 +20,8 @@ import java.io.IOException;
 import java.net.URI;
 
 import static ch.uzh.ifi.hase.soprafs22.spotify.GetPlaylistsItems.fetchPlaylistsItems;
-import static ch.uzh.ifi.hase.soprafs22.spotify.GetPlaylistsItems.fetchUsersTopTracks;
+import static ch.uzh.ifi.hase.soprafs22.spotify.GetUserSaveTracks.fetchUserSaveTracks;
+import static ch.uzh.ifi.hase.soprafs22.spotify.GetUserTopTracks.fetchUsersTopTracks;
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCode.authorizationCode_Sync;
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeUri.authorizationCodeUri_Sync;
 
@@ -73,10 +66,6 @@ public class SpotifyService {
         return fetchPlaylistsItems(spotifyApi, playlistId);
     }
 
-    public Track[] getPersonalizedPlaylistsItems() {
-        return fetchUsersTopTracks(spotifyApi);
-    }
-
     public String getRaveWaverProfilePicture() throws IOException, ParseException, SpotifyWebApiException {
         GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
         User info = getCurrentUsersProfileRequest.execute();
@@ -103,7 +92,20 @@ public class SpotifyService {
         return fetchUserSaveTracks(spotifyApi);
     }
 
-    public String getRefreshToken(){
+    public String getRefreshToken() {
         return spotifyApi.getRefreshToken();
+    }
+
+
+    public String generateProfilePicture(RaveWaver raveWaver) throws IOException, ParseException, SpotifyWebApiException {
+        spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
+        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
+        User info = getCurrentUsersProfileRequest.execute();
+
+        if(info.getImages().length == 0){
+            return ("https://robohash.org/" + raveWaver.getUsername() + ".png");
+        }
+        return info.getImages()[0].getUrl();
+
     }
 }

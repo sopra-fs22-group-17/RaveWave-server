@@ -52,7 +52,8 @@ public class SongTitleGame implements GameType {
 
             if (answers.contains(answer)) {
                 a++;
-            } else {
+            }
+            else {
                 answers.add(answer);
             }
             answerSongs.add(songs.get(wrongAnswerIndex));

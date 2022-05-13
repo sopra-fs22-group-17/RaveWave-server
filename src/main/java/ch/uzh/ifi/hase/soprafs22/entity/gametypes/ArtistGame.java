@@ -3,7 +3,6 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
-import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
@@ -66,7 +65,8 @@ public class ArtistGame implements GameType {
 
             if (answers.contains(answer.toString())) {
                 a++;
-            } else {
+            }
+            else {
                 answers.add(answer.toString());
             }
             answerSongs.add(songs.get(wrongAnswerIndex));
@@ -79,7 +79,7 @@ public class ArtistGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.ARTISTGAME);
-        question.setAlbumCovers(getAllAnswersSongCovers());
+        question.setAlbumCovers(getSongCovers());
         question.setSongTitle(songs.get(songToPick).getName());
 
     }
@@ -94,7 +94,7 @@ public class ArtistGame implements GameType {
         return question.getCorrectAnswer();
     }
 
-    public ArrayList<String> getAllAnswersSongCovers() {
+    public ArrayList<String> getSongCovers() {
         ArrayList<String> albumCovers = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {

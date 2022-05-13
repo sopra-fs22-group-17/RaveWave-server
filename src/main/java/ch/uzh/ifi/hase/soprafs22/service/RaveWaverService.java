@@ -72,7 +72,6 @@ public class RaveWaverService {
     public RaveWaver createRaveWaver(RaveWaver newRaveWaver) throws IOException, ParseException, SpotifyWebApiException {
         newRaveWaver.setToken(UUID.randomUUID().toString());
         newRaveWaver.setCreationDate(LocalDate.now());
-        newRaveWaver.setProfilePicture(new SpotifyService().getRaveWaverProfilePicture());
         checkIfRaveWaverExists(newRaveWaver);
 
         // saves the given entity but data is only persisted in the database once
@@ -137,7 +136,7 @@ public class RaveWaverService {
         // Get user from repo by id
         RaveWaver raveWaver = this.raveWaverRepository.findByToken(token);
 
-        if(raveWaver == null){
+        if (raveWaver == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "A RaveWaver with the given token does not exist!");
         }
 
@@ -158,11 +157,12 @@ public class RaveWaverService {
         return raveWaverToUpdate;
     }
 
-    public void updateSpotifyToken(HttpServletRequest token, SpotifyService spotifyService){
+    public void updateSpotifyToken(HttpServletRequest token, SpotifyService spotifyService) throws IOException, ParseException, SpotifyWebApiException {
         String tokenString = token.getHeader("Authorization");
         RaveWaver raveWaverToUpdate = getRaveWaverByToken(tokenString);
         raveWaverToUpdate.setSpotifyToken(spotifyService.getAccessToken());
         raveWaverToUpdate.setSpotifyRefreshToken(spotifyService.getRefreshToken());
+        raveWaverToUpdate.setProfilePicture(spotifyService.generateProfilePicture(raveWaverToUpdate));
     }
 
 

@@ -44,9 +44,7 @@ public class DTOMapperTest {
 
         assertEquals(raveWaver.getId(), raveWaverGetDTO.getId());
         assertEquals(raveWaver.getUsername(), raveWaverGetDTO.getUsername());
-        assertEquals(raveWaver.getToken(), raveWaverGetDTO.getToken());
         assertEquals(raveWaver.getLevel(), raveWaverGetDTO.getLevel());
-        assertEquals(raveWaver.getSpotifyToken(), raveWaverGetDTO.getSpotifyToken());
         assertEquals(raveWaver.getCreationDate(), raveWaverGetDTO.getCreationDate());
 
     }

@@ -24,7 +24,7 @@ public class Player implements Serializable {
     @Column(nullable = false, unique = true)
     private Long id;
 
-    @Column(nullable = true)
+    @Column
     private Long raveWaverId;
 
     @Column(nullable = false, unique = false)
@@ -36,19 +36,19 @@ public class Player implements Serializable {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(nullable = false)
+    @Column
     private int totalScore;
 
-    @Column(nullable = false)
+    @Column
     private int roundScore;
 
-    @Column(nullable = false)
+    @Column
     private int streak;
 
-    @Column(nullable = false)
+    @Column
     private int correctAnswers;
 
-    @Column(nullable = false)
+    @Column
     private String profilePicture;
 
     public String getProfilePicture() {

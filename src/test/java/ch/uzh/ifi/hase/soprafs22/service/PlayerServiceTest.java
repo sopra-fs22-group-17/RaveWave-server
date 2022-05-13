@@ -8,12 +8,14 @@ import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.server.ResponseStatusException;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
@@ -27,12 +29,15 @@ public class PlayerServiceTest {
     @InjectMocks
     private PlayerService playerService;
 
+    @MockBean
+    private RaveWaverRepository raveWaverRepository;
+
     private Player testPlayer;
 
     @BeforeEach
     public void setup() {
         SpotifyService spotifyService = new SpotifyService();
-        Game game = new Game(spotifyService, SongPool.SWITZERLAND, GameMode.ARTISTGAME);
+        Game game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
         MockitoAnnotations.openMocks(this);
         GameRepository.addGame(1, game);
         // given
