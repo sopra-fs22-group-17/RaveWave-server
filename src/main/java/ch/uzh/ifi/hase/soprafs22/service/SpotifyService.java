@@ -7,10 +7,15 @@ import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCode.
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeUri.authorizationCodeUri_Sync;
 
 import java.net.URI;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
@@ -25,8 +30,11 @@ public class SpotifyService {
 
     private static final String clientSecret = System.getenv("clientSecret");
 
-    // clientSecret for localhost
-    // private static final String clientSecret = "";
+    private final RaveWaverRepository raveWaverRepository;
+
+    public SpotifyService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
+        this.raveWaverRepository = raveWaverRepository;
+    }
 
     private static final URI redirectUri = SpotifyHttpManager
             .makeUri("https://sopra-fs22-group17-clientv3.herokuapp.com/selectgamemode");
@@ -67,12 +75,11 @@ public class SpotifyService {
     }
 
     public Track[] getPersonalizedPlaylistsItems(Long raveWaverId) {
-        // Optional<RaveWaver> opRaveWaver = raveWaverRepository.findById(raveWaverId);
+        Optional<RaveWaver> opRaveWaver = raveWaverRepository.findById(raveWaverId);
         // if (opRaveWaver.isPresent()) {
         // RaveWaver raveWaver = opRaveWaver.get();
-        // String refreshToken = raveWaver.getSpotifyToken();
-        // spotifyApi.setRefreshToken(refreshToken);
-        // AuthorizationCodeRefresh.authorizationCodeRefresh_Sync(spotifyApi);
+        // String accessToken = raveWaver.getSpotifyToken();
+        // spotifyApi.setAccessToken(accessToken);
         return fetchUsersTopTracks(spotifyApi);
         // }
         // return null;

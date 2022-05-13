@@ -118,22 +118,23 @@ public class Game {
      * }
      */
     public void fillGamePlan(List<Player> players) {
-        ArrayList<Track> songs = new ArrayList<>();
+        ArrayList<Song> songs = new ArrayList<>();
         Long raveWaverId = 0L;
         if (this.songGenre == SongPool.USERSTOPTRACKS) {
             // for (Player player : players) {
             // Long raveWaverId = player.getRaveWaverId();
             // if (raveWaverId != null) {
-            songs.addAll(trackToTrackList(spotifyService.getPersonalizedPlaylistsItems(raveWaverId)));
+            songs.addAll(trackToTrackList(spotifyService.getPersonalizedPlaylistsItems(raveWaverId), raveWaverId));
             // }
             // }
         } else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
-            songs.addAll(savedTracktoTrackList(spotifyService.getSavedTrackItems(raveWaverId)));
+            songs.addAll(savedTracktoTrackList(spotifyService.getSavedTrackItems(raveWaverId), raveWaverId));
 
         } else
 
         {
-            songs.addAll(playlistTrackToTrackList(spotifyService.getPlaylistsItems(songGenre.getPlaylistId())));
+            songs.addAll(
+                    playlistTrackToTrackList(spotifyService.getPlaylistsItems(songGenre.getPlaylistId()), raveWaverId));
         }
         int bound;
         ArrayList<Integer> pickedSongs = new ArrayList<>();
@@ -158,29 +159,28 @@ public class Game {
         }
     }
 
-    private ArrayList<Track> savedTracktoTrackList(SavedTrack[] savedTracks) {
-        ArrayList<Track> tracks = new ArrayList<>();
+    private ArrayList<Song> savedTracktoTrackList(SavedTrack[] savedTracks, long raveWaverId) {
+        ArrayList<Song> songs = new ArrayList<>();
         for (SavedTrack sTrack : savedTracks) {
-            tracks.add((Track) sTrack.getTrack());
+            songs.add(new Song(sTrack.getTrack(), raveWaverId));
         }
-        return tracks;
-
+        return songs;
     }
 
-    private ArrayList<Track> playlistTrackToTrackList(PlaylistTrack[] playlistsItems) {
-        ArrayList<Track> tracks = new ArrayList<>();
+    private ArrayList<Song> playlistTrackToTrackList(PlaylistTrack[] playlistsItems, long raveWaverId) {
+        ArrayList<Song> songs = new ArrayList<>();
         for (PlaylistTrack pTrack : playlistsItems) {
-            tracks.add((Track) pTrack.getTrack());
+            songs.add(new Song((Track) pTrack.getTrack(), raveWaverId));
         }
-        return tracks;
+        return songs;
     }
 
-    private ArrayList<Track> trackToTrackList(Track[] personalizedPlaylistsItems) {
-        ArrayList<Track> tracks = new ArrayList<>();
+    private ArrayList<Song> trackToTrackList(Track[] personalizedPlaylistsItems, long raveWaverId) {
+        ArrayList<Song> songs = new ArrayList<>();
         for (Track track : personalizedPlaylistsItems) {
-            tracks.add(track);
+            songs.add(new Song(track, raveWaverId));
         }
-        return tracks;
+        return songs;
 
     }
 

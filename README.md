@@ -1,4 +1,4 @@
-#RaveWave
+# RaveWave
 
 ## Introduction
 
@@ -20,3 +20,6 @@ metadata, as well as Spotify user related information.You can find more informat
 
 SoPra Group 17 2022 consists of [Marco Leder](https://github.com/marcoleder), [Valentin Hollenstein](https://github.com/v4lentin1879), [Dennys Huber](https://github.com/devnnys), [Sheena Lang](https://github.com/SheenaGit) and [Isabella Chesney](https://github.com/bellachesney). 
 
+## TODOS
+- [] Duplicate Songs, when fetching from multiple Users
+- [] Songlist empty -> ex. no liked songs

@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
+import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
@@ -12,13 +13,13 @@ import java.util.Random;
 public class ArtistGame implements GameType {
     private final Question question;
 
-    private final ArrayList<Track> songs;
+    private final ArrayList<Song> songs;
     private final int songToPick;
     private final ArrayList<Track> answerSongs;
 
-    public ArtistGame(int songToPick, ArrayList<Track> songs2) {
+    public ArtistGame(int songToPick, ArrayList<Song> songs) {
         this.question = new Question();
-        this.songs = songs2;
+        this.songs = songs;
         this.songToPick = songToPick;
         this.answerSongs = new ArrayList<Track>();
         generateQuestion();
@@ -29,10 +30,10 @@ public class ArtistGame implements GameType {
     public void generateQuestion() {
         question.setQuestion("Guess the song artist");
         // store id of the song to be played
-        question.setPreviewUrl(songs.get(songToPick).getPreviewUrl());
+        question.setPreviewUrl(songs.get(songToPick).getTrack().getPreviewUrl());
 
         StringBuilder correctAnswer = new StringBuilder();
-        for (ArtistSimplified artist : songs.get(songToPick).getArtists()) {
+        for (ArtistSimplified artist : songs.get(songToPick).getTrack().getArtists()) {
             correctAnswer.append(artist.getName());
             correctAnswer.append(", ");
         }
@@ -58,7 +59,7 @@ public class ArtistGame implements GameType {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
             StringBuilder answer = new StringBuilder();
-            for (ArtistSimplified artist : songs.get(wrongAnswerIndex).getArtists()) {
+            for (ArtistSimplified artist : songs.get(wrongAnswerIndex).getTrack().getArtists()) {
                 answer.append(artist.getName());
                 answer.append(", ");
             }
@@ -69,18 +70,18 @@ public class ArtistGame implements GameType {
             } else {
                 answers.add(answer.toString());
             }
-            answerSongs.add(songs.get(wrongAnswerIndex));
+            answerSongs.add(songs.get(wrongAnswerIndex).getTrack());
         }
 
         int correctAnswerIndex = rand.nextInt(4);
         answers.add(correctAnswerIndex, correctAnswer.toString());
-        answerSongs.add(correctAnswerIndex, songs.get(songToPick));
+        answerSongs.add(correctAnswerIndex, songs.get(songToPick).getTrack());
 
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.ARTISTGAME);
         question.setAlbumCovers(getAllAnswersSongCovers());
-        question.setSongTitle(songs.get(songToPick).getName());
+        question.setSongTitle(songs.get(songToPick).getTrack().getName());
 
     }
 
