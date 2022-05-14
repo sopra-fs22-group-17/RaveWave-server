@@ -7,6 +7,7 @@ import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCode.
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeUri.authorizationCodeUri_Sync;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -66,26 +68,59 @@ public class SpotifyService {
      * }
      */
 
-    public PlaylistTrack[] getPlaylistsItems(String playlistId) {
-        return fetchPlaylistsItems(spotifyApi, playlistId);
+    public ArrayList<Song> getPlaylistsItems(String playlistId) {
+        return playlistTrackToTrackList(fetchPlaylistsItems(spotifyApi, playlistId));
     }
 
     public String getAccessToken() {
         return spotifyApi.getAccessToken();
     }
 
-    public Track[] getPersonalizedPlaylistsItems(Long raveWaverId) {
+    public ArrayList<Song> getPersonalizedPlaylistsItems(Long raveWaverId) {
         Optional<RaveWaver> opRaveWaver = raveWaverRepository.findById(raveWaverId);
-        // if (opRaveWaver.isPresent()) {
-        // RaveWaver raveWaver = opRaveWaver.get();
-        // String accessToken = raveWaver.getSpotifyToken();
-        // spotifyApi.setAccessToken(accessToken);
-        return fetchUsersTopTracks(spotifyApi);
-        // }
-        // return null;
+        if (opRaveWaver.isPresent()) {
+            RaveWaver raveWaver = opRaveWaver.get();
+            // String accessToken = raveWaver.getSpotifyToken();
+            // spotifyApi.setAccessToken(accessToken);
+            return trackToTrackList(fetchUsersTopTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
+        }
+        return null;
     }
 
-    public SavedTrack[] getSavedTrackItems(Long raveWaverId) {
-        return fetchUserSaveTracks(spotifyApi);
+    public ArrayList<Song> getSavedTrackItems(Long raveWaverId) {
+        Optional<RaveWaver> opRaveWaver = raveWaverRepository.findById(raveWaverId);
+        if (opRaveWaver.isPresent()) {
+            RaveWaver raveWaver = opRaveWaver.get();
+            // String accessToken = raveWaver.getSpotifyToken();
+            // spotifyApi.setAccessToken(accessToken);
+            return savedTracktoTrackList(fetchUserSaveTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
+        }
+        return null;
     }
+
+    private ArrayList<Song> savedTracktoTrackList(SavedTrack[] savedTracks, long raveWaverId, String playerName) {
+        ArrayList<Song> songs = new ArrayList<>();
+        for (SavedTrack sTrack : savedTracks) {
+            songs.add(new Song(sTrack.getTrack(), raveWaverId, playerName));
+        }
+        return songs;
+    }
+
+    private ArrayList<Song> playlistTrackToTrackList(PlaylistTrack[] playlistsItems) {
+        ArrayList<Song> songs = new ArrayList<>();
+        for (PlaylistTrack pTrack : playlistsItems) {
+            songs.add(new Song((Track) pTrack.getTrack()));
+        }
+        return songs;
+    }
+
+    private ArrayList<Song> trackToTrackList(Track[] personalizedPlaylistsItems, long raveWaverId, String playerName) {
+        ArrayList<Song> songs = new ArrayList<>();
+        for (Track track : personalizedPlaylistsItems) {
+            songs.add(new Song(track, raveWaverId, playerName));
+        }
+        return songs;
+
+    }
+
 }

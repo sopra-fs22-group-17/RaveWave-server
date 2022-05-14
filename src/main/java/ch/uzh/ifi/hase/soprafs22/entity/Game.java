@@ -12,14 +12,8 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardEntry;
-import se.michaelthelin.spotify.model_objects.specification.Playlist;
-import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
-import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
-import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -124,17 +118,16 @@ public class Game {
             // for (Player player : players) {
             // Long raveWaverId = player.getRaveWaverId();
             // if (raveWaverId != null) {
-            songs.addAll(trackToTrackList(spotifyService.getPersonalizedPlaylistsItems(raveWaverId), raveWaverId));
+            songs.addAll(spotifyService.getPersonalizedPlaylistsItems(raveWaverId));
             // }
             // }
         } else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
-            songs.addAll(savedTracktoTrackList(spotifyService.getSavedTrackItems(raveWaverId), raveWaverId));
+            songs.addAll(spotifyService.getSavedTrackItems(raveWaverId));
 
         } else
 
         {
-            songs.addAll(
-                    playlistTrackToTrackList(spotifyService.getPlaylistsItems(songGenre.getPlaylistId()), raveWaverId));
+            songs.addAll(spotifyService.getPlaylistsItems(songGenre.getPlaylistId()));
         }
         int bound;
         ArrayList<Integer> pickedSongs = new ArrayList<>();
@@ -157,31 +150,6 @@ public class Game {
             i++;
 
         }
-    }
-
-    private ArrayList<Song> savedTracktoTrackList(SavedTrack[] savedTracks, long raveWaverId) {
-        ArrayList<Song> songs = new ArrayList<>();
-        for (SavedTrack sTrack : savedTracks) {
-            songs.add(new Song(sTrack.getTrack(), raveWaverId));
-        }
-        return songs;
-    }
-
-    private ArrayList<Song> playlistTrackToTrackList(PlaylistTrack[] playlistsItems, long raveWaverId) {
-        ArrayList<Song> songs = new ArrayList<>();
-        for (PlaylistTrack pTrack : playlistsItems) {
-            songs.add(new Song((Track) pTrack.getTrack(), raveWaverId));
-        }
-        return songs;
-    }
-
-    private ArrayList<Song> trackToTrackList(Track[] personalizedPlaylistsItems, long raveWaverId) {
-        ArrayList<Song> songs = new ArrayList<>();
-        for (Track track : personalizedPlaylistsItems) {
-            songs.add(new Song(track, raveWaverId));
-        }
-        return songs;
-
     }
 
     public LeaderboardDTO fillLeaderboard(List<Player> players) {
