@@ -2,24 +2,30 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
+import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import org.apache.hc.core5.http.ParseException;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class ArtistGame implements GameType {
     private final Question question;
-
     private final ArrayList<Track> songs;
     private final int songToPick;
     private final ArrayList<Track> answerSongs;
+    private SpotifyService spotifyService;
 
-    public ArtistGame(int songToPick, ArrayList<Track> songs2) {
+    public ArtistGame(int songToPick, ArrayList<Track> songs2, SpotifyService spotifyService2) {
         this.question = new Question();
         this.songs = songs2;
         this.songToPick = songToPick;
         this.answerSongs = new ArrayList<Track>();
+        this.spotifyService = spotifyService2;
         generateQuestion();
 
     }
@@ -98,7 +104,16 @@ public class ArtistGame implements GameType {
         ArrayList<String> albumCovers = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {
-            albumCovers.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());
+            String id = answerSongs.get(i).getArtists()[0].getId();
+
+            try {
+                if (!Objects.equals(spotifyService.getArtistProfilePicture(id), "")){
+                albumCovers.add(spotifyService.getArtistProfilePicture(id)) ;}
+                else {albumCovers.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());}
+            }
+            catch (IOException | ParseException | SpotifyWebApiException e) {
+                e.printStackTrace();
+            }
         }
         return albumCovers;
     }

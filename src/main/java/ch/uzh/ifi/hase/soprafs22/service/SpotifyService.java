@@ -10,10 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
-import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
-import se.michaelthelin.spotify.model_objects.specification.Track;
-import se.michaelthelin.spotify.model_objects.specification.User;
+import se.michaelthelin.spotify.model_objects.specification.*;
+import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 
 import java.io.IOException;
@@ -106,6 +104,15 @@ public class SpotifyService {
             return ("https://robohash.org/" + raveWaver.getUsername() + ".png");
         }
         return info.getImages()[0].getUrl();
+    }
 
+    public String getArtistProfilePicture(String id) throws IOException, ParseException, SpotifyWebApiException {
+        GetArtistRequest.Builder getArtistRequest = spotifyApi.getArtist(id);
+        GetArtistRequest built = getArtistRequest.build();
+        Artist artist = built.execute();
+        if (artist.getImages().length == 0){
+            return "";
+        }
+        return artist.getImages()[1].getUrl();
     }
 }
