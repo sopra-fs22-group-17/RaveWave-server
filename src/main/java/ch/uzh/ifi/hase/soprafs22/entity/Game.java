@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.SongTitleGame;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -35,7 +36,7 @@ public class Game {
     private SongPool songGenre;
     private int gameRounds;
     private int currentGameRound;
-    private RaveWaverRepository raveWaverRepository;
+    private final RaveWaverRepository raveWaverRepository;
 
     public Game(SpotifyService spotifyService, SongPool songGenre, RaveWaverRepository raveWaverRepository) {
         this.spotifyService = spotifyService;
@@ -58,9 +59,21 @@ public class Game {
         this.gameMode = updatedSettings.getGameMode();
     }
 
-    // TODO exception
+
     public void startGame(List<Player> players) {
+        //refreshes all the Spotify access tokens of all the RaveWavers in the lobby
+        refreshAccessTokens(players);
         fillGamePlan(players);
+
+    }
+
+    private void refreshAccessTokens(List<Player> players){
+        for(Player player : players){
+            if(player.getRaveWaverId() != null){
+                RaveWaver raveWaver = raveWaverRepository.findById(player.getRaveWaverId()).get();
+                spotifyService.authorizationCodeRefresh(raveWaver);
+            }
+        }
 
     }
 
@@ -116,11 +129,6 @@ public class Game {
         }
     }
 
-    // TODO in progress
-    /*
-     * private void updateRaveWaver() {
-     * }
-     */
     public void fillGamePlan(List<Player> players) {
         ArrayList<Track> songs = new ArrayList<>();
         Long raveWaverId = 0L;
@@ -285,16 +293,17 @@ public class Game {
 
     public void generateAvatar(List<Player> players) throws IOException, ParseException, SpotifyWebApiException {
 
-        for(Player player : players){
+        for (Player player : players) {
             if (player.getRaveWaverId() != null) {
                 Optional<RaveWaver> raveWaver = raveWaverRepository.findById(player.getRaveWaverId());
                 player.setProfilePicture(raveWaver.get().getProfilePicture());
-            }else{
+            }
+            else {
                 player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
             }
 
         }
-        }
+    }
 
 
 }

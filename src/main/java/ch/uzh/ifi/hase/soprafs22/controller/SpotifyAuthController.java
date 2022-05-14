@@ -46,10 +46,12 @@ public class SpotifyAuthController {
 
         spotifyService.authorizationCode(spotifyPostDTO);
 
+        //set the authorizationToken of a RaveWaver if a RaveWaver is given
         if(token != null){
           raveWaverService.updateSpotifyToken(token, spotifyService);
-
         }
+
+        spotifyService.authorizationCodeRefresh(raveWaverService.getRaveWaverByToken(token));
 
         SpotifyGetDTO response = new SpotifyGetDTO();
         response.setAccessToken(spotifyService.getAccessToken());

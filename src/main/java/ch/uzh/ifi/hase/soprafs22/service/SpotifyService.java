@@ -24,6 +24,7 @@ import static ch.uzh.ifi.hase.soprafs22.spotify.GetUserSaveTracks.fetchUserSaveT
 import static ch.uzh.ifi.hase.soprafs22.spotify.GetUserTopTracks.fetchUsersTopTracks;
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCode.authorizationCode_Sync;
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeUri.authorizationCodeUri_Sync;
+import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeRefresh.authorizationCodeRefresh_Sync;
 
 @Service
 @Transactional
@@ -45,22 +46,23 @@ public class SpotifyService {
         return authorizationCodeUri_Sync(spotifyApi);
     }
 
-    /*
-     * public void authorizationCodeRefresh() {
-     * authorizationCodeRefresh_Sync(spotifyApi);
-     * }
-     */
+    public void authorizationCodeRefresh(RaveWaver raveWaver){
+        String oldAccessToken = raveWaver.getSpotifyToken();
+        String refreshToken = raveWaver.getSpotifyRefreshToken();
+
+        spotifyApi.setAccessToken(oldAccessToken);
+        spotifyApi.setRefreshToken(refreshToken);
+        authorizationCodeRefresh_Sync(spotifyApi);
+
+        raveWaver.setSpotifyToken(spotifyApi.getAccessToken());
+        raveWaver.setSpotifyRefreshToken(spotifyApi.getRefreshToken());
+
+    }
 
     public void authorizationCode(SpotifyPostDTO spotifyPostDTO) {
         authorizationCode_Sync(spotifyApi, spotifyPostDTO.getCode());
     }
 
-    /*
-     * public void getUsersFavoriteSongs() {
-     * GetUsersTopArtistsAndTracksExample.getUsersTopArtistsAndTracks_Sync(
-     * spotifyApi);
-     * }
-     */
 
     public PlaylistTrack[] getPlaylistsItems(String playlistId) {
         return fetchPlaylistsItems(spotifyApi, playlistId);
@@ -77,15 +79,8 @@ public class SpotifyService {
     }
 
     public Track[] getPersonalizedPlaylistsItems(Long raveWaverId) {
-        // Optional<RaveWaver> opRaveWaver = raveWaverRepository.findById(raveWaverId);
-        // if (opRaveWaver.isPresent()) {
-        // RaveWaver raveWaver = opRaveWaver.get();
-        // String refreshToken = raveWaver.getSpotifyToken();
-        // spotifyApi.setRefreshToken(refreshToken);
-        // AuthorizationCodeRefresh.authorizationCodeRefresh_Sync(spotifyApi);
         return fetchUsersTopTracks(spotifyApi);
-        // }
-        // return null;
+
     }
 
     public SavedTrack[] getSavedTrackItems(Long raveWaverId) {

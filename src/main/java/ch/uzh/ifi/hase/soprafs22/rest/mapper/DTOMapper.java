@@ -42,6 +42,7 @@ public interface DTOMapper {
 
 
     @Mapping(source = "playerName", target = "playerName")
+    @Mapping(source = "raveWaverId", target = "raveWaverId")
     Player convertPlayerPostDTOtoEntity(PlayerPostDTO playerPostDTO);
 
     @Mapping(source = "id", target = "id")

@@ -132,9 +132,10 @@ public class RaveWaverService {
         return optionalRaveWaver.get();
     }
 
-    public RaveWaver getRaveWaverByToken(String token) {
+    public RaveWaver getRaveWaverByToken(HttpServletRequest token) {
+        String tokenString = token.getHeader("Authorization");
         // Get user from repo by id
-        RaveWaver raveWaver = this.raveWaverRepository.findByToken(token);
+        RaveWaver raveWaver = this.raveWaverRepository.findByToken(tokenString);
 
         if (raveWaver == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "A RaveWaver with the given token does not exist!");
@@ -158,8 +159,7 @@ public class RaveWaverService {
     }
 
     public void updateSpotifyToken(HttpServletRequest token, SpotifyService spotifyService) throws IOException, ParseException, SpotifyWebApiException {
-        String tokenString = token.getHeader("Authorization");
-        RaveWaver raveWaverToUpdate = getRaveWaverByToken(tokenString);
+        RaveWaver raveWaverToUpdate = getRaveWaverByToken(token);
         raveWaverToUpdate.setSpotifyToken(spotifyService.getAccessToken());
         raveWaverToUpdate.setSpotifyRefreshToken(spotifyService.getRefreshToken());
         raveWaverToUpdate.setProfilePicture(spotifyService.generateProfilePicture(raveWaverToUpdate));
