@@ -164,13 +164,13 @@ public class Game {
                 id = rand.nextInt(songs.size());
             }
             if (this.gameMode == GameMode.ARTISTGAME) {
-                gamePlan.add(new ArtistGame(id, songs));
+                gamePlan.add(new ArtistGame(id, songs, spotifyService));
             }
             else if (this.gameMode == GameMode.SONGTITLEGAME) {
                 gamePlan.add(new SongTitleGame(id, songs));
             }
             else {
-                gamePlan.add(new ArtistGame(id, songs));
+                gamePlan.add(new ArtistGame(id, songs, spotifyService));
                 System.out.println("didn't work");
             }
             pickedSongs.add(id);

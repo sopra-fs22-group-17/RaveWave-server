@@ -47,6 +47,7 @@ public class GameService {
         lobbyToCreate++;
         Game newGame = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
         GameRepository.addGame(lobbyToCreate, newGame);
+
         return lobbyToCreate;
     }
 
