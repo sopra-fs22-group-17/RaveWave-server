@@ -180,6 +180,7 @@ public class RaveWaverService {
         convertedRaveWaver.setProfilePicture(convertedRaveWaver.getProfilePicture());
         convertedRaveWaver.setLobbyId(lobbyId);
         convertedRaveWaver.setToken(raveWaverToConvert.getToken());
+        convertedRaveWaver.setProfilePicture(raveWaverToConvert.getProfilePicture());
 
         Player convertedRaveWaver2;
         convertedRaveWaver2 = playerRepository.save(convertedRaveWaver);

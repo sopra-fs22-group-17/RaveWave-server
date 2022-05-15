@@ -69,7 +69,7 @@ public class Game {
 
     private void refreshAccessTokens(List<Player> players){
         for(Player player : players){
-            if(player.getRaveWaverId() != null){
+            if(player.getRaveWaverId() != 0){
                 RaveWaver raveWaver = raveWaverRepository.findById(player.getRaveWaverId()).get();
                 spotifyService.authorizationCodeRefresh(raveWaver);
             }
@@ -294,7 +294,7 @@ public class Game {
     public void generateAvatar(List<Player> players) throws IOException, ParseException, SpotifyWebApiException {
 
         for (Player player : players) {
-            if (player.getRaveWaverId() != null) {
+            if (player.getRaveWaverId() != 0) {
                 Optional<RaveWaver> raveWaver = raveWaverRepository.findById(player.getRaveWaverId());
                 player.setProfilePicture(raveWaver.get().getProfilePicture());
             }
