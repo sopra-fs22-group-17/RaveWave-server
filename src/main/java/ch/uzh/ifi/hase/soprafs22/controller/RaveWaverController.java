@@ -1,10 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverGetDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import org.apache.hc.core5.http.ParseException;
@@ -94,4 +92,16 @@ public class RaveWaverController {
 
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaverUpdate);
     }
+
+    @PostMapping("/lobbies/{lobbyId}/ravewaver")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public PlayerGetDTO addRaveWaverToLobby(@RequestBody RaveWaverPostDTO raveWaverPostDTO, @PathVariable Long lobbyId){
+
+        Player raveWaverAsPlayer = raveWaverService.addRaveWaverToLobby(raveWaverPostDTO, lobbyId);
+
+        return  DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(raveWaverAsPlayer);
+    }
+
+
 }

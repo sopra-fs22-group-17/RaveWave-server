@@ -1,8 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
 import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
@@ -40,10 +43,12 @@ public class RaveWaverService {
     private final Logger log = LoggerFactory.getLogger(RaveWaverService.class);
 
     private final RaveWaverRepository raveWaverRepository;
+    private final PlayerRepository playerRepository;
 
     @Autowired
-    public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
+    public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository, PlayerRepository playerRepository) {
         this.raveWaverRepository = raveWaverRepository;
+        this.playerRepository = playerRepository;
     }
 
     public static void verifyPassword(String passwordRaveWaver, String passwordLogin) {
@@ -163,6 +168,24 @@ public class RaveWaverService {
         raveWaverToUpdate.setSpotifyToken(spotifyService.getAccessToken());
         raveWaverToUpdate.setSpotifyRefreshToken(spotifyService.getRefreshToken());
         raveWaverToUpdate.setProfilePicture(spotifyService.generateProfilePicture(raveWaverToUpdate));
+    }
+
+    public Player addRaveWaverToLobby(RaveWaverPostDTO raveWaverPostDTO, Long lobbyId){
+
+        RaveWaver raveWaverToConvert = raveWaverRepository.findByUsername(raveWaverPostDTO.getUsername());
+        Player convertedRaveWaver = new Player();
+
+        convertedRaveWaver.setPlayerName("[RW] " + raveWaverPostDTO.getUsername());
+        convertedRaveWaver.setRaveWaverId(raveWaverToConvert.getId());
+        convertedRaveWaver.setProfilePicture(convertedRaveWaver.getProfilePicture());
+        convertedRaveWaver.setLobbyId(lobbyId);
+        convertedRaveWaver.setToken(raveWaverToConvert.getToken());
+
+        Player convertedRaveWaver2;
+        convertedRaveWaver2 = playerRepository.save(convertedRaveWaver);
+        playerRepository.flush();
+
+        return convertedRaveWaver2;
     }
 
 
