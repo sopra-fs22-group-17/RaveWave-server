@@ -2,6 +2,8 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class GameServiceTest {
     @Mock
@@ -33,6 +36,9 @@ public class GameServiceTest {
     @Mock
     private Player testPlayer;
 
+    @MockBean
+    private RaveWaverRepository raveWaverRepository;
+
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
@@ -40,7 +46,7 @@ public class GameServiceTest {
         testPlayer = new Player();
         testPlayer.setId(1L);
         testPlayer.setLobbyId(1L);
-        testGame = new Game(spotifyService, SongPool.COUNTRY);
+        testGame = new Game(spotifyService, SongPool.COUNTRY, raveWaverRepository);
 
         Mockito.when(playerRepository.save(Mockito.any())).thenReturn(testPlayer);
     }

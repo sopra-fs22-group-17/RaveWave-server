@@ -1,15 +1,17 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverGetDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
+import org.apache.hc.core5.http.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,22 +58,28 @@ public class RaveWaverController {
     @PostMapping("/ravewavers")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public RaveWaverGetDTO createRaveWaver(@RequestBody RaveWaverPostDTO raveWaverPostDTO) {
+    public RaveWaverGetDTO createRaveWaver(@RequestBody RaveWaverPostDTO raveWaverPostDTO, HttpServletResponse response) throws IOException, ParseException, SpotifyWebApiException {
         // convert API raveWaver to internal representation
         RaveWaver raveWaverInput = DTOMapper.INSTANCE.convertRaveWaverPostDTOtoEntity(raveWaverPostDTO);
 
         // create raveWaver
         RaveWaver createdRaveWaver = raveWaverService.createRaveWaver(raveWaverInput);
 
+
+        response.addHeader("Authorization", createdRaveWaver.getToken());
+
         // convert internal representation of raveWaver back to API
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(createdRaveWaver);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/ravewavers/login")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public RaveWaverGetDTO loginRaveWaver(@RequestBody LoginPostDTO loginPostDTO) {
+    public RaveWaverGetDTO loginRaveWaver(@RequestBody LoginPostDTO loginPostDTO, HttpServletResponse response) {
         RaveWaver raveWaver = raveWaverService.loginRaveWaver(loginPostDTO);
+
+        response.addHeader("Authorization", raveWaver.getToken());
+
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaver);
     }
 
@@ -84,4 +92,16 @@ public class RaveWaverController {
 
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaverUpdate);
     }
+
+    @PostMapping("/lobbies/{lobbyId}/ravewaver")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public PlayerGetDTO addRaveWaverToLobby(@RequestBody RaveWaverPostDTO raveWaverPostDTO, @PathVariable Long lobbyId){
+
+        Player raveWaverAsPlayer = raveWaverService.addRaveWaverToLobby(raveWaverPostDTO, lobbyId);
+
+        return  DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(raveWaverAsPlayer);
+    }
+
+
 }

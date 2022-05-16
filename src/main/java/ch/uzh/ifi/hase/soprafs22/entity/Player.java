@@ -29,10 +29,10 @@ public class Player implements Serializable {
     @Column(nullable = false, unique = true)
     private Long id;
 
-    @Column(nullable = true)
+    @Column
     private Long raveWaverId;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private String playerName;
 
     @Column(nullable = false)
@@ -41,16 +41,16 @@ public class Player implements Serializable {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(nullable = false)
+    @Column
     private int totalScore;
 
-    @Column(nullable = false)
+    @Column
     private int roundScore;
 
-    @Column(nullable = false)
+    @Column
     private int streak;
 
-    @Column(nullable = false)
+    @Column
     private int correctAnswers;
 
     @Column

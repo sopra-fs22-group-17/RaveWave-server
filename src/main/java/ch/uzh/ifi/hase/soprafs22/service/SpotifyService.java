@@ -4,13 +4,15 @@ import static ch.uzh.ifi.hase.soprafs22.spotify.GetPlaylistsItems.fetchPlaylists
 import static ch.uzh.ifi.hase.soprafs22.spotify.GetUserSaveTracks.fetchUserSaveTracks;
 import static ch.uzh.ifi.hase.soprafs22.spotify.GetUserTopTracks.fetchUsersTopTracks;
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCode.authorizationCode_Sync;
+import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeRefresh.authorizationCodeRefresh_Sync;
 import static ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeUri.authorizationCodeUri_Sync;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +23,14 @@ import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.specification.Artist;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.model_objects.specification.User;
+import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
+import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 
 @Service
 @Transactional
@@ -51,25 +58,31 @@ public class SpotifyService {
         return authorizationCodeUri_Sync(spotifyApi);
     }
 
-    /*
-     * public void authorizationCodeRefresh() {
-     * authorizationCodeRefresh_Sync(spotifyApi);
-     * }
-     */
+    public void authorizationCodeRefresh(RaveWaver raveWaver) {
+        String oldAccessToken = raveWaver.getSpotifyToken();
+        String refreshToken = raveWaver.getSpotifyRefreshToken();
+
+        spotifyApi.setAccessToken(oldAccessToken);
+        spotifyApi.setRefreshToken(refreshToken);
+        authorizationCodeRefresh_Sync(spotifyApi);
+
+        raveWaver.setSpotifyToken(spotifyApi.getAccessToken());
+        raveWaver.setSpotifyRefreshToken(spotifyApi.getRefreshToken());
+
+    }
 
     public void authorizationCode(SpotifyPostDTO spotifyPostDTO) {
         authorizationCode_Sync(spotifyApi, spotifyPostDTO.getCode());
     }
 
-    /*
-     * public void getUsersFavoriteSongs() {
-     * GetUsersTopArtistsAndTracksExample.getUsersTopArtistsAndTracks_Sync(
-     * spotifyApi);
-     * }
-     */
-
     public ArrayList<Song> getPlaylistsItems(String playlistId) {
         return playlistTrackToTrackList(fetchPlaylistsItems(spotifyApi, playlistId));
+    }
+
+    public String getRaveWaverProfilePicture() throws IOException, ParseException, SpotifyWebApiException {
+        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
+        User info = getCurrentUsersProfileRequest.execute();
+        return info.getImages()[0].getUrl();
     }
 
     public String getAccessToken() {
@@ -80,8 +93,7 @@ public class SpotifyService {
         Optional<RaveWaver> opRaveWaver = raveWaverRepository.findById(raveWaverId);
         if (opRaveWaver.isPresent()) {
             RaveWaver raveWaver = opRaveWaver.get();
-            // String accessToken = raveWaver.getSpotifyToken();
-            // spotifyApi.setAccessToken(accessToken);
+            spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
             return trackToTrackList(fetchUsersTopTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
         }
         return null;
@@ -91,8 +103,7 @@ public class SpotifyService {
         Optional<RaveWaver> opRaveWaver = raveWaverRepository.findById(raveWaverId);
         if (opRaveWaver.isPresent()) {
             RaveWaver raveWaver = opRaveWaver.get();
-            // String accessToken = raveWaver.getSpotifyToken();
-            // spotifyApi.setAccessToken(accessToken);
+            spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
             return savedTracktoTrackList(fetchUserSaveTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
         }
         return null;
@@ -101,7 +112,7 @@ public class SpotifyService {
     private ArrayList<Song> savedTracktoTrackList(SavedTrack[] savedTracks, long raveWaverId, String playerName) {
         ArrayList<Song> songs = new ArrayList<>();
         for (SavedTrack sTrack : savedTracks) {
-            songs.add(new Song(sTrack.getTrack(), raveWaverId, playerName));
+            songs.add(new Song(sTrack.getTrack(), raveWaverId, "[RW] " + playerName));
         }
         return songs;
     }
@@ -117,10 +128,35 @@ public class SpotifyService {
     private ArrayList<Song> trackToTrackList(Track[] personalizedPlaylistsItems, long raveWaverId, String playerName) {
         ArrayList<Song> songs = new ArrayList<>();
         for (Track track : personalizedPlaylistsItems) {
-            songs.add(new Song(track, raveWaverId, playerName));
+            songs.add(new Song(track, raveWaverId, "[RW] " + playerName));
         }
         return songs;
 
     }
 
+    public String getRefreshToken() {
+        return spotifyApi.getRefreshToken();
+    }
+
+    public String generateProfilePicture(RaveWaver raveWaver)
+            throws IOException, ParseException, SpotifyWebApiException {
+        spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
+        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
+        User info = getCurrentUsersProfileRequest.execute();
+
+        if (info.getImages().length == 0) {
+            return ("https://robohash.org/" + raveWaver.getUsername() + ".png");
+        }
+        return info.getImages()[0].getUrl();
+    }
+
+    public String getArtistProfilePicture(String id) throws IOException, ParseException, SpotifyWebApiException {
+        GetArtistRequest.Builder getArtistRequest = spotifyApi.getArtist(id);
+        GetArtistRequest built = getArtistRequest.build();
+        Artist artist = built.execute();
+        if (artist.getImages().length == 0) {
+            return "";
+        }
+        return artist.getImages()[1].getUrl();
+    }
 }

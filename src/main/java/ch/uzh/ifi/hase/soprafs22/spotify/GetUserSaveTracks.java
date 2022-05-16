@@ -1,16 +1,15 @@
 package ch.uzh.ifi.hase.soprafs22.spotify;
 
-import java.io.IOException;
-
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
 import se.michaelthelin.spotify.requests.data.library.GetUsersSavedTracksRequest;
+
+import java.io.IOException;
 
 public class GetUserSaveTracks {
     public static SavedTrack[] fetchUserSaveTracks(SpotifyApi spotifyApi) {
@@ -25,7 +24,8 @@ public class GetUserSaveTracks {
 
             return savedTrackPaging.getItems();
 
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
+        }
+        catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "An error while fetching the song information occured: " + e.getMessage());
         }

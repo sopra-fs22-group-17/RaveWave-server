@@ -6,11 +6,15 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
+import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+
+import java.io.IOException;
 
 @Controller
 public class WebSocketController {
@@ -33,7 +37,7 @@ public class WebSocketController {
     }
 
     @MessageMapping("/lobbies/{lobbyId}/start-game")
-    public void startGame(@DestinationVariable int lobbyId) {
+    public void startGame(@DestinationVariable int lobbyId) throws IOException, ParseException, SpotifyWebApiException {
         log.info("Lobby" + lobbyId + ": Game started.");
         gameService.startGame(lobbyId);
         QuestionDTO questionToSend = gameService.startNextRound(lobbyId);

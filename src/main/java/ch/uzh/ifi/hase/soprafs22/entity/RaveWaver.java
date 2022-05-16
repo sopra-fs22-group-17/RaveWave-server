@@ -22,7 +22,7 @@ public class RaveWaver implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -34,8 +34,11 @@ public class RaveWaver implements Serializable {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(unique = true)
+    @Column
     private String spotifyToken;
+
+    @Column
+    private String spotifyRefreshToken;
 
     @Column(nullable = false)
     private LocalDate creationDate;
@@ -44,7 +47,15 @@ public class RaveWaver implements Serializable {
     private int level;
 
     @Column(nullable = true)
-    private byte[] profilePicture;
+    private String profilePicture;
+
+    public String getSpotifyRefreshToken() {
+        return spotifyRefreshToken;
+    }
+
+    public void setSpotifyRefreshToken(String spotifyRefreshToken) {
+        this.spotifyRefreshToken = spotifyRefreshToken;
+    }
 
     public Long getId() {
         return id;
@@ -102,11 +113,11 @@ public class RaveWaver implements Serializable {
         this.level = level;
     }
 
-    public byte[] getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(byte[] profilePicture) {
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 }

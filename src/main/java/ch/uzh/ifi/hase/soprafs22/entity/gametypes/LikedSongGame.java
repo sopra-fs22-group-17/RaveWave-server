@@ -11,6 +11,8 @@ import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 
+import java.util.ArrayList;
+
 public class LikedSongGame implements GameType {
     private final Question question;
 
@@ -30,6 +32,7 @@ public class LikedSongGame implements GameType {
         ArrayList<Player> spotPlayer = new ArrayList<>();
         for (Player player : players) {
             if (player.getRaveWaverId() != null) {
+                System.out.println(player.getPlayerName());
                 spotPlayer.add(player);
             }
         }
@@ -38,11 +41,12 @@ public class LikedSongGame implements GameType {
 
     @Override
     public void generateQuestion() {
-        question.setQuestion("Guess which player liked/listened to this song");
+        question.setQuestion("Guess which player listened to this song");
         question.setPreviewUrl(songs.get(songToPick).getTrack().getPreviewUrl());
 
         String correctAnswer = songs.get(songToPick).getPlayerName();
         Player correctPlayer = findCorrectPlayer(correctAnswer);
+        System.out.println(correctAnswer);
 
         ArrayList<Player> answers = new ArrayList<>();
 
@@ -58,6 +62,7 @@ public class LikedSongGame implements GameType {
         for (int i = 0; i < 3; i++) {
             int wrongIndex = randomGenerator.nextInt(wrongAnswersPlayer.size());
             answers.add(wrongAnswersPlayer.get(wrongIndex));
+            wrongAnswersPlayer.remove(wrongIndex);
         }
 
         int correctAnswerIndex = randomGenerator.nextInt(4);
@@ -83,6 +88,7 @@ public class LikedSongGame implements GameType {
     private ArrayList<String> stringifyAnswer(ArrayList<Player> players) {
         ArrayList<String> answers = new ArrayList<>();
         for (Player player : players) {
+            System.out.println(player.getPlayerName());
             answers.add(player.getPlayerName());
         }
         return answers;
@@ -104,6 +110,11 @@ public class LikedSongGame implements GameType {
         }
         return null;
 
+    }
+
+    @Override
+    public ArrayList<String> getSongCovers() {
+        return new ArrayList<String>();
     }
 
 }

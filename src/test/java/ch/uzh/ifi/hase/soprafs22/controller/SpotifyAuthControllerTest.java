@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This is a WebMvcTest which allows to test the RESTController i.e. GET/POST/PUT request without actually sending them over the network.
  * This tests if the RESTController works.
  */
+@Disabled("Coming soon... stay tuned")
 @WebMvcTest(SpotifyAuthController.class)
 public class SpotifyAuthControllerTest {
     @Autowired

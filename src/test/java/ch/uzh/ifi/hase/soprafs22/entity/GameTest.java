@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -12,6 +13,7 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 
 import java.util.ArrayList;
@@ -28,10 +30,12 @@ public class GameTest {
     @Mock
     private SpotifyService spotifyService;
 
+    @MockBean
+    private RaveWaverRepository raveWaverRepository;
 
     @BeforeEach
     void setup() {
-        game = new Game(spotifyService, SongPool.SWITZERLAND);
+        game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
           }
 
     @Test
@@ -94,7 +98,7 @@ public class GameTest {
         Player player2 = new Player();
         Player player3 = new Player();
 
-        game = new Game(spotifyService, SongPool.SWITZERLAND);
+        game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
 
         ArrayList<Player> players = new ArrayList<>();
 

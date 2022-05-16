@@ -10,6 +10,7 @@ public class LeaderboardEntry {
     private int roundScore;
     private int totalScore;
     private int streak;
+    private String ProfilePicture;
 
     public Long getPlayerId() {
         return playerId;
@@ -68,5 +69,12 @@ public class LeaderboardEntry {
         this.playerName = playerName;
     }
 
+    public String getProfilePicture() {
+        return ProfilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        ProfilePicture = profilePicture;
+    }
 
 }

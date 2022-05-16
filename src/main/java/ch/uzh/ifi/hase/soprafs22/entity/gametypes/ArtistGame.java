@@ -3,11 +3,17 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
+import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
+
+import org.apache.hc.core5.http.ParseException;
 
 public class ArtistGame implements GameType {
     private final Question question;
@@ -15,12 +21,14 @@ public class ArtistGame implements GameType {
     private final ArrayList<Song> songs;
     private final int songToPick;
     private final ArrayList<Track> answerSongs;
+    private SpotifyService spotifyService;
 
-    public ArtistGame(int songToPick, ArrayList<Song> songs) {
+    public ArtistGame(int songToPick, ArrayList<Song> songs, SpotifyService spotifyService2) {
         this.question = new Question();
         this.songs = songs;
         this.songToPick = songToPick;
         this.answerSongs = new ArrayList<Track>();
+        this.spotifyService = spotifyService2;
         generateQuestion();
 
     }
@@ -79,7 +87,7 @@ public class ArtistGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.ARTISTGAME);
-        question.setAlbumCovers(getAllAnswersSongCovers());
+        question.setAlbumCovers(getSongCovers());
         question.setSongTitle(songs.get(songToPick).getTrack().getName());
 
     }
@@ -94,11 +102,21 @@ public class ArtistGame implements GameType {
         return question.getCorrectAnswer();
     }
 
-    public ArrayList<String> getAllAnswersSongCovers() {
+    public ArrayList<String> getSongCovers() {
         ArrayList<String> albumCovers = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {
-            albumCovers.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());
+            String id = answerSongs.get(i).getArtists()[0].getId();
+
+            try {
+                if (!Objects.equals(spotifyService.getArtistProfilePicture(id), "")) {
+                    albumCovers.add(spotifyService.getArtistProfilePicture(id));
+                } else {
+                    albumCovers.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());
+                }
+            } catch (IOException | ParseException | SpotifyWebApiException e) {
+                e.printStackTrace();
+            }
         }
         return albumCovers;
     }
