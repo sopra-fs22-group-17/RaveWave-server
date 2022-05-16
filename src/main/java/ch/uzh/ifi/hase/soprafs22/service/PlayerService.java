@@ -36,7 +36,8 @@ public class PlayerService {
         Long lobbyId = newPlayer.getlobbyId();
 
         if (GameRepository.findByLobbyId(lobbyId.intValue()).hasStarted()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "The game has already started, you cannot add a user to this lobby!");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "The game has already started, you cannot add a user to this lobby!");
         }
         checkIfUsernameValid(newPlayer);
         checkIfLobbyForPlayerExists(newPlayer);
@@ -58,7 +59,7 @@ public class PlayerService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This username does already exist!");
         }
 
-        if (playerToBeCreated.getPlayerName().contains("[RW]")){
+        if (playerToBeCreated.getPlayerName().contains("[RW]")) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Your username can not contain \"[RW]\"!");
         }
     }
@@ -66,11 +67,14 @@ public class PlayerService {
     private void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
         try {
             GameRepository.findByLobbyId((int) playerToBeCreated.getlobbyId());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adding the player failed: " + e.getMessage());
 
         }
+
+    }
+
+    private void cleanLobby() {
 
     }
 

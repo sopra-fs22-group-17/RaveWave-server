@@ -66,7 +66,7 @@ public class Game {
 
     public void startGame(List<Player> players) {
         for (Player player : players) {
-            log.debug("Player: {}", player.getPlayerName());
+            log.info("Player: {}", player.getPlayerName());
         }
         // refreshes all the Spotify access tokens of all the RaveWavers in the lobby
         refreshAccessTokens(players);
