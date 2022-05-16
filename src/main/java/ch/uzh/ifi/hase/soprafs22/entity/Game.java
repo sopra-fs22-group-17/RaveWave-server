@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
+import ch.uzh.ifi.hase.soprafs22.entity.gametypes.LikedSongGame;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -145,7 +146,12 @@ public class Game {
             while (pickedSongs.contains(id)) {
                 id = rand.nextInt(songs.size());
             }
-            gamePlan.add(new ArtistGame(id, songs));
+            if (gameMode == GameMode.LIKEDSONGGAME) {
+                gamePlan.add(new LikedSongGame(id, songs, players));
+            } else {
+                gamePlan.add(new ArtistGame(id, songs));
+
+            }
             pickedSongs.add(id);
             i++;
 

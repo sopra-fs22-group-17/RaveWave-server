@@ -6,24 +6,22 @@ import java.util.Random;
 
 import javax.sound.midi.Track;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 
 public class LikedSongGame implements GameType {
     private final Question question;
 
     private final ArrayList<Song> songs;
     private final int songToPick;
-    private final ArrayList<Track> answerSongs;
     private final ArrayList<Player> playersSpotify;
 
     public LikedSongGame(int songToPick, ArrayList<Song> songs, List<Player> players) {
         this.question = new Question();
         this.songs = songs;
         this.songToPick = songToPick;
-        this.answerSongs = new ArrayList<Track>();
         this.playersSpotify = pickPlayersWithSpotify(players);
         generateQuestion();
     }
@@ -44,55 +42,68 @@ public class LikedSongGame implements GameType {
         question.setPreviewUrl(songs.get(songToPick).getTrack().getPreviewUrl());
 
         String correctAnswer = songs.get(songToPick).getPlayerName();
+        Player correctPlayer = findCorrectPlayer(correctAnswer);
 
-        ArrayList<String> answers = new ArrayList<String>();
+        ArrayList<Player> answers = new ArrayList<>();
 
-        ArrayList<Integer> wrongAnswersIndex = new ArrayList<>();
+        Random randomGenerator = new Random();
 
-        for (int i = 0; i < songs.size(); i++) {
-            wrongAnswersIndex.add(i);
+        ArrayList<Player> wrongAnswersPlayer = new ArrayList<>();
+        for (Player player : playersSpotify) {
+            if (!correctAnswer.equals(player.getPlayerName())) {
+                wrongAnswersPlayer.add(player);
+            }
         }
 
-        Random rand;
-        rand = new Random();
-        int a = 3;
-        for (int i = 0; i < a; i++) {
-            // pick a random number to compute the wrong answers
-            int wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
-
-            // ensures that there will never be the same answer twice
-            while (wrongAnswerIndex == songToPick && wrongAnswersIndex.size() > 0) {
-                wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
-            }
-            StringBuilder answer = new StringBuilder();
-            for (ArtistSimplified artist : songs.get(wrongAnswerIndex).getTrack().getArtists()) {
-                answer.append(artist.getName());
-                answer.append(", ");
-            }
-            answer.delete(answer.length() - 2, answer.length());
-
-            if (answers.contains(answer.toString())) {
-                a++;
-            } else {
-                answers.add(answer.toString());
-            }
-            answerSongs.add(songs.get(wrongAnswerIndex).getTrack());
+        for (int i = 0; i < 3; i++) {
+            int wrongIndex = randomGenerator.nextInt(wrongAnswersPlayer.size());
+            answers.add(wrongAnswersPlayer.get(wrongIndex));
         }
 
-        int correctAnswerIndex = rand.nextInt(4);
-        answers.add(correctAnswerIndex, correctAnswer.toString());
-        answerSongs.add(correctAnswerIndex, songs.get(songToPick).getTrack());
+        int correctAnswerIndex = randomGenerator.nextInt(4);
+        answers.add(correctAnswerIndex, correctPlayer);
+        question.setAnswers(stringifyAnswer(answers));
+        question.setCorrectAnswer(correctAnswerIndex + 1);
+        question.setGamemode(GameMode.LIKEDSONGGAME);
+        question.setAlbumCovers(getUserProfilPictures(answers));
+        question.setSongTitle(songs.get(songToPick).getTrack().getName());
 
     }
 
     @Override
     public Question getQuestion() {
-        return null;
+        return question;
     }
 
     @Override
     public int getCorrectAnswer() {
-        return 1;
+        return question.getCorrectAnswer();
+    }
+
+    private ArrayList<String> stringifyAnswer(ArrayList<Player> players) {
+        ArrayList<String> answers = new ArrayList<>();
+        for (Player player : players) {
+            answers.add(player.getPlayerName());
+        }
+        return answers;
+    }
+
+    private ArrayList<String> getUserProfilPictures(ArrayList<Player> players) {
+        ArrayList<String> profilePictures = new ArrayList<>();
+        for (Player player : players) {
+            profilePictures.add(player.getProfilePicture());
+        }
+        return profilePictures;
+    }
+
+    private Player findCorrectPlayer(String playerName) {
+        for (Player player : playersSpotify) {
+            if (player.getPlayerName().equals(playerName)) {
+                return player;
+            }
+        }
+        return null;
+
     }
 
 }
