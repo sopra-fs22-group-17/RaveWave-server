@@ -170,17 +170,18 @@ public class RaveWaverService {
         raveWaverToUpdate.setProfilePicture(spotifyService.generateProfilePicture(raveWaverToUpdate));
     }
 
-    public Player addRaveWaverToLobby(RaveWaverPostDTO raveWaverPostDTO, Long lobbyId){
+    public Player addRaveWaverToLobby(HttpServletRequest token, Long lobbyId){
 
-        RaveWaver raveWaverToConvert = raveWaverRepository.findByUsername(raveWaverPostDTO.getUsername());
+        String tokenString = token.getHeader("Authorization");
+        RaveWaver raveWaverToConvert = raveWaverRepository.findByToken(tokenString);
         Player convertedRaveWaver = new Player();
 
-        convertedRaveWaver.setPlayerName("[RW] " + raveWaverPostDTO.getUsername());
+        convertedRaveWaver.setPlayerName("[RW] " + raveWaverToConvert.getUsername());
         convertedRaveWaver.setRaveWaverId(raveWaverToConvert.getId());
         convertedRaveWaver.setProfilePicture(convertedRaveWaver.getProfilePicture());
         convertedRaveWaver.setLobbyId(lobbyId);
-        convertedRaveWaver.setToken(raveWaverToConvert.getToken());
         convertedRaveWaver.setProfilePicture(raveWaverToConvert.getProfilePicture());
+        convertedRaveWaver.setToken(tokenString);
 
         Player convertedRaveWaver2;
         convertedRaveWaver2 = playerRepository.save(convertedRaveWaver);

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,16 +92,6 @@ public class RaveWaverController {
         RaveWaver raveWaverUpdate = raveWaverService.updateRaveWaver(raveWaverPutDTO, id);
 
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaverUpdate);
-    }
-
-    @PostMapping("/lobbies/{lobbyId}/ravewaver")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public PlayerGetDTO addRaveWaverToLobby(@RequestBody RaveWaverPostDTO raveWaverPostDTO, @PathVariable Long lobbyId){
-
-        Player raveWaverAsPlayer = raveWaverService.addRaveWaverToLobby(raveWaverPostDTO, lobbyId);
-
-        return  DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(raveWaverAsPlayer);
     }
 
 
