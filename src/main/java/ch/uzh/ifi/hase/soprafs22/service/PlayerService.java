@@ -74,8 +74,4 @@ public class PlayerService {
 
     }
 
-    private void cleanLobby() {
-
-    }
-
 }
