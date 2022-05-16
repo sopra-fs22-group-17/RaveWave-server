@@ -1,8 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
-import org.assertj.core.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +19,7 @@ public class QuestionTest {
         testQuestion.setPlaybackDuration(PlaybackDuration.EIGHTEEN);
         testQuestion.setSongTitle("Test Title");
         testQuestion.setPreviewUrl("test URL");
-        testQuestion.setAlbumCovers(testList);
+        testQuestion.setPicture(testList);
         testQuestion.setAnswers(testList);
         testQuestion.setCorrectAnswer(1);
 
@@ -29,7 +28,7 @@ public class QuestionTest {
         ArrayList<String> questionActual = new ArrayList<>();
         Collections.addAll(
                 questionActual, testQuestion.getQuestion(), testQuestion.getPlaybackDuration().toString(),
-                testQuestion.getSongTitle(), testQuestion.getPreviewUrl(), testQuestion.getAlbumCovers().toString(),
+                testQuestion.getSongTitle(), testQuestion.getPreviewUrl(), testQuestion.getPicture().toString(),
                 testQuestion.getAnswers().toString(), correctTestAnswer);
 
         ArrayList<String> questionExpected = new ArrayList<>();

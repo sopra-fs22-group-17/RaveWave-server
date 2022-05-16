@@ -66,7 +66,7 @@ public class SongTitleGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.SONGTITLEGAME);
-        question.setAlbumCovers(getSongCovers());
+        question.setPicture(getPictures());
         question.setSongTitle(songs.get(songToPick).getName());
 
     }
@@ -82,12 +82,13 @@ public class SongTitleGame implements GameType {
     }
 
     @Override
-    public ArrayList<String> getSongCovers() {
+    public ArrayList<String> getPictures() {
         ArrayList<String> albumCovers = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {
             albumCovers.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());
         }
+
         return albumCovers;
     }
 }

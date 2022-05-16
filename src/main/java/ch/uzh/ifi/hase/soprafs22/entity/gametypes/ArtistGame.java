@@ -85,7 +85,7 @@ public class ArtistGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.ARTISTGAME);
-        question.setAlbumCovers(getSongCovers());
+        question.setPicture(getPictures());
         question.setSongTitle(songs.get(songToPick).getName());
 
     }
@@ -100,21 +100,21 @@ public class ArtistGame implements GameType {
         return question.getCorrectAnswer();
     }
 
-    public ArrayList<String> getSongCovers() {
-        ArrayList<String> albumCovers = new ArrayList<String>();
+    public ArrayList<String> getPictures() {
+        ArrayList<String> artisPictures = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {
             String id = answerSongs.get(i).getArtists()[0].getId();
 
             try {
                 if (!Objects.equals(spotifyService.getArtistProfilePicture(id), "")){
-                albumCovers.add(spotifyService.getArtistProfilePicture(id)) ;}
-                else {albumCovers.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());}
+                artisPictures.add(spotifyService.getArtistProfilePicture(id)) ;}
+                else {artisPictures.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());}
             }
             catch (IOException | ParseException | SpotifyWebApiException e) {
                 e.printStackTrace();
             }
         }
-        return albumCovers;
+        return artisPictures;
     }
 }

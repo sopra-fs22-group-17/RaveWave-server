@@ -13,7 +13,7 @@ public class Question {
     private List<String> answers;
     private int correctAnswer;
     private GameMode gamemode;
-    private ArrayList<String> albumCovers;
+    private ArrayList<String> picture;
     private PlaybackDuration playbackDuration;
     private String songTitle;
 
@@ -60,12 +60,12 @@ public class Question {
         this.gamemode = gamemode;
     }
 
-    public ArrayList<String> getAlbumCovers() {
-        return albumCovers;
+    public ArrayList<String> getPicture() {
+        return picture;
     }
 
-    public void setAlbumCovers(ArrayList<String> albumCovers) {
-        this.albumCovers = albumCovers;
+    public void setPicture(ArrayList<String> picture) {
+        this.picture = picture;
     }
 
     public String getSongTitle() {

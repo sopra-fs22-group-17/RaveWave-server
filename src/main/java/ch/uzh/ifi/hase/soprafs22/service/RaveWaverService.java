@@ -184,6 +184,10 @@ public class RaveWaverService {
         convertedRaveWaver.setToken(tokenString);
 
         Player convertedRaveWaver2;
+
+        if (playerRepository.findByToken(tokenString) != null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This RaveWaver is already in a lobby!");
+        }
         convertedRaveWaver2 = playerRepository.save(convertedRaveWaver);
         playerRepository.flush();
 

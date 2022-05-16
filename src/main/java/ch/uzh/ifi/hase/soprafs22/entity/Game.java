@@ -8,7 +8,6 @@ import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.SongTitleGame;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
-import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -95,7 +94,7 @@ public class Game {
         leaderboardDTO.setGameOver(this.currentGameRound == this.gameRounds);
         leaderboardDTO.setArtist(gamePlan.get(currentGameRound - 1).getQuestion().getAnswers()
                 .get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
-        leaderboardDTO.setCoverUrl(gamePlan.get(currentGameRound - 1).getQuestion().getAlbumCovers()
+        leaderboardDTO.setCoverUrl(gamePlan.get(currentGameRound - 1).getQuestion().getPicture()
                 .get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
         leaderboardDTO.setSongTitle(gamePlan.get(currentGameRound - 1).getQuestion().getSongTitle());
         return leaderboardDTO;

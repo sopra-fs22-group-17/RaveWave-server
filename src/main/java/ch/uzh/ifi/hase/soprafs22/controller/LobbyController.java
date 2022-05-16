@@ -27,15 +27,16 @@ public class LobbyController {
     private final SpotifyService spotifyService;
     private final PlayerService playerService;
     private final RaveWaverService raveWaverService;
+    private final RaveWaverRepository raveWaverRepository;
     Logger log = LoggerFactory.getLogger(LobbyController.class);
 
 
-    LobbyController(GameService gameService, SpotifyService spotifyService, PlayerService playerService, RaveWaverService raveWaverService) {
+    LobbyController(GameService gameService, SpotifyService spotifyService, PlayerService playerService, RaveWaverService raveWaverService, RaveWaverRepository raveWaverRepository) {
         this.gameService = gameService;
         this.spotifyService = spotifyService;
         this.playerService = playerService;
         this.raveWaverService = raveWaverService;
-
+        this.raveWaverRepository = raveWaverRepository;
     }
 
     @PostMapping("/lobbies")
@@ -54,7 +55,7 @@ public class LobbyController {
     public PlayerGetDTO createPlayer(@RequestBody PlayerPostDTO playerPostDTO, @PathVariable Long lobbyId,
                                      HttpServletResponse response, HttpServletRequest token) throws IOException, ParseException, SpotifyWebApiException {
 
-        if (token != null){
+        if (raveWaverRepository.findByToken(token.getHeader("Authorization")) != null){
             Player newPlayer = raveWaverService.addRaveWaverToLobby(token, lobbyId);
             return DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(newPlayer);
         }
