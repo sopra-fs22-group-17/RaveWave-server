@@ -1,18 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.hc.core5.http.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
@@ -36,6 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * GameService
  */
@@ -43,13 +34,13 @@ import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 @Transactional
 public class GameService {
     private final PlayerRepository playerRepository;
+    private final RaveWaverRepository raveWaverRepository;
     Logger log = LoggerFactory.getLogger(GameService.class);
     private int lobbyToCreate;
-    private final RaveWaverRepository raveWaverRepository;
 
     @Autowired
     public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
-            @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
+                       @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
         this.playerRepository = playerRepository;
         this.raveWaverRepository = raveWaverRepository;
         this.lobbyToCreate = 0;

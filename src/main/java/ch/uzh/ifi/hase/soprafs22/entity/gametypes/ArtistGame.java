@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
@@ -12,8 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
-
-import org.apache.hc.core5.http.ParseException;
 
 public class ArtistGame implements GameType {
     private final Question question;
@@ -74,7 +73,8 @@ public class ArtistGame implements GameType {
 
             if (answers.contains(answer.toString())) {
                 a++;
-            } else {
+            }
+            else {
                 answers.add(answer.toString());
             }
             answerSongs.add(songs.get(wrongAnswerIndex).getTrack());

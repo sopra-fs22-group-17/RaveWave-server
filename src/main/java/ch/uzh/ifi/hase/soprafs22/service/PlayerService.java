@@ -63,10 +63,11 @@ public class PlayerService {
         }
     }
 
-    private void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
+    public static void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
         try {
             GameRepository.findByLobbyId((int) playerToBeCreated.getlobbyId());
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adding the player failed: " + e.getMessage());
 
         }

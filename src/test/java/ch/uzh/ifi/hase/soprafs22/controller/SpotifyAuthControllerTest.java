@@ -33,7 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @WebMvcTest(SpotifyAuthController.class)
+@Disabled
 public class SpotifyAuthControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 

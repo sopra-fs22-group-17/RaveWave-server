@@ -1,17 +1,13 @@
 package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import javax.sound.midi.Track;
-
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class LikedSongGame implements GameType {
     private final Question question;
@@ -70,7 +66,7 @@ public class LikedSongGame implements GameType {
         question.setAnswers(stringifyAnswer(answers));
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.LIKEDSONGGAME);
-        question.setAlbumCovers(getUserProfilPictures(answers));
+        question.setPicture(getUserProfilPictures(answers));
         question.setSongTitle(songs.get(songToPick).getTrack().getName());
 
     }

@@ -1,18 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-
-import org.apache.hc.core5.http.ParseException;
-
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
-import ch.uzh.ifi.hase.soprafs22.controller.LobbyController;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.LikedSongGame;
@@ -24,17 +15,18 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardEntry;
-import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
-import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
-import se.michaelthelin.spotify.model_objects.specification.Track;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Game {
 
@@ -43,14 +35,13 @@ public class Game {
     private final SpotifyService spotifyService;
     private final Random rand;
     private final RaveWaverRepository raveWaverRepository;
+    Logger log = LoggerFactory.getLogger(Game.class);
     private GameMode gameMode;
     private RoundDuration roundDuration;
     private PlaybackDuration playbackDuration;
     private SongPool songGenre;
     private int gameRounds;
     private int currentGameRound;
-    private final RaveWaverRepository raveWaverRepository;
-    Logger log = LoggerFactory.getLogger(Game.class);
 
     public Game(SpotifyService spotifyService, SongPool songGenre, RaveWaverRepository raveWaverRepository) {
         this.spotifyService = spotifyService;
@@ -136,7 +127,8 @@ public class Game {
 
             if (points != 0) {
                 player.setStreak(player.getStreak() + 1);
-            } else {
+            }
+            else {
                 player.setStreak(0);
             }
         }
@@ -147,18 +139,20 @@ public class Game {
         if (this.songGenre == SongPool.USERSTOPTRACKS) {
             for (Player player : players) {
                 Long raveWaverId = player.getRaveWaverId();
-                if (raveWaverId != null) {
+                if (raveWaverId != 0) {
                     songs.addAll(spotifyService.getPersonalizedPlaylistsItems(raveWaverId));
                 }
             }
-        } else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
+        }
+        else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
             for (Player player : players) {
                 Long raveWaverId = player.getRaveWaverId();
-                if (raveWaverId != null) {
+                if (raveWaverId != 0) {
                     songs.addAll(spotifyService.getSavedTrackItems(raveWaverId));
                 }
             }
-        } else {
+        }
+        else {
             songs.addAll(spotifyService.getPlaylistsItems(songGenre.getPlaylistId()));
         }
         int bound;
@@ -180,11 +174,14 @@ public class Game {
             }
             if (this.gameMode == GameMode.ARTISTGAME) {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
-            } else if (this.gameMode == GameMode.SONGTITLEGAME) {
+            }
+            else if (this.gameMode == GameMode.SONGTITLEGAME) {
                 gamePlan.add(new SongTitleGame(id, songs));
-            } else if (this.gameMode == GameMode.LIKEDSONGGAME) {
+            }
+            else if (this.gameMode == GameMode.LIKEDSONGGAME) {
                 gamePlan.add(new LikedSongGame(id, songs, players));
-            } else {
+            }
+            else {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
             }
             pickedSongs.add(id);
@@ -293,15 +290,15 @@ public class Game {
                 Pattern p = Pattern.compile("[^A-Za-z0-9]");
                 Matcher m = p.matcher(name);
                 boolean b = m.find();
-                if(b){
+                if (b) {
                     player.setProfilePicture("https://robohash.org/dontknow.png");
-                } else {
-                    player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
-                        }
-                    }
                 }
+                else {
+                    player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
+                }
+            }
         }
     }
-
-
 }
+
+

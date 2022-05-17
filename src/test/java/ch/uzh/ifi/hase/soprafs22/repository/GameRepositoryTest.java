@@ -29,7 +29,7 @@ public class GameRepositoryTest {
 
     @BeforeEach
     void setup() {
-        spotifyService = new SpotifyService();
+        spotifyService = new SpotifyService(raveWaverRepository);
         game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
         GameRepository.addGame(1, game);
     }

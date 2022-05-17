@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static ch.uzh.ifi.hase.soprafs22.service.PlayerService.checkIfLobbyForPlayerExists;
+
 /**
  * User Service
  * This class is the "worker" and responsible for all functionality related to
@@ -43,6 +45,7 @@ public class RaveWaverService {
 
     private final RaveWaverRepository raveWaverRepository;
     private final PlayerRepository playerRepository;
+
 
     @Autowired
     public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository, PlayerRepository playerRepository) {
@@ -175,12 +178,17 @@ public class RaveWaverService {
         RaveWaver raveWaverToConvert = raveWaverRepository.findByToken(tokenString);
         Player convertedRaveWaver = new Player();
 
+        if(playerRepository.findByPlayerNameAndLobbyId("[RW] " + raveWaverToConvert.getUsername(), lobbyId) != null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This player is already in this lobby!");
+        }
         convertedRaveWaver.setPlayerName("[RW] " + raveWaverToConvert.getUsername());
         convertedRaveWaver.setRaveWaverId(raveWaverToConvert.getId());
         convertedRaveWaver.setProfilePicture(convertedRaveWaver.getProfilePicture());
         convertedRaveWaver.setLobbyId(lobbyId);
         convertedRaveWaver.setProfilePicture(raveWaverToConvert.getProfilePicture());
-        convertedRaveWaver.setToken(tokenString);
+        convertedRaveWaver.setToken(UUID.randomUUID().toString());
+
+        checkIfLobbyForPlayerExists(convertedRaveWaver);
 
         Player convertedRaveWaver2;
 

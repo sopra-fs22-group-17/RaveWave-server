@@ -3,7 +3,6 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
-import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -53,7 +52,8 @@ public class SongTitleGame implements GameType {
 
             if (answers.contains(answer)) {
                 a++;
-            } else {
+            }
+            else {
                 answers.add(answer);
             }
             answerSongs.add(songs.get(wrongAnswerIndex));
