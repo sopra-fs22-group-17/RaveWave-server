@@ -1,4 +1,4 @@
-#RaveWave
+# RaveWave
 
 
 
@@ -34,3 +34,6 @@ We want to thank our Teaching Assistant [Tarek Alakmeh](https://github.com/orgs/
 ## License
 
 
+## TODOS
+- [] Duplicate Songs, when fetching from multiple Users
+- [] Songlist empty -> ex. no liked songs

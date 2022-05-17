@@ -1,11 +1,21 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
+import org.apache.hc.core5.http.ParseException;
+
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
+import ch.uzh.ifi.hase.soprafs22.controller.LobbyController;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.GameType;
+import ch.uzh.ifi.hase.soprafs22.entity.gametypes.LikedSongGame;
 import ch.uzh.ifi.hase.soprafs22.entity.gametypes.SongTitleGame;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
@@ -14,7 +24,6 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardEntry;
-import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
@@ -24,6 +33,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Game {
 
@@ -38,6 +49,8 @@ public class Game {
     private SongPool songGenre;
     private int gameRounds;
     private int currentGameRound;
+    private final RaveWaverRepository raveWaverRepository;
+    Logger log = LoggerFactory.getLogger(Game.class);
 
     public Game(SpotifyService spotifyService, SongPool songGenre, RaveWaverRepository raveWaverRepository) {
         this.spotifyService = spotifyService;
@@ -123,30 +136,30 @@ public class Game {
 
             if (points != 0) {
                 player.setStreak(player.getStreak() + 1);
-            }
-            else {
+            } else {
                 player.setStreak(0);
             }
         }
     }
 
     public void fillGamePlan(List<Player> players) {
-        ArrayList<Track> songs = new ArrayList<>();
-        Long raveWaverId = 0L;
+        ArrayList<Song> songs = new ArrayList<>();
         if (this.songGenre == SongPool.USERSTOPTRACKS) {
-            // for (Player player : players) {
-            // Long raveWaverId = player.getRaveWaverId();
-            // if (raveWaverId != null) {
-            songs.addAll(trackToTrackList(spotifyService.getPersonalizedPlaylistsItems(raveWaverId)));
-            // }
-            // }
-        }
-        else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
-            songs.addAll(savedTracktoTrackList(spotifyService.getSavedTrackItems(raveWaverId)));
-
-        }
-        else {
-            songs.addAll(playlistTrackToTrackList(spotifyService.getPlaylistsItems(songGenre.getPlaylistId())));
+            for (Player player : players) {
+                Long raveWaverId = player.getRaveWaverId();
+                if (raveWaverId != null) {
+                    songs.addAll(spotifyService.getPersonalizedPlaylistsItems(raveWaverId));
+                }
+            }
+        } else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
+            for (Player player : players) {
+                Long raveWaverId = player.getRaveWaverId();
+                if (raveWaverId != null) {
+                    songs.addAll(spotifyService.getSavedTrackItems(raveWaverId));
+                }
+            }
+        } else {
+            songs.addAll(spotifyService.getPlaylistsItems(songGenre.getPlaylistId()));
         }
         int bound;
         ArrayList<Integer> pickedSongs = new ArrayList<>();
@@ -161,33 +174,23 @@ public class Game {
         int i = 0;
         while (i < bound) {
             int id = rand.nextInt(songs.size());
-            while (pickedSongs.contains(id) || songs.get(id).getPreviewUrl() == null || songs.get(id).getAlbum().getImages()[1] == null) {
+            while (pickedSongs.contains(id) || songs.get(id).getTrack().getPreviewUrl() == null
+                    || songs.get(id).getTrack().getAlbum().getImages()[1] == null) {
                 id = rand.nextInt(songs.size());
             }
             if (this.gameMode == GameMode.ARTISTGAME) {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
-            }
-            else if (this.gameMode == GameMode.SONGTITLEGAME) {
+            } else if (this.gameMode == GameMode.SONGTITLEGAME) {
                 gamePlan.add(new SongTitleGame(id, songs));
-            }
-            else {
+            } else if (this.gameMode == GameMode.LIKEDSONGGAME) {
+                gamePlan.add(new LikedSongGame(id, songs, players));
+            } else {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
-                //System.out.println("didn't work");
             }
             pickedSongs.add(id);
             i++;
         }
     }
-
-    private ArrayList<Track> savedTracktoTrackList(SavedTrack[] savedTracks) {
-        ArrayList<Track> tracks = new ArrayList<>();
-        for (SavedTrack sTrack : savedTracks) {
-            tracks.add(sTrack.getTrack());
-        }
-        return tracks;
-
-    }
-
 
     public LeaderboardDTO fillLeaderboard(List<Player> players) {
 
@@ -277,21 +280,6 @@ public class Game {
         return currentGameRound != 0;
     }
 
-    private ArrayList<Track> playlistTrackToTrackList(PlaylistTrack[] playlist) {
-        ArrayList songs = new ArrayList<>();
-        ArrayList playlistArray = new ArrayList<PlaylistTrack>(Arrays.asList(playlist));
-        for (int i = 0; i < playlist.length; i++) {
-            songs.add(((PlaylistTrack) playlistArray.get(i)).getTrack());
-        }
-
-        return songs;
-    }
-
-    private ArrayList<Track> trackToTrackList(Track[] tracks) {
-        return new ArrayList<Track>(Arrays.asList(tracks));
-    }
-
-
     public void generateAvatar(List<Player> players) throws IOException, ParseException, SpotifyWebApiException {
 
         for (Player player : players) {
@@ -306,7 +294,7 @@ public class Game {
                 Matcher m = p.matcher(name);
                 boolean b = m.find();
                 if(b){
-                    player.setProfilePicture("https://robohash.org/dontknow");
+                    player.setProfilePicture("https://robohash.org/dontknow.png");
                 } else {
                     player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
                         }
@@ -315,3 +303,5 @@ public class Game {
         }
     }
 
+
+}

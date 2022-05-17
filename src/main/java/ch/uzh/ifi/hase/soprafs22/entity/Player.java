@@ -1,7 +1,12 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Internal User Representation
