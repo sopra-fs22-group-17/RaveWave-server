@@ -7,6 +7,8 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import org.apache.hc.core5.http.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
@@ -19,6 +21,7 @@ public class SpotifyAuthController {
 
     private final SpotifyService spotifyService;
     private final RaveWaverService raveWaverService;
+    Logger log = LoggerFactory.getLogger(WebSocketController.class);
 
     SpotifyAuthController(SpotifyService spotifyService, RaveWaverService raveWaverService) {
         this.spotifyService = spotifyService;
@@ -31,10 +34,9 @@ public class SpotifyAuthController {
     @ResponseBody
     public SpotifyAuthCodeGetDTO generateAuthorizationCodeUri() {
         SpotifyAuthCodeGetDTO URL = new SpotifyAuthCodeGetDTO();
-        //SpotifyGetDTO test = new SpotifyGetDTO();
-        //test.setAccessToken(spotifyService.authorizationCodeUri());
 
         URL.setRedirectionURL(spotifyService.authorizationCodeUri());
+        log.info("Spotify authorization URL generated");
         return URL;
     }
 
@@ -55,7 +57,7 @@ public class SpotifyAuthController {
 
         SpotifyGetDTO response = new SpotifyGetDTO();
         response.setAccessToken(spotifyService.getAccessToken());
-
+        log.info("Spotify access granted!");
         return response;
     }
 

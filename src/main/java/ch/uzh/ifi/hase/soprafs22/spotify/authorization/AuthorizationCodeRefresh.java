@@ -20,7 +20,7 @@ public class AuthorizationCodeRefresh {
             // Set access and refresh token for further "spotifyApi" object usage
             spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
 
-            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
+            //System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
         }
         catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());

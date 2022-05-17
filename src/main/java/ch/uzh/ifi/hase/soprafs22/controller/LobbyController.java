@@ -45,6 +45,7 @@ public class LobbyController {
     public LobbyIdDTO createNewLobby() {
         LobbyIdDTO lobbyIdDTO = new LobbyIdDTO();
         lobbyIdDTO.setLobbyId(gameService.createNewLobby(spotifyService));
+        log.info("Lobby" + lobbyIdDTO.getLobbyId() + ": created");
         return lobbyIdDTO;
 
     }
@@ -53,7 +54,7 @@ public class LobbyController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public PlayerGetDTO createPlayer(@RequestBody PlayerPostDTO playerPostDTO, @PathVariable Long lobbyId,
-                                     HttpServletResponse response, HttpServletRequest token) throws IOException, ParseException, SpotifyWebApiException {
+                                     HttpServletResponse response, HttpServletRequest token) {
 
         if (raveWaverRepository.findByToken(token.getHeader("Authorization")) != null){
             Player newPlayer = raveWaverService.addRaveWaverToLobby(token, lobbyId);
@@ -65,6 +66,7 @@ public class LobbyController {
 
         Player newPlayer = playerService.addPlayer(playerToAdd);
         response.addHeader("Authorization", "Basic" + playerToAdd.getToken());
+        log.info("Player" + newPlayer.getPlayerName() + " with ID: " + newPlayer.getId() + " created");
         return DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(newPlayer);
 
     }

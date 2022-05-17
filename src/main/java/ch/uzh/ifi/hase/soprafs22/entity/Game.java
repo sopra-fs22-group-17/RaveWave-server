@@ -170,7 +170,7 @@ public class Game {
             }
             else {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
-                System.out.println("didn't work");
+                //System.out.println("didn't work");
             }
             pickedSongs.add(id);
             i++;
