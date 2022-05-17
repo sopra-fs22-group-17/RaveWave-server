@@ -62,8 +62,8 @@ public class LobbyController {
         playerToAdd.setLobbyId(lobbyId);
 
         Player newPlayer = playerService.addPlayer(playerToAdd);
-        response.addHeader("Authorization", "Basic" + playerToAdd.getToken());
-        log.info("Player" + newPlayer.getPlayerName() + " with ID: " + newPlayer.getId() + " created");
+        response.addHeader("Authorization", playerToAdd.getToken());
+        log.info("Player " + newPlayer.getPlayerName() + " with ID: " + newPlayer.getId() + " created");
         return DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(newPlayer);
 
     }

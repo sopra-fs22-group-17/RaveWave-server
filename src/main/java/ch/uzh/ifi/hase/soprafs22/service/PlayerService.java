@@ -30,6 +30,17 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
+    public static void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
+        try {
+            GameRepository.findByLobbyId((int) playerToBeCreated.getlobbyId());
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adding the player failed: " + e.getMessage());
+
+        }
+
+    }
+
     // returns playerToken
     public Player addPlayer(Player newPlayer) {
         Long lobbyId = newPlayer.getlobbyId();
@@ -61,17 +72,6 @@ public class PlayerService {
         if (playerToBeCreated.getPlayerName().contains("[RW]")) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Your username can not contain \"[RW]\"!");
         }
-    }
-
-    public static void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
-        try {
-            GameRepository.findByLobbyId((int) playerToBeCreated.getlobbyId());
-        }
-        catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adding the player failed: " + e.getMessage());
-
-        }
-
     }
 
 }

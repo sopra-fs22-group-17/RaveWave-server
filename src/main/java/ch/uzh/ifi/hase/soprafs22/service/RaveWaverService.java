@@ -178,7 +178,7 @@ public class RaveWaverService {
         RaveWaver raveWaverToConvert = raveWaverRepository.findByToken(tokenString);
         Player convertedRaveWaver = new Player();
 
-        if(playerRepository.findByPlayerNameAndLobbyId("[RW] " + raveWaverToConvert.getUsername(), lobbyId) != null){
+        if (playerRepository.findByPlayerNameAndLobbyId("[RW] " + raveWaverToConvert.getUsername(), lobbyId) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This player is already in this lobby!");
         }
         convertedRaveWaver.setPlayerName("[RW] " + raveWaverToConvert.getUsername());
