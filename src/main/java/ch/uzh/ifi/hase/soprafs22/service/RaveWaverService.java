@@ -5,7 +5,6 @@ import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
 import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
@@ -170,7 +169,7 @@ public class RaveWaverService {
         raveWaverToUpdate.setProfilePicture(spotifyService.generateProfilePicture(raveWaverToUpdate));
     }
 
-    public Player addRaveWaverToLobby(HttpServletRequest token, Long lobbyId){
+    public Player addRaveWaverToLobby(HttpServletRequest token, Long lobbyId) {
 
         String tokenString = token.getHeader("Authorization");
         RaveWaver raveWaverToConvert = raveWaverRepository.findByToken(tokenString);
@@ -185,7 +184,7 @@ public class RaveWaverService {
 
         Player convertedRaveWaver2;
 
-        if (playerRepository.findByToken(tokenString) != null){
+        if (playerRepository.findByToken(tokenString) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This RaveWaver is already in a lobby!");
         }
         convertedRaveWaver2 = playerRepository.save(convertedRaveWaver);

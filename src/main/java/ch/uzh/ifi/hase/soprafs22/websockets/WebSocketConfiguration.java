@@ -32,7 +32,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("*")
                 .setHandshakeHandler(new PrincipalHandshake());
-                //.withSockJS();
+        //.withSockJS();
     }
 
     @Bean

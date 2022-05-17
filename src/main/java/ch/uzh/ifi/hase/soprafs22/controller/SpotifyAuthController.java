@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyAuthCodeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
@@ -49,8 +48,8 @@ public class SpotifyAuthController {
         spotifyService.authorizationCode(spotifyPostDTO);
 
         //set the authorizationToken of a RaveWaver if a RaveWaver is given
-        if(token != null){
-          raveWaverService.updateSpotifyToken(token, spotifyService);
+        if (token != null) {
+            raveWaverService.updateSpotifyToken(token, spotifyService);
         }
 
         spotifyService.authorizationCodeRefresh(raveWaverService.getRaveWaverByToken(token));

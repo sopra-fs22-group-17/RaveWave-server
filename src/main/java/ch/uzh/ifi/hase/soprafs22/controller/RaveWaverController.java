@@ -1,8 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.*;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import org.apache.hc.core5.http.ParseException;
@@ -12,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class RaveWaverController {
 
         // convert internal representation of raveWaver back to API
         RaveWaverGetDTO raveWaverGetDTO = DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(createdRaveWaver);
-        log.info("Ravewaver " + raveWaverGetDTO.getUsername() + " with ID " + raveWaverGetDTO.getId() + " created." );
+        log.info("Ravewaver " + raveWaverGetDTO.getUsername() + " with ID " + raveWaverGetDTO.getId() + " created.");
 
         return raveWaverGetDTO;
     }

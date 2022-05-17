@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.WebSocketService;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
@@ -15,7 +14,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Controller

@@ -10,16 +10,13 @@ import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.PlayerService;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
-import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @RestController
 public class LobbyController {
@@ -56,7 +53,7 @@ public class LobbyController {
     public PlayerGetDTO createPlayer(@RequestBody PlayerPostDTO playerPostDTO, @PathVariable Long lobbyId,
                                      HttpServletResponse response, HttpServletRequest token) {
 
-        if (raveWaverRepository.findByToken(token.getHeader("Authorization")) != null){
+        if (raveWaverRepository.findByToken(token.getHeader("Authorization")) != null) {
             Player newPlayer = raveWaverService.addRaveWaverToLobby(token, lobbyId);
             return DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(newPlayer);
         }
