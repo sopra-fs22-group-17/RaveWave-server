@@ -2,7 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
-import se.michaelthelin.spotify.model_objects.specification.Track;
+import ch.uzh.ifi.hase.soprafs22.entity.Song;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,24 +10,24 @@ import java.util.Random;
 public class SongTitleGame implements GameType {
 
     private final Question question;
-    private final ArrayList<Track> songs;
+    private final ArrayList<Song> songs;
     private final int songToPick;
-    private final ArrayList<Track> answerSongs;
+    private final ArrayList<Song> answerSongs;
 
-    public SongTitleGame(int songToPick, ArrayList<Track> songs) {
+    public SongTitleGame(int songToPick, ArrayList<Song> songs) {
         this.question = new Question();
         this.songs = songs;
         this.songToPick = songToPick;
-        this.answerSongs = new ArrayList<Track>();
+        this.answerSongs = new ArrayList<Song>();
         generateQuestion();
     }
 
     @Override
     public void generateQuestion() {
         question.setQuestion("Guess the song title");
-        question.setPreviewUrl(songs.get(songToPick).getPreviewUrl());
+        question.setPreviewUrl(songs.get(songToPick).getTrack().getPreviewUrl());
 
-        String correctAnswer = songs.get(songToPick).getName();
+        String correctAnswer = songs.get(songToPick).getTrack().getName();
 
         ArrayList<String> answers = new ArrayList<String>();
 
@@ -48,7 +48,7 @@ public class SongTitleGame implements GameType {
             while (wrongAnswerIndex == songToPick && wrongAnswersIndex.size() > 0) {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
-            String answer = songs.get(wrongAnswerIndex).getName();
+            String answer = songs.get(wrongAnswerIndex).getTrack().getName();
 
             if (answers.contains(answer)) {
                 a++;
@@ -66,8 +66,8 @@ public class SongTitleGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.SONGTITLEGAME);
-        question.setAlbumCovers(getSongCovers());
-        question.setSongTitle(songs.get(songToPick).getName());
+        question.setPicture(getPictures());
+        question.setSongTitle(songs.get(songToPick).getTrack().getName());
 
     }
 
@@ -82,11 +82,11 @@ public class SongTitleGame implements GameType {
     }
 
     @Override
-    public ArrayList<String> getSongCovers() {
+    public ArrayList<String> getPictures() {
         ArrayList<String> albumCovers = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {
-            albumCovers.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());
+            albumCovers.add(answerSongs.get(i).getTrack().getAlbum().getImages()[1].getUrl());
         }
         return albumCovers;
     }

@@ -27,7 +27,7 @@ public class Player implements Serializable {
     @Column
     private Long raveWaverId;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private String playerName;
 
     @Column(nullable = false)

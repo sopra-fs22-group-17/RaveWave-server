@@ -5,6 +5,7 @@ public class Answer {
     private int playerGuess;
     private Long playerId;
     private float answerTime;
+    private String token;
 
     public int getplayerGuess() {
         return playerGuess;
@@ -29,5 +30,14 @@ public class Answer {
     public void setAnswerTime(float answerTime) {
         this.answerTime = answerTime;
     }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
 
 }

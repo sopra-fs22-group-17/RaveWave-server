@@ -49,6 +49,9 @@ public class RaveWaver implements Serializable {
     @Column(nullable = true)
     private String profilePicture;
 
+    @Column(nullable = false)
+    private boolean spotifyAuthorization = false;
+
     public String getSpotifyRefreshToken() {
         return spotifyRefreshToken;
     }
@@ -120,4 +123,13 @@ public class RaveWaver implements Serializable {
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
+
+    public boolean isSpotifyAuthorization() {
+        return spotifyAuthorization;
+    }
+
+    public void setSpotifyAuthorization(boolean spotifyAuthorization) {
+        this.spotifyAuthorization = spotifyAuthorization;
+    }
+
 }

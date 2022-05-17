@@ -36,7 +36,7 @@ public class PlayerServiceTest {
 
     @BeforeEach
     public void setup() {
-        SpotifyService spotifyService = new SpotifyService();
+        SpotifyService spotifyService = new SpotifyService(raveWaverRepository);
         Game game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
         MockitoAnnotations.openMocks(this);
         GameRepository.addGame(1, game);

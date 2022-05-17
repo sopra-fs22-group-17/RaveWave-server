@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.service;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.UUID;
 public class PlayerService {
     private final PlayerRepository playerRepository;
     Logger log = LoggerFactory.getLogger(PlayerService.class);
+    private RaveWaverRepository raveWaverRepository;
 
     @Autowired
     public PlayerService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
@@ -33,9 +35,10 @@ public class PlayerService {
         Long lobbyId = newPlayer.getlobbyId();
 
         if (GameRepository.findByLobbyId(lobbyId.intValue()).hasStarted()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "The game has already started, you cannot add a user to this lobby!");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "The game has already started, you cannot add a user to this lobby!");
         }
-        checkIfPlayerExists(newPlayer);
+        checkIfUsernameValid(newPlayer);
         checkIfLobbyForPlayerExists(newPlayer);
         newPlayer.setToken(UUID.randomUUID().toString());
         newPlayer.addToScore(0);
@@ -47,16 +50,20 @@ public class PlayerService {
         return newPlayer;
     }
 
-    private void checkIfPlayerExists(Player playerToBeCreated) {
+    private void checkIfUsernameValid(Player playerToBeCreated) {
         Player userByUsername = playerRepository.findByPlayerNameAndLobbyId(playerToBeCreated.getPlayerName(),
                 playerToBeCreated.getlobbyId());
 
         if (userByUsername != null && userByUsername.getlobbyId() == playerToBeCreated.getlobbyId()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This username does already exist!");
         }
+
+        if (playerToBeCreated.getPlayerName().contains("[RW]")) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Your username can not contain \"[RW]\"!");
+        }
     }
 
-    private void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
+    public static void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
         try {
             GameRepository.findByLobbyId((int) playerToBeCreated.getlobbyId());
         }

@@ -31,9 +31,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This is a WebMvcTest which allows to test the RESTController i.e. GET/POST/PUT request without actually sending them over the network.
  * This tests if the RESTController works.
  */
-@Disabled("Coming soon... stay tuned")
+
 @WebMvcTest(SpotifyAuthController.class)
+@Disabled
 public class SpotifyAuthControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 

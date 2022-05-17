@@ -22,7 +22,6 @@ import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
-@Disabled("Coming soon... stay tuned")
 public class RaveWaverServiceTest {
 
     @Mock
@@ -31,7 +30,10 @@ public class RaveWaverServiceTest {
     @InjectMocks
     private RaveWaverService raveWaverService;
 
+    @Mock
     private RaveWaver testRaveWaver;
+
+
 
     @BeforeEach
     public void setup() {

@@ -12,6 +12,6 @@ public interface GameType {
 
     int getCorrectAnswer();
 
-    ArrayList<String> getSongCovers();
+    ArrayList<String> getPictures();
 
 }

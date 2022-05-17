@@ -17,8 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
 import java.io.IOException;
@@ -32,12 +34,13 @@ import java.util.List;
 @Transactional
 public class GameService {
     private final PlayerRepository playerRepository;
+    private final RaveWaverRepository raveWaverRepository;
     Logger log = LoggerFactory.getLogger(GameService.class);
     private int lobbyToCreate;
-    private RaveWaverRepository raveWaverRepository;
 
     @Autowired
-    public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository, @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
+    public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
+                       @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
         this.playerRepository = playerRepository;
         this.raveWaverRepository = raveWaverRepository;
         this.lobbyToCreate = 0;
@@ -45,10 +48,19 @@ public class GameService {
 
     public int createNewLobby(SpotifyService spotifyService) {
         lobbyToCreate++;
+        removeAllPlayersFromLobby(lobbyToCreate);
         Game newGame = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
         GameRepository.addGame(lobbyToCreate, newGame);
-
         return lobbyToCreate;
+    }
+
+    private void removeAllPlayersFromLobby(int lobbyId) {
+        List<Player> players = playerRepository.findByLobbyId((long) lobbyId);
+        for (Player player : players) {
+            log.info("Deleted Player: {}", player.getPlayerName());
+            playerRepository.deleteById(player.getId());
+        }
+
     }
 
     public void startGame(int lobbyId) throws IOException, ParseException, SpotifyWebApiException {
@@ -56,12 +68,18 @@ public class GameService {
         Game game = GameRepository.findByLobbyId(lobbyId);
         game.generateAvatar(players);
 
-
         GameRepository.findByLobbyId(lobbyId).startGame(players);
     }
 
     public void saveAnswer(Answer answer, int playerId) {
         Player player = playerRepository.findById(playerId);
+        Player playerByToken = playerRepository.findByToken(answer.getToken());
+        if (playerByToken == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The player with the given token does not exist!");
+        }
+        else if (!(player.getToken().equals(playerByToken.getToken()))) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You're not allowed to answer in that player's name!");
+        }
         Game game = GameRepository.findByLobbyId((int) player.getlobbyId());
         answer.setPlayerId((long) playerId);
         game.addAnswers(answer);
@@ -94,7 +112,7 @@ public class GameService {
             option.setAnswer(answer);
             option.setAnswerId(i);
             options.add(option);
-            option.setAlbumPicture(nextQuestion.getAlbumCovers().get(i - 1));
+            option.setPicture(nextQuestion.getPicture().get(i - 1));
             i++;
         }
         nextQuestionDTO.setAnswers(options);

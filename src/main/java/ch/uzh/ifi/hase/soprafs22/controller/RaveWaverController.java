@@ -8,6 +8,8 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import org.apache.hc.core5.http.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
@@ -28,6 +30,7 @@ import java.util.List;
 public class RaveWaverController {
 
     private final RaveWaverService raveWaverService;
+    Logger log = LoggerFactory.getLogger(WebSocketController.class);
 
     RaveWaverController(RaveWaverService raveWaverService) {
         this.raveWaverService = raveWaverService;
@@ -71,7 +74,10 @@ public class RaveWaverController {
         response.addHeader("Authorization", createdRaveWaver.getToken());
 
         // convert internal representation of raveWaver back to API
-        return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(createdRaveWaver);
+        RaveWaverGetDTO raveWaverGetDTO = DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(createdRaveWaver);
+        log.info("Ravewaver " + raveWaverGetDTO.getUsername() + " with ID " + raveWaverGetDTO.getId() + " created.");
+
+        return raveWaverGetDTO;
     }
 
     @PostMapping("/ravewavers/login")
@@ -94,4 +100,6 @@ public class RaveWaverController {
 
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaverUpdate);
     }
+
+
 }

@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
@@ -26,6 +28,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static ch.uzh.ifi.hase.soprafs22.service.PlayerService.checkIfLobbyForPlayerExists;
+
 /**
  * User Service
  * This class is the "worker" and responsible for all functionality related to
@@ -40,10 +44,13 @@ public class RaveWaverService {
     private final Logger log = LoggerFactory.getLogger(RaveWaverService.class);
 
     private final RaveWaverRepository raveWaverRepository;
+    private final PlayerRepository playerRepository;
+
 
     @Autowired
-    public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
+    public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository, PlayerRepository playerRepository) {
         this.raveWaverRepository = raveWaverRepository;
+        this.playerRepository = playerRepository;
     }
 
     public static void verifyPassword(String passwordRaveWaver, String passwordLogin) {
@@ -163,6 +170,35 @@ public class RaveWaverService {
         raveWaverToUpdate.setSpotifyToken(spotifyService.getAccessToken());
         raveWaverToUpdate.setSpotifyRefreshToken(spotifyService.getRefreshToken());
         raveWaverToUpdate.setProfilePicture(spotifyService.generateProfilePicture(raveWaverToUpdate));
+    }
+
+    public Player addRaveWaverToLobby(HttpServletRequest token, Long lobbyId) {
+
+        String tokenString = token.getHeader("Authorization");
+        RaveWaver raveWaverToConvert = raveWaverRepository.findByToken(tokenString);
+        Player convertedRaveWaver = new Player();
+
+        if(playerRepository.findByPlayerNameAndLobbyId("[RW] " + raveWaverToConvert.getUsername(), lobbyId) != null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This player is already in this lobby!");
+        }
+        convertedRaveWaver.setPlayerName("[RW] " + raveWaverToConvert.getUsername());
+        convertedRaveWaver.setRaveWaverId(raveWaverToConvert.getId());
+        convertedRaveWaver.setProfilePicture(convertedRaveWaver.getProfilePicture());
+        convertedRaveWaver.setLobbyId(lobbyId);
+        convertedRaveWaver.setProfilePicture(raveWaverToConvert.getProfilePicture());
+        convertedRaveWaver.setToken(UUID.randomUUID().toString());
+
+        checkIfLobbyForPlayerExists(convertedRaveWaver);
+
+        Player convertedRaveWaver2;
+
+        if (playerRepository.findByToken(tokenString) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This RaveWaver is already in a lobby!");
+        }
+        convertedRaveWaver2 = playerRepository.save(convertedRaveWaver);
+        playerRepository.flush();
+
+        return convertedRaveWaver2;
     }
 
 
