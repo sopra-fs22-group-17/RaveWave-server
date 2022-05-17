@@ -22,6 +22,8 @@ import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Game {
 
@@ -298,11 +300,18 @@ public class Game {
                 player.setProfilePicture(raveWaver.get().getProfilePicture());
             }
             else {
-                player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
-            }
+                String name = player.getPlayerName();
 
+                Pattern p = Pattern.compile("[^A-Za-z0-9]");
+                Matcher m = p.matcher(name);
+                boolean b = m.find();
+                if(b){
+                    player.setProfilePicture("https://robohash.org/dontknow");
+                } else {
+                    player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
+                        }
+                    }
+                }
         }
     }
 
-
-}

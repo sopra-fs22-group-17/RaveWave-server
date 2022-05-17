@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 public class AnswerOptions {
     private String answer;
     private int answerId;
-    private String albumPicture;
+    private String picture;
 
 
     public String getAnswer() {
@@ -22,12 +22,12 @@ public class AnswerOptions {
         this.answerId = answerId;
     }
 
-    public String getAlbumPicture() {
-        return albumPicture;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setAlbumPicture(String albumPicture) {
-        this.albumPicture = albumPicture;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
 

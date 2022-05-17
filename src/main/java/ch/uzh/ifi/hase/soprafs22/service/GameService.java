@@ -93,7 +93,7 @@ public class GameService {
             option.setAnswer(answer);
             option.setAnswerId(i);
             options.add(option);
-            option.setAlbumPicture(nextQuestion.getPicture().get(i - 1));
+            option.setPicture(nextQuestion.getPicture().get(i - 1));
             i++;
         }
         nextQuestionDTO.setAnswers(options);
