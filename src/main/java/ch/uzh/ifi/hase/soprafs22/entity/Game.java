@@ -31,13 +31,13 @@ public class Game {
     private final ArrayList<Answer> answers;
     private final SpotifyService spotifyService;
     private final Random rand;
+    private final RaveWaverRepository raveWaverRepository;
     private GameMode gameMode;
     private RoundDuration roundDuration;
     private PlaybackDuration playbackDuration;
     private SongPool songGenre;
     private int gameRounds;
     private int currentGameRound;
-    private final RaveWaverRepository raveWaverRepository;
 
     public Game(SpotifyService spotifyService, SongPool songGenre, RaveWaverRepository raveWaverRepository) {
         this.spotifyService = spotifyService;
@@ -68,9 +68,9 @@ public class Game {
 
     }
 
-    private void refreshAccessTokens(List<Player> players){
-        for(Player player : players){
-            if(player.getRaveWaverId() != 0){
+    private void refreshAccessTokens(List<Player> players) {
+        for (Player player : players) {
+            if (player.getRaveWaverId() != 0) {
                 RaveWaver raveWaver = raveWaverRepository.findById(player.getRaveWaverId()).get();
                 spotifyService.authorizationCodeRefresh(raveWaver);
             }
@@ -172,7 +172,7 @@ public class Game {
             }
             else {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
-                System.out.println("didn't work");
+                //System.out.println("didn't work");
             }
             pickedSongs.add(id);
             i++;

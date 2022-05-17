@@ -23,7 +23,7 @@ public class AuthorizationCode {
             spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
             spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 
-            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
+            //System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
         }
         catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The authorization code is invalid: " + e.getMessage());

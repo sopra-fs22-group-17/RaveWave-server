@@ -18,7 +18,7 @@ public class ArtistGame implements GameType {
     private final ArrayList<Track> songs;
     private final int songToPick;
     private final ArrayList<Track> answerSongs;
-    private SpotifyService spotifyService;
+    private final SpotifyService spotifyService;
 
     public ArtistGame(int songToPick, ArrayList<Track> songs2, SpotifyService spotifyService2) {
         this.question = new Question();
@@ -107,9 +107,12 @@ public class ArtistGame implements GameType {
             String id = answerSongs.get(i).getArtists()[0].getId();
 
             try {
-                if (!Objects.equals(spotifyService.getArtistProfilePicture(id), "")){
-                artisPictures.add(spotifyService.getArtistProfilePicture(id)) ;}
-                else {artisPictures.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());}
+                if (!Objects.equals(spotifyService.getArtistProfilePicture(id), "")) {
+                    artisPictures.add(spotifyService.getArtistProfilePicture(id));
+                }
+                else {
+                    artisPictures.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());
+                }
             }
             catch (IOException | ParseException | SpotifyWebApiException e) {
                 e.printStackTrace();

@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
-import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
@@ -23,8 +22,8 @@ import java.util.UUID;
 @Transactional
 public class PlayerService {
     private final PlayerRepository playerRepository;
-    private RaveWaverRepository raveWaverRepository;
     Logger log = LoggerFactory.getLogger(PlayerService.class);
+    private RaveWaverRepository raveWaverRepository;
 
     @Autowired
     public PlayerService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
@@ -58,7 +57,7 @@ public class PlayerService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This username does already exist!");
         }
 
-        if (playerToBeCreated.getPlayerName().contains("[RW]")){
+        if (playerToBeCreated.getPlayerName().contains("[RW]")) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Your username can not contain \"[RW]\"!");
         }
     }
