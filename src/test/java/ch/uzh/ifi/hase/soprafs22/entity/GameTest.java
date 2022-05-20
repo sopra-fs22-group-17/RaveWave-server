@@ -36,7 +36,7 @@ public class GameTest {
     @BeforeEach
     void setup() {
         game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
-          }
+    }
 
     @Test
     public void updateGameSettingsTest() {
@@ -45,7 +45,7 @@ public class GameTest {
         gameSettingsDTO.setGameMode(GameMode.ARTISTGAME);
         gameSettingsDTO.setGameRounds(10);
         gameSettingsDTO.setPlayBackDuration(PlaybackDuration.EIGHTEEN);
-        gameSettingsDTO.setSongPool(SongPool.COUNTRY);
+        gameSettingsDTO.setSongPool(SongPool.SWITZERLAND);
 
         game.updateGameSettings(gameSettingsDTO);
 
@@ -59,7 +59,7 @@ public class GameTest {
     }
 
     @Test
-    public void fillLeaderboardTest(){
+    public void fillLeaderboardTest() {
         Player player1 = new Player();
         player1.setPlayerName("TestPlayer");
         player1.setStreak(1);
@@ -76,8 +76,7 @@ public class GameTest {
 
         LeaderboardDTO leaderboard = game.fillLeaderboard(players);
 
-       // given().willReturn(1);
-
+        // given().willReturn(1);
 
         assertEquals(leaderboard.getPlayers().get(0).getPlayerId(), player1.getId());
         assertEquals(leaderboard.getPlayers().get(0).getPlayerName(), player1.getPlayerName());
@@ -92,8 +91,9 @@ public class GameTest {
         assertEquals(leaderboard.getPlayers().get(1).getPlayerPosition(), 2);
 
     }
+
     @Test
-    public void sortPlayerTest(){
+    public void sortPlayerTest() {
         Player player1 = new Player();
         Player player2 = new Player();
         Player player3 = new Player();
@@ -103,7 +103,6 @@ public class GameTest {
         ArrayList<Player> players = new ArrayList<>();
 
         Collections.addAll(players, player1, player2, player3);
-
 
         player1.setTotalScore(500);
         player2.setTotalScore(600);

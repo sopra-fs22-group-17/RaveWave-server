@@ -48,7 +48,7 @@ public class GameServiceTest {
         testPlayer = new Player();
         testPlayer.setId(1L);
         testPlayer.setLobbyId(1L);
-        testGame = new Game(spotifyService, SongPool.COUNTRY, raveWaverRepository);
+        testGame = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
 
         Mockito.when(playerRepository.save(Mockito.any())).thenReturn(testPlayer);
     }
