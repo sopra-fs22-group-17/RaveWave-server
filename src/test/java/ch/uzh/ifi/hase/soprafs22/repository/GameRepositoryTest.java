@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.server.ResponseStatusException;
 
+@Disabled
 public class GameRepositoryTest {
     @MockBean
     private GameRepository gameRepository;
