@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -72,6 +73,20 @@ public class PlayerService {
         if (playerToBeCreated.getPlayerName().contains("[RW]")) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Your username can not contain \"[RW]\"!");
         }
+    }
+
+    public boolean checkIfFourConnected(Long lobbyId){
+
+        List<Player> players = playerRepository.findByLobbyId(lobbyId);
+        System.out.println(players.get(0));
+        int counter = 0;
+        for (Player player: players){
+            if (player.getRaveWaverId() !=0){
+                System.out.println(player.getRaveWaverId());
+                counter++;
+            }
+        }
+        return counter >= 4;
     }
 
 }
