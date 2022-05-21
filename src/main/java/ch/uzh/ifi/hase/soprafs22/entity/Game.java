@@ -64,9 +64,8 @@ public class Game {
         this.gameMode = updatedSettings.getGameMode();
     }
 
-
     public void startGame(List<Player> players) {
-        //refreshes all the Spotify access tokens of all the RaveWavers in the lobby
+        // refreshes all the Spotify access tokens of all the RaveWavers in the lobby
         refreshAccessTokens(players);
         fillGamePlan(players);
 
@@ -127,8 +126,7 @@ public class Game {
 
             if (points != 0) {
                 player.setStreak(player.getStreak() + 1);
-            }
-            else {
+            } else {
                 player.setStreak(0);
             }
         }
@@ -138,21 +136,25 @@ public class Game {
         ArrayList<Song> songs = new ArrayList<>();
         if (this.songGenre == SongPool.USERSTOPTRACKS) {
             for (Player player : players) {
+                System.out.println(player.getPlayerName());
                 Long raveWaverId = player.getRaveWaverId();
+                System.out.println(raveWaverId);
                 if (raveWaverId != 0) {
+                    System.out.println(raveWaverId);
                     songs.addAll(spotifyService.getPersonalizedPlaylistsItems(raveWaverId));
                 }
             }
-        }
-        else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
+            for (Song song : songs) {
+                System.out.println(song.getTrack().getName());
+            }
+        } else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
             for (Player player : players) {
                 Long raveWaverId = player.getRaveWaverId();
                 if (raveWaverId != 0) {
                     songs.addAll(spotifyService.getSavedTrackItems(raveWaverId));
                 }
             }
-        }
-        else {
+        } else {
             songs.addAll(spotifyService.getPlaylistsItems(songGenre.getPlaylistId()));
         }
         int bound;
@@ -164,7 +166,9 @@ public class Game {
         else {
             bound = gameRounds;
         }
-
+        for (Song song : songs) {
+            System.out.println(song.getTrack().getName());
+        }
         int i = 0;
         while (i < bound) {
             int id = rand.nextInt(songs.size());
@@ -172,16 +176,15 @@ public class Game {
                     || songs.get(id).getTrack().getAlbum().getImages()[1] == null) {
                 id = rand.nextInt(songs.size());
             }
+            System.out.println("yes");
             if (this.gameMode == GameMode.ARTISTGAME) {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
-            }
-            else if (this.gameMode == GameMode.SONGTITLEGAME) {
+            } else if (this.gameMode == GameMode.SONGTITLEGAME) {
                 gamePlan.add(new SongTitleGame(id, songs));
-            }
-            else if (this.gameMode == GameMode.LIKEDSONGGAME) {
+            } else if (this.gameMode == GameMode.LIKEDSONGGAME) {
+                System.out.println("why");
                 gamePlan.add(new LikedSongGame(id, songs, players));
-            }
-            else {
+            } else {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
             }
             pickedSongs.add(id);
@@ -283,8 +286,7 @@ public class Game {
             if (player.getRaveWaverId() != 0) {
                 Optional<RaveWaver> raveWaver = raveWaverRepository.findById(player.getRaveWaverId());
                 player.setProfilePicture(raveWaver.get().getProfilePicture());
-            }
-            else {
+            } else {
                 String name = player.getPlayerName();
 
                 Pattern p = Pattern.compile("[^A-Za-z0-9]");
@@ -292,13 +294,10 @@ public class Game {
                 boolean b = m.find();
                 if (b) {
                     player.setProfilePicture("https://robohash.org/dontknow.png");
-                }
-                else {
+                } else {
                     player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
                 }
             }
         }
     }
 }
-
-

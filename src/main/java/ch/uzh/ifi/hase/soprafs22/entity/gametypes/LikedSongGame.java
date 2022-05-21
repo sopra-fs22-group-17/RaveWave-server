@@ -1,13 +1,13 @@
 package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class LikedSongGame implements GameType {
     private final Question question;
@@ -56,9 +56,14 @@ public class LikedSongGame implements GameType {
         }
 
         for (int i = 0; i < 3; i++) {
-            int wrongIndex = randomGenerator.nextInt(wrongAnswersPlayer.size());
-            answers.add(wrongAnswersPlayer.get(wrongIndex));
-            wrongAnswersPlayer.remove(wrongIndex);
+            try {
+                int wrongIndex = randomGenerator.nextInt(wrongAnswersPlayer.size());
+                answers.add(wrongAnswersPlayer.get(wrongIndex));
+                wrongAnswersPlayer.remove(wrongIndex);
+            } catch (Exception e) {
+                Player notAPlayer = createDummyPlayer();
+                answers.add(notAPlayer);
+            }
         }
 
         int correctAnswerIndex = randomGenerator.nextInt(4);
@@ -84,8 +89,12 @@ public class LikedSongGame implements GameType {
     private ArrayList<String> stringifyAnswer(ArrayList<Player> players) {
         ArrayList<String> answers = new ArrayList<>();
         for (Player player : players) {
-            System.out.println(player.getPlayerName());
-            answers.add(player.getPlayerName());
+            try {
+                answers.add(player.getPlayerName());
+            } catch (Exception e) {
+                Player notAPlayer = createDummyPlayer();
+                answers.add(notAPlayer.getPlayerName());
+            }
         }
         return answers;
     }
@@ -93,7 +102,12 @@ public class LikedSongGame implements GameType {
     private ArrayList<String> getUserProfilPictures(ArrayList<Player> players) {
         ArrayList<String> profilePictures = new ArrayList<>();
         for (Player player : players) {
-            profilePictures.add(player.getProfilePicture());
+            try {
+                profilePictures.add(player.getProfilePicture());
+            } catch (Exception e) {
+                Player notAPlayer = createDummyPlayer();
+                profilePictures.add(notAPlayer.getProfilePicture());
+            }
         }
         return profilePictures;
     }
@@ -111,6 +125,15 @@ public class LikedSongGame implements GameType {
     @Override
     public ArrayList<String> getPictures() {
         return new ArrayList<String>();
+    }
+
+    private Player createDummyPlayer() {
+        Player player = new Player();
+        player.setPlayerName("NotThePlayerYouAreLookingFor69");
+        player.setProfilePicture(
+                "https://preview.redd.it/6o6blcul5n841.jpg?auto=webp&s=ccfaf79f8c679b8d075131e67319d955cda25a30");
+
+        return player;
     }
 
 }
