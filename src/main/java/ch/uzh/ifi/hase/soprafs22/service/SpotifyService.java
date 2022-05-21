@@ -6,8 +6,10 @@ import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
@@ -134,13 +136,20 @@ public class SpotifyService {
             throws IOException, ParseException, SpotifyWebApiException {
         spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
         GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
-        User info = getCurrentUsersProfileRequest.execute();
+        User info;
+        try {
+            info = getCurrentUsersProfileRequest.execute();
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Something went wrong when fetching the profile picture. Are you using a Spotify-Premium Account? " + e.getMessage());
+        }
 
         if (info.getImages().length == 0) {
             return ("https://robohash.org/" + raveWaver.getUsername() + ".png");
         }
         return info.getImages()[0].getUrl();
     }
+
 
     public String getArtistProfilePicture(String id) throws IOException, ParseException, SpotifyWebApiException {
         GetArtistRequest.Builder getArtistRequest = spotifyApi.getArtist(id);
