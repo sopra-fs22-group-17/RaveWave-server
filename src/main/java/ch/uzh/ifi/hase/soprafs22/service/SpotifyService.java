@@ -84,7 +84,6 @@ public class SpotifyService {
     public ArrayList<Song> getPersonalizedPlaylistsItems(Long raveWaverId) {
         Optional<RaveWaver> opRaveWaver = raveWaverRepository.findById(raveWaverId);
         if (opRaveWaver.isPresent()) {
-            System.out.println("Is present");
             RaveWaver raveWaver = opRaveWaver.get();
             spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
             return trackToTrackList(fetchUsersTopTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
@@ -121,7 +120,6 @@ public class SpotifyService {
     private ArrayList<Song> trackToTrackList(Track[] personalizedPlaylistsItems, long raveWaverId, String playerName) {
         ArrayList<Song> songs = new ArrayList<>();
         for (Track track : personalizedPlaylistsItems) {
-            System.out.println("tttl" + track.getName());
             songs.add(new Song(track, raveWaverId, "[RW] " + playerName));
         }
         return songs;
