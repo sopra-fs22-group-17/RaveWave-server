@@ -19,6 +19,7 @@ import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -141,9 +142,6 @@ public class Game {
                     songs.addAll(spotifyService.getPersonalizedPlaylistsItems(raveWaverId));
                 }
             }
-            for (Song song : songs) {
-                System.out.println(song.getTrack().getName());
-            }
         } else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
             for (Player player : players) {
                 Long raveWaverId = player.getRaveWaverId();
@@ -156,7 +154,7 @@ public class Game {
         }
 
         if (songs.isEmpty()) {
-            System.out.println("Song Pool is empty!");
+            log.info("Song Pool is empty!");
         }
 
         int bound;
@@ -169,8 +167,11 @@ public class Game {
             bound = gameRounds;
         }
         for (Song song : songs) {
-            System.out.println(song.getPlayerName() + " :: " + song.getTrack().getName());
+            log.info("Song {} by {} from {} added to SongPool", song.getTrack().getName(),
+                    song.getTrack().getArtists()[0].getName(),
+                    song.getPlayerName());
         }
+
         int i = 0;
         while (i < bound) {
             int id = rand.nextInt(songs.size());

@@ -28,7 +28,6 @@ public class LikedSongGame implements GameType {
         ArrayList<Player> spotPlayer = new ArrayList<>();
         for (Player player : players) {
             if (player.getRaveWaverId() != null) {
-                System.out.println(player.getPlayerName());
                 spotPlayer.add(player);
             }
         }
@@ -37,12 +36,11 @@ public class LikedSongGame implements GameType {
 
     @Override
     public void generateQuestion() {
-        question.setQuestion("Guess which player listened to this song");
+        question.setQuestion("Guess the liked song");
         question.setPreviewUrl(songs.get(songToPick).getTrack().getPreviewUrl());
 
         String correctAnswer = songs.get(songToPick).getPlayerName();
         Player correctPlayer = findCorrectPlayer(correctAnswer);
-        System.out.println(correctAnswer);
 
         ArrayList<Player> answers = new ArrayList<>();
 
