@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.repository;
-/*
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -50,7 +51,8 @@ public class RaveWaverRepositoryTest {
         assertEquals(raveWaver.getCreationDate(), found.getCreationDate());
 
     }
-/*
+
+    @Disabled
     @Test
     public void findByIdTest() {
         Optional<RaveWaver> optFound = raveWaverRepository.findById(1L);
@@ -61,7 +63,7 @@ public class RaveWaverRepositoryTest {
         assertEquals(raveWaver.getToken(), found.getToken());
         assertEquals(raveWaver.getLevel(), found.getLevel());
         assertEquals(raveWaver.getCreationDate(), found.getCreationDate());
-    }*/
-/*
+    }
+
 }
-*/
+

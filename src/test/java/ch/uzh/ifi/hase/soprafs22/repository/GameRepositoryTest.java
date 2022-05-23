@@ -16,7 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.server.ResponseStatusException;
 
-@Disabled
+
 public class GameRepositoryTest {
     @MockBean
     private GameRepository gameRepository;
@@ -31,7 +31,6 @@ public class GameRepositoryTest {
 
     @BeforeEach
     void setup() {
-        spotifyService = new SpotifyService(raveWaverRepository);
         game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
         GameRepository.addGame(1, game);
     }

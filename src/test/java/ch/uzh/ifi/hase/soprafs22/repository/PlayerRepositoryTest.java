@@ -1,4 +1,4 @@
-/*package ch.uzh.ifi.hase.soprafs22.repository;
+package ch.uzh.ifi.hase.soprafs22.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -82,4 +82,4 @@ public class PlayerRepositoryTest {
     assertEquals(found.get(), player);
   }
 
-}*/
+}

@@ -21,7 +21,7 @@ import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-@Disabled
+
 public class GameServiceTest {
     @Mock
     private PlayerRepository playerRepository;
@@ -32,7 +32,10 @@ public class GameServiceTest {
     @InjectMocks
     private GameService gameService;
 
+    @MockBean
     private Game testGame;
+
+    @MockBean
     private SpotifyService spotifyService;
 
     @Mock
@@ -41,13 +44,16 @@ public class GameServiceTest {
     @MockBean
     private RaveWaverRepository raveWaverRepository;
 
+    @Mock
+    GameRepository gameRepository;
+
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
-        spotifyService = new SpotifyService(raveWaverRepository);
         testPlayer = new Player();
         testPlayer.setId(1L);
         testPlayer.setLobbyId(1L);
+        testPlayer.setPlayerName("Test");
         testGame = new Game(spotifyService, SongPool.COUNTRY, raveWaverRepository);
 
         Mockito.when(playerRepository.save(Mockito.any())).thenReturn(testPlayer);

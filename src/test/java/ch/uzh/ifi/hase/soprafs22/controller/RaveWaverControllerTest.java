@@ -3,13 +3,12 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * request without actually sending them over the network.
  * This tests if the RaveWaverController works.
  */
-@Disabled("Coming soon... stay tuned")
+
 @WebMvcTest(RaveWaverController.class)
 public class RaveWaverControllerTest {
 
@@ -54,7 +54,7 @@ public class RaveWaverControllerTest {
   private RaveWaverService raveWaverService;
 
   @BeforeEach
-  private void testSetup() {
+  public void testSetup() {
     raveWaver = new RaveWaver();
     raveWaver.setId(1L);
     raveWaver.setUsername("raveWavername");
@@ -83,9 +83,7 @@ public class RaveWaverControllerTest {
         .andExpect(jsonPath("$[0].id", is(raveWaver.getId().intValue())))
         .andExpect(jsonPath("$[0].username", is(raveWaver.getUsername())))
         .andExpect(jsonPath("$[0].creationDate", is(raveWaver.getCreationDate().toString())))
-        .andExpect(jsonPath("$[0].level", is(raveWaver.getLevel())))
-        .andExpect(jsonPath("$[0].spotifyToken", is(raveWaver.getSpotifyToken().toString())))
-        .andExpect(jsonPath("$[0].token", is(raveWaver.getToken())));
+        .andExpect(jsonPath("$[0].level", is(raveWaver.getLevel())));
   }
 
   @Test
@@ -108,8 +106,10 @@ public class RaveWaverControllerTest {
         .andExpect(jsonPath("$.username", is(raveWaver.getUsername())))
         .andExpect(jsonPath("$.creationDate", is(raveWaver.getCreationDate().toString())))
         .andExpect(jsonPath("$.level", is(raveWaver.getLevel())))
-        .andExpect(jsonPath("$.spotifyToken", is(raveWaver.getSpotifyToken().toString())))
-        .andExpect(jsonPath("$.token", is(raveWaver.getToken())));
+          .andExpect(MockMvcResultMatchers.header()
+                  .stringValues("Authorization", "1"));;
+//          .andExpect(jsonPath("$.spotifyToken", is(raveWaver.getSpotifyToken())))
+//        .andExpect(jsonPath("$.token", is(raveWaver.getToken())));
   }
 
   @Test
@@ -162,9 +162,8 @@ public class RaveWaverControllerTest {
         .andExpect(jsonPath("$.id", is(raveWaver.getId().intValue())))
         .andExpect(jsonPath("$.username", is(raveWaver.getUsername())))
         .andExpect(jsonPath("$.creationDate", is(raveWaver.getCreationDate().toString())))
-        .andExpect(jsonPath("$.level", is(raveWaver.getLevel())))
-        .andExpect(jsonPath("$.spotifyToken", is(raveWaver.getSpotifyToken().toString())))
-        .andExpect(jsonPath("$.token", is(raveWaver.getToken())));
+        .andExpect(jsonPath("$.level", is(raveWaver.getLevel())));
+
   }
   
   @Test
