@@ -28,24 +28,25 @@ public class WebSocketServiceTest {
     private RaveWaverRepository raveWaverRepository;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         MockitoAnnotations.openMocks(this);
-        testLobby = new Game(new SpotifyService(raveWaverRepository), SongPool.LATINO, raveWaverRepository);
+        testLobby = new Game(new SpotifyService(raveWaverRepository), SongPool.SWITZERLAND, raveWaverRepository);
         GameRepository.addGame(200, testLobby);
 
     }
 
     @Test
-    void updateGameSettingsTest(){
+    void updateGameSettingsTest() {
 
         GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
         gameSettingsDTO.setGameMode(GameMode.ARTISTGAME);
         gameSettingsDTO.setGameRounds(2);
         gameSettingsDTO.setPlayBackDuration(PlaybackDuration.TEN);
-        gameSettingsDTO.setSongPool(SongPool.LATINO);
+        gameSettingsDTO.setSongPool(SongPool.SWITZERLAND);
         gameSettingsDTO.setRoundDuration(RoundDuration.EIGHTEEN);
 
         webSocketService.sendMessageToClients("/topic/lobbies/200", gameSettingsDTO);
-        Mockito.verify(webSocketService, Mockito.times(1)).sendMessageToClients(Mockito.matches("/topic/lobbies/200"), Mockito.any());
+        Mockito.verify(webSocketService, Mockito.times(1)).sendMessageToClients(Mockito.matches("/topic/lobbies/200"),
+                Mockito.any());
     }
 }
