@@ -3,7 +3,6 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto;
 public class PlayerGetDTO {
     private Long id;
     private String playerName;
-    private String token;
     private int totalScore;
     private int roundScore;
     private int streak;
@@ -26,14 +25,6 @@ public class PlayerGetDTO {
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public int getTotalScore() {

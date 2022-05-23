@@ -74,7 +74,6 @@ public class DTOMapperTest {
 
         assertEquals(playerGetDTO.getId(), player.getId());
         assertEquals(playerGetDTO.getPlayerName(), player.getPlayerName());
-        assertEquals(playerGetDTO.getToken(), player.getToken());
         assertEquals(playerGetDTO.getRoundScore(), player.getRoundScore());
         assertEquals(playerGetDTO.getTotalScore(), player.getTotalScore());
         assertEquals(playerGetDTO.getStreak(), player.getStreak());

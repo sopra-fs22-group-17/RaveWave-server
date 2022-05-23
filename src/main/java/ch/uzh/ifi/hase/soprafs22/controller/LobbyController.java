@@ -57,6 +57,7 @@ public class LobbyController {
             Player newPlayer = raveWaverService.addRaveWaverToLobby(token, lobbyId);
             log.info("RaveWaver as a Player " + newPlayer.getPlayerName() + " with ID: " + newPlayer.getId()
                     + " created");
+            response.addHeader("Authorization", newPlayer.getToken());
             return DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(newPlayer);
         }
 
