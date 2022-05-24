@@ -16,8 +16,8 @@ public class Question {
     private ArrayList<String> picture;
     private PlaybackDuration playbackDuration;
     private String songTitle;
-    private String artist;
     private String spotifyLink;
+    private String artist;
 
     public String getPreviewUrl() {
         return previewUrl;

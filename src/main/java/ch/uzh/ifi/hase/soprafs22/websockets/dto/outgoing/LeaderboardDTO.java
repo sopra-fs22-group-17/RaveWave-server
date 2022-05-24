@@ -8,6 +8,8 @@ public class LeaderboardDTO {
     private String coverUrl;
     private String songTitle;
     private String artist;
+    private String correctAnswer;
+    private String spotifyLink;
     private ArrayList<LeaderboardEntry> players;
     private String correctAnswer;
     private String spotifyLink;
@@ -55,6 +57,22 @@ public class LeaderboardDTO {
     public void setArtist(String artist) {
         this.artist = artist;
     }
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
+    }
+
+    public String getSpotifyLink() {
+        return spotifyLink;
+    }
+
+    public void setSpotifyLink(String spotifyLink) {
+        this.spotifyLink = spotifyLink;
+    }
+
     public String getCorrectAnswer() {
         return correctAnswer;
     }

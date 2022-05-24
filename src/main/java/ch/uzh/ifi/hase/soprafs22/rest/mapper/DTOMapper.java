@@ -55,4 +55,5 @@ public interface DTOMapper {
     @Mapping(source = "profilePicture", target = "profilePicture")
     PlayerGetDTO convertEntityToPlayerGetDTO(Player player);
 
+
 }

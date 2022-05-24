@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.FourRaveWaversConnectedDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LobbyIdDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerPostDTO;
@@ -71,4 +72,16 @@ public class LobbyController {
 
     }
 
+
+    @GetMapping("/lobbies/{lobbyId}/likedSongsUnlocked")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public FourRaveWaversConnectedDTO checkFourRaveWaversConnected(@PathVariable Long lobbyId){
+
+        log.info("Lobby" + lobbyId + ": checking if four players are connected to Spotify");
+        FourRaveWaversConnectedDTO fourRaveWaversConnectedDTO = new FourRaveWaversConnectedDTO();
+        fourRaveWaversConnectedDTO.setFourRaveWaversConnected(playerService.checkFourRaveWaversConnected(lobbyId));
+
+        return fourRaveWaversConnectedDTO;
+    }
 }
