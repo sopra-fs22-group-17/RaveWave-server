@@ -37,6 +37,8 @@ public class ArtistGame implements GameType {
         question.setQuestion("Guess the song artist");
         // store id of the song to be played
         question.setPreviewUrl(songs.get(songToPick).getTrack().getPreviewUrl());
+        question.setSpotifyLink(songs.get(songToPick).getTrack().getExternalUrls().getExternalUrls().get("spotify"));
+
 
         StringBuilder correctAnswer = new StringBuilder();
         for (ArtistSimplified artist : songs.get(songToPick).getTrack().getArtists()) {
@@ -44,6 +46,8 @@ public class ArtistGame implements GameType {
             correctAnswer.append(", ");
         }
         correctAnswer.delete(correctAnswer.length() - 2, correctAnswer.length());
+
+        question.setArtist(correctAnswer.toString());
 
         ArrayList<String> answers = new ArrayList<String>();
 

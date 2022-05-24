@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
+import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 
 public class LikedSongGame implements GameType {
     private final Question question;
@@ -38,9 +39,19 @@ public class LikedSongGame implements GameType {
     public void generateQuestion() {
         question.setQuestion("Guess the liked song");
         question.setPreviewUrl(songs.get(songToPick).getTrack().getPreviewUrl());
+        question.setSpotifyLink(songs.get(songToPick).getTrack().getExternalUrls().getExternalUrls().get("spotify"));
 
         String correctAnswer = songs.get(songToPick).getPlayerName();
         Player correctPlayer = findCorrectPlayer(correctAnswer);
+
+        StringBuilder artists = new StringBuilder();
+        for (ArtistSimplified artist : songs.get(songToPick).getTrack().getArtists()) {
+            artists.append(artist.getName());
+            artists.append(", ");
+        }
+        artists.delete(artists.length() - 2, artists.length());
+
+        question.setArtist(artists.toString());
 
         ArrayList<Player> answers = new ArrayList<>();
 

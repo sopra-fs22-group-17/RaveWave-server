@@ -16,6 +16,8 @@ public class Question {
     private ArrayList<String> picture;
     private PlaybackDuration playbackDuration;
     private String songTitle;
+    private String artist;
+    private String spotifyLink;
 
     public String getPreviewUrl() {
         return previewUrl;
@@ -82,5 +84,21 @@ public class Question {
 
     public void setPlaybackDuration(PlaybackDuration playbackDuration) {
         this.playbackDuration = playbackDuration;
+    }
+
+    public String getSpotifyLink() {
+        return spotifyLink;
+    }
+
+    public void setSpotifyLink(String spotifyLink) {
+        this.spotifyLink = spotifyLink;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 }
