@@ -65,7 +65,7 @@ public class ArtistGame implements GameType {
             int wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
 
             // ensures that there will never be the same answer twice
-            while (wrongAnswerIndex == songToPick && wrongAnswersIndex.size() > 0) {
+            while ((wrongAnswerIndex == songToPick || songs.get(wrongAnswerIndex).getTrack().getArtists() == songs.get(songToPick).getTrack().getArtists()) && wrongAnswersIndex.size() > 0 ) {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
             StringBuilder answer = new StringBuilder();
