@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.PlayerJoinDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,12 @@ import java.util.UUID;
 public class PlayerService {
     private final PlayerRepository playerRepository;
     Logger log = LoggerFactory.getLogger(PlayerService.class);
-    private RaveWaverRepository raveWaverRepository;
+    private final WebSocketService webSocketService;
 
     @Autowired
-    public PlayerService(@Qualifier("PlayerRepository") PlayerRepository playerRepository) {
+    public PlayerService(@Qualifier("PlayerRepository") PlayerRepository playerRepository, WebSocketService webSocketService) {
         this.playerRepository = playerRepository;
+        this.webSocketService = webSocketService;
     }
 
     public static void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
@@ -72,6 +74,13 @@ public class PlayerService {
         if (playerToBeCreated.getPlayerName().contains("[RW]")) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Your username can not contain \"[RW]\"!");
         }
+    }
+
+    public void greetPlayers(Player player){
+        PlayerJoinDTO playerJoinDTO = new PlayerJoinDTO();
+        playerJoinDTO.setName(player.getPlayerName());
+
+        this.webSocketService.sendMessageToClients("/topic/lobbies/" + player.getlobbyId(), playerJoinDTO);
     }
 
 }
