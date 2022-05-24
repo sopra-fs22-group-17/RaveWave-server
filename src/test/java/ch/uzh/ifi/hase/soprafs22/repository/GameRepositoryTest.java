@@ -29,6 +29,9 @@ public class GameRepositoryTest {
     @MockBean
     private RaveWaverRepository raveWaverRepository;
 
+    @MockBean
+    private PlayerRepository playerRepository;
+
     @BeforeEach
     void setup() {
         game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);

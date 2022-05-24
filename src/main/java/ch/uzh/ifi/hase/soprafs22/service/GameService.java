@@ -38,6 +38,8 @@ public class GameService {
     Logger log = LoggerFactory.getLogger(GameService.class);
     private int lobbyToCreate;
 
+
+
     @Autowired
     public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
                        @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
@@ -71,7 +73,8 @@ public class GameService {
         GameRepository.findByLobbyId(lobbyId).startGame(players);
     }
 
-    public void saveAnswer(Answer answer, int playerId) {
+
+    public boolean saveAnswer(Answer answer, int playerId) {
         Player player = playerRepository.findById(playerId);
         Player playerByToken = playerRepository.findByToken(answer.getToken());
         if (playerByToken == null) {
@@ -82,7 +85,9 @@ public class GameService {
         }
         Game game = GameRepository.findByLobbyId((int) player.getlobbyId());
         answer.setPlayerId((long) playerId);
-        game.addAnswers(answer);
+        boolean receivedAllAnswers = game.addAnswers(answer);
+
+        return receivedAllAnswers;
         // save received answer to the corresponding player
     }
 
@@ -95,7 +100,8 @@ public class GameService {
     }
 
     public QuestionDTO startNextRound(int lobbyId) {
-        Question nextQuestion = GameRepository.findByLobbyId(lobbyId).startNextTurn();
+
+        Question nextQuestion = GameRepository.findByLobbyId(lobbyId).startNextTurn(playerRepository.findByLobbyId((long)lobbyId));
         QuestionDTO nextQuestionDTO = new QuestionDTO();
 
         nextQuestionDTO.setQuestion(nextQuestion.getQuestion());

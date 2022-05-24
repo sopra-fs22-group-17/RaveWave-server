@@ -28,7 +28,7 @@ public class LikedSongGame implements GameType {
     public ArrayList<Player> pickPlayersWithSpotify(List<Player> players) {
         ArrayList<Player> spotPlayer = new ArrayList<>();
         for (Player player : players) {
-            if (player.getRaveWaverId() != null) {
+            if (player.getRaveWaverId() != null && player.getRaveWaverId() != 0) {
                 spotPlayer.add(player);
             }
         }

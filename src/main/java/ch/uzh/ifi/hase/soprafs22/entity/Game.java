@@ -44,6 +44,9 @@ public class Game {
     private int gameRounds;
     private int currentGameRound;
 
+    private int numberOfPlayers;
+    private int numberOfReceivedAnswers;
+
     public Game(SpotifyService spotifyService, SongPool songGenre, RaveWaverRepository raveWaverRepository) {
         this.spotifyService = spotifyService;
         this.gamePlan = new ArrayList<>();
@@ -82,16 +85,35 @@ public class Game {
 
     }
 
-    public Question startNextTurn() {
+    public Question startNextTurn(List<Player> players) {
+        countPlayersInLobby(players);
         Question question = gamePlan.get(currentGameRound).getQuestion();
         question.setPlaybackDuration(playbackDuration);
         currentGameRound++;
         this.answers.clear();
+        this.numberOfReceivedAnswers = 0;
         return question;
     }
 
-    public void addAnswers(Answer answer) {
+    private void countPlayersInLobby(List<Player> players){
+        int numberOfPlayers = players.size();
+
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+
+    public boolean addAnswers(Answer answer) {
         this.answers.add(answer);
+        this.numberOfReceivedAnswers++;
+        return receivedAllAnswers();
+    }
+
+    private boolean receivedAllAnswers(){
+        if(this.numberOfReceivedAnswers < this.numberOfPlayers){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     public LeaderboardDTO endRound(List<Player> players) {
@@ -241,28 +263,6 @@ public class Game {
         return players;
     }
 
-    // TODO in progress
-    /*
-     * private List<Player> sortPlayersPreviousScore(List<Player> players) {
-     * int pos;
-     * Player temp;
-     * for (int i = 0; i < players.size(); i++) {
-     * pos = i;
-     * for (int j = i + 1; j < players.size(); j++) {
-     * if (players.get(j).getTotalScore() - players.get(j).getRoundScore() >
-     * players.get(pos).getTotalScore() - players.get(pos).getRoundScore()) //find
-     * the index of the minimum element
-     * {
-     * pos = j;
-     * }
-     * }
-     * temp = players.get(pos); //swap the current element with the minimum element
-     * players.set(pos, players.get(i));
-     * players.set(i, temp);
-     * }
-     * return players;
-     * }
-     */
     public List<Answer> getListOfAnswers() {
         return this.answers;
     }

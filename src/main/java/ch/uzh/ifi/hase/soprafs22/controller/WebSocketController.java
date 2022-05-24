@@ -47,7 +47,10 @@ public class WebSocketController {
     @MessageMapping("/lobbies/{lobbyId}/player/{playerId}/save-answer")
     public void saveAnswer(@DestinationVariable int lobbyId, @DestinationVariable int playerId, Answer answer) {
         log.info("Lobby " + lobbyId + ": Player " + playerId + " has answered.");
-        gameService.saveAnswer(answer, playerId);
+        boolean receivedAllAnswers = gameService.saveAnswer(answer, playerId);
+        if(receivedAllAnswers){
+            endRound((long)lobbyId);
+        }
     }
 
     @MessageMapping("/lobbies/{lobbyId}/end-round")
