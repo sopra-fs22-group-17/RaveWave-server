@@ -75,7 +75,7 @@ public class PlayerService {
         }
     }
 
-    public boolean checkIfFourConnected(Long lobbyId){
+    public boolean checkFourRaveWaversConnected(Long lobbyId){
 
         List<Player> players = playerRepository.findByLobbyId(lobbyId);
         System.out.println(players.get(0));

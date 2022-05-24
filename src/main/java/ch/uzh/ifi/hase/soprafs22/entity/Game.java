@@ -103,6 +103,8 @@ public class Game {
         leaderboardDTO.setCoverUrl(gamePlan.get(currentGameRound - 1).getQuestion().getPicture()
                 .get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
         leaderboardDTO.setSongTitle(gamePlan.get(currentGameRound - 1).getQuestion().getSongTitle());
+        leaderboardDTO.setSpotifyLink(gamePlan.get(currentGameRound - 1).getQuestion().getSpotifyLink());
+        leaderboardDTO.setCorrectAnswer((gamePlan.get(currentGameRound - 1).getQuestion().getAnswers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer()-1)));
         return leaderboardDTO;
     }
 
