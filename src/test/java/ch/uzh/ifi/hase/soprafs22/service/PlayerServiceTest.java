@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
+
 public class PlayerServiceTest {
 
     @Mock

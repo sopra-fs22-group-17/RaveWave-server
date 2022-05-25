@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.repository;
 
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
-public class RaveWaverRepositoryTest {
+class RaveWaverRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
 
@@ -24,8 +26,9 @@ public class RaveWaverRepositoryTest {
 
     private RaveWaver raveWaver;
 
+
     @BeforeEach
-    void setup() {
+    public void setup() {
         raveWaver = new RaveWaver();
         raveWaver.setUsername("firstname@lastname");
         raveWaver.setPassword("password");
@@ -49,7 +52,9 @@ public class RaveWaverRepositoryTest {
         assertEquals(raveWaver.getLevel(), found.getLevel());
         assertEquals(raveWaver.getCreationDate(), found.getCreationDate());
 
+
     }
+
 
     @Disabled
     @Test
@@ -62,6 +67,11 @@ public class RaveWaverRepositoryTest {
         assertEquals(raveWaver.getToken(), found.getToken());
         assertEquals(raveWaver.getLevel(), found.getLevel());
         assertEquals(raveWaver.getCreationDate(), found.getCreationDate());
+    }
+
+    @AfterEach
+    public void tearDown(){
+        raveWaverRepository.deleteAll();
     }
 
 }

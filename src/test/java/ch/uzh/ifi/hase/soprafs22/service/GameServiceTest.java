@@ -18,7 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled
+
 public class GameServiceTest {
     @Mock
     GameRepository gameRepository;
@@ -60,6 +60,7 @@ public class GameServiceTest {
         assertEquals(gameService.createNewLobby(spotifyService), 1);
     }
 
+    @Disabled
     @Test
     public void saveAnswerTest() {
 

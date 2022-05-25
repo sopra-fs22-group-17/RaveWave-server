@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-@Disabled
+
 public class WebSocketServiceTest {
 
     @Mock
