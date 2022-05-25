@@ -3,11 +3,17 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyAuthCodeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
+import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,7 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @WebMvcTest(SpotifyAuthController.class)
-@Disabled
 public class SpotifyAuthControllerTest {
 
     @Autowired
@@ -41,6 +46,10 @@ public class SpotifyAuthControllerTest {
 
     @MockBean
     private SpotifyService spotifyService;
+
+    @MockBean
+    private RaveWaverService raveWaverService;
+
 
     @Test
     void generateAuthorizationCodeUriTest() throws Exception{
@@ -67,7 +76,7 @@ public class SpotifyAuthControllerTest {
         given(spotifyService.getAccessToken()).willReturn(accessToken);
 
         MockHttpServletRequestBuilder postRequest = post("/Spotify/authorizationCode").contentType(MediaType.APPLICATION_JSON)
-                                                        .content(asJsonString(spotifyPostDTO));;
+                .content(asJsonString(spotifyPostDTO));;
 
         mockMvc.perform(postRequest).andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken", is(accessToken)));
