@@ -7,12 +7,10 @@ import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.util.VisibleForTesting;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.SetEnvironmentVariable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -41,8 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @WebMvcTest(SpotifyAuthController.class)
-//@SetEnvironmentVariable(key = "clientSecret", value = "FakeClientSecret")
-//@SetEnvironmentVariable(key = "redirectURL", value = "FakeRedirectURL")
 public class SpotifyAuthControllerTest {
 
     @Autowired
