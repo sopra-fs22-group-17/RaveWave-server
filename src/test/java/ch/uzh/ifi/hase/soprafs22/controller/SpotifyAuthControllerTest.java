@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyAuthCodeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SpotifyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
