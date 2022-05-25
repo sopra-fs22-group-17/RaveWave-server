@@ -1,20 +1,15 @@
 package ch.uzh.ifi.hase.soprafs22.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
-import ch.uzh.ifi.hase.soprafs22.service.GameService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.server.ResponseStatusException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class GameRepositoryTest {
@@ -46,7 +41,7 @@ public class GameRepositoryTest {
     @Test
     public void removeGameTest() {
         GameRepository.removeGame(1);
-        assertThrows(ResponseStatusException.class,() -> GameRepository.findByLobbyId(1));
+        assertThrows(ResponseStatusException.class, () -> GameRepository.findByLobbyId(1));
 
     }
 

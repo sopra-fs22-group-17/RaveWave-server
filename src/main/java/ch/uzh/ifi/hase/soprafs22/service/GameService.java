@@ -39,7 +39,6 @@ public class GameService {
     private int lobbyToCreate;
 
 
-
     @Autowired
     public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
                        @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
@@ -101,7 +100,7 @@ public class GameService {
 
     public QuestionDTO startNextRound(int lobbyId) {
 
-        Question nextQuestion = GameRepository.findByLobbyId(lobbyId).startNextTurn(playerRepository.findByLobbyId((long)lobbyId));
+        Question nextQuestion = GameRepository.findByLobbyId(lobbyId).startNextTurn(playerRepository.findByLobbyId((long) lobbyId));
         QuestionDTO nextQuestionDTO = new QuestionDTO();
 
         nextQuestionDTO.setQuestion(nextQuestion.getQuestion());

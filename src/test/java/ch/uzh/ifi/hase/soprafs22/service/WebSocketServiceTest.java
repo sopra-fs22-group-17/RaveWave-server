@@ -7,13 +7,14 @@ import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
-import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
-import ch.uzh.ifi.hase.soprafs22.service.WebSocketService;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
-import org.junit.jupiter.api.Disabled;
-import org.mockito.*;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @Disabled

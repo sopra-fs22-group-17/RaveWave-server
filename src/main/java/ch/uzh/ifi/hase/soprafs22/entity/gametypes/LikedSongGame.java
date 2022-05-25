@@ -1,14 +1,14 @@
 package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class LikedSongGame implements GameType {
     private final Question question;
@@ -69,7 +69,8 @@ public class LikedSongGame implements GameType {
                 int wrongIndex = randomGenerator.nextInt(wrongAnswersPlayer.size());
                 answers.add(wrongAnswersPlayer.get(wrongIndex));
                 wrongAnswersPlayer.remove(wrongIndex);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 Player notAPlayer = createDummyPlayer();
                 answers.add(notAPlayer);
             }
@@ -100,7 +101,8 @@ public class LikedSongGame implements GameType {
         for (Player player : players) {
             try {
                 answers.add(player.getPlayerName());
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 Player notAPlayer = createDummyPlayer();
                 answers.add(notAPlayer.getPlayerName());
             }
@@ -113,7 +115,8 @@ public class LikedSongGame implements GameType {
         for (Player player : players) {
             try {
                 profilePictures.add(player.getProfilePicture());
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 Player notAPlayer = createDummyPlayer();
                 profilePictures.add(notAPlayer.getProfilePicture());
             }

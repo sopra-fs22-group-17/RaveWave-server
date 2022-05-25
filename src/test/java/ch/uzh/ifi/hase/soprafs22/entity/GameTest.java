@@ -2,19 +2,15 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
-import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
-import ch.uzh.ifi.hase.soprafs22.utils.Evaluator;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +18,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.given;
 
 public class GameTest {
     private Game game;

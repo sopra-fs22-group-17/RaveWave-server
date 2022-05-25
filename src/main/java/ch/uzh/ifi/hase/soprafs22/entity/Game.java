@@ -19,7 +19,6 @@ import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,7 +94,7 @@ public class Game {
         return question;
     }
 
-    private void countPlayersInLobby(List<Player> players){
+    private void countPlayersInLobby(List<Player> players) {
         int numberOfPlayers = players.size();
 
         this.numberOfPlayers = numberOfPlayers;
@@ -108,12 +107,8 @@ public class Game {
         return receivedAllAnswers();
     }
 
-    private boolean receivedAllAnswers(){
-        if(this.numberOfReceivedAnswers < this.numberOfPlayers){
-            return false;
-        }else{
-            return true;
-        }
+    private boolean receivedAllAnswers() {
+        return this.numberOfReceivedAnswers >= this.numberOfPlayers;
     }
 
     public LeaderboardDTO endRound(List<Player> players) {
@@ -125,7 +120,7 @@ public class Game {
                 .get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
         leaderboardDTO.setSongTitle(gamePlan.get(currentGameRound - 1).getQuestion().getSongTitle());
         leaderboardDTO.setSpotifyLink(gamePlan.get(currentGameRound - 1).getQuestion().getSpotifyLink());
-        leaderboardDTO.setCorrectAnswer((gamePlan.get(currentGameRound - 1).getQuestion().getAnswers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer()-1)));
+        leaderboardDTO.setCorrectAnswer((gamePlan.get(currentGameRound - 1).getQuestion().getAnswers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1)));
         return leaderboardDTO;
     }
 
@@ -150,7 +145,8 @@ public class Game {
 
             if (points != 0) {
                 player.setStreak(player.getStreak() + 1);
-            } else {
+            }
+            else {
                 player.setStreak(0);
             }
         }
@@ -165,14 +161,16 @@ public class Game {
                     songs.addAll(spotifyService.getPersonalizedPlaylistsItems(raveWaverId));
                 }
             }
-        } else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
+        }
+        else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
             for (Player player : players) {
                 Long raveWaverId = player.getRaveWaverId();
                 if (raveWaverId != 0) {
                     songs.addAll(spotifyService.getSavedTrackItems(raveWaverId));
                 }
             }
-        } else {
+        }
+        else {
             songs.addAll(spotifyService.getPlaylistsItems(songGenre.getPlaylistId()));
         }
 
@@ -204,11 +202,14 @@ public class Game {
             }
             if (this.gameMode == GameMode.ARTISTGAME) {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
-            } else if (this.gameMode == GameMode.SONGTITLEGAME) {
+            }
+            else if (this.gameMode == GameMode.SONGTITLEGAME) {
                 gamePlan.add(new SongTitleGame(id, songs));
-            } else if (this.gameMode == GameMode.LIKEDSONGGAME) {
+            }
+            else if (this.gameMode == GameMode.LIKEDSONGGAME) {
                 gamePlan.add(new LikedSongGame(id, songs, players));
-            } else {
+            }
+            else {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
             }
             pickedSongs.add(id);
@@ -288,7 +289,8 @@ public class Game {
             if (player.getRaveWaverId() != 0) {
                 Optional<RaveWaver> raveWaver = raveWaverRepository.findById(player.getRaveWaverId());
                 player.setProfilePicture(raveWaver.get().getProfilePicture());
-            } else {
+            }
+            else {
                 String name = player.getPlayerName();
 
                 Pattern p = Pattern.compile("[^A-Za-z0-9]");
@@ -296,7 +298,8 @@ public class Game {
                 boolean b = m.find();
                 if (b) {
                     player.setProfilePicture("https://robohash.org/dontknow.png");
-                } else {
+                }
+                else {
                     player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
                 }
             }

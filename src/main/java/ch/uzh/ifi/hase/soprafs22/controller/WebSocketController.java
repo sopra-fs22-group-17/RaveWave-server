@@ -48,8 +48,8 @@ public class WebSocketController {
     public void saveAnswer(@DestinationVariable int lobbyId, @DestinationVariable int playerId, Answer answer) {
         log.info("Lobby " + lobbyId + ": Player " + playerId + " has answered.");
         boolean receivedAllAnswers = gameService.saveAnswer(answer, playerId);
-        if(receivedAllAnswers){
-            endRound((long)lobbyId);
+        if (receivedAllAnswers) {
+            endRound((long) lobbyId);
         }
     }
 

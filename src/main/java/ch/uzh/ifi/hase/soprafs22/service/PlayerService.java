@@ -75,13 +75,13 @@ public class PlayerService {
         }
     }
 
-    public boolean checkFourRaveWaversConnected(Long lobbyId){
+    public boolean checkFourRaveWaversConnected(Long lobbyId) {
 
         List<Player> players = playerRepository.findByLobbyId(lobbyId);
         System.out.println(players.get(0));
         int counter = 0;
-        for (Player player: players){
-            if (player.getRaveWaverId() !=0){
+        for (Player player : players) {
+            if (player.getRaveWaverId() != 0) {
                 System.out.println(player.getRaveWaverId());
                 counter++;
             }
