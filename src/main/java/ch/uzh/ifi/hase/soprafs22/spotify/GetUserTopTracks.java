@@ -14,7 +14,7 @@ import java.io.IOException;
 public class GetUserTopTracks {
     public static Track[] fetchUsersTopTracks(SpotifyApi spotifyApi) {
         final GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks()
-                // .limit(10)
+                .limit(30)
                 // .offset(0)
                 .time_range("medium_term")
                 .build();

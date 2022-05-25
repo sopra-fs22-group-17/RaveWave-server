@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <a href="https://github.com/soprafs22-group17"><img src="/Users/isabella/Documents/RaveWave-server/RaveWaveLogo.png" alt="RaveWave" width="200"></a>
+  <a href="https://github.com/soprafs22-group17"><img src="/RaveWaveLogo.png" alt="RaveWave" width="200"></a>
   <br>
   RaveWave-Server
   <br>

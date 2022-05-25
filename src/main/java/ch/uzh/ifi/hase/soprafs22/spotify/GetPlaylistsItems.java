@@ -20,7 +20,7 @@ public class GetPlaylistsItems {
         final GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi
                 .getPlaylistsItems(playlistId)
                 // .fields("description")
-                // .limit(10)
+                .limit(50)
                 // .offset(0)
                 // .market(CountryCode.SE)
                 // .additionalTypes("track,episode")
