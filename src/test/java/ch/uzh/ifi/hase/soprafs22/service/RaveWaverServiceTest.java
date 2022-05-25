@@ -1,26 +1,22 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-
+import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
 import org.apache.hc.core5.http.ParseException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
-
-import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
-import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RaveWaverServiceTest {
 
@@ -32,7 +28,6 @@ public class RaveWaverServiceTest {
 
     @Mock
     private RaveWaver testRaveWaver;
-
 
 
     @BeforeEach

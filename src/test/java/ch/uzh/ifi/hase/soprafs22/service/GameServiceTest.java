@@ -1,9 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
+import ch.uzh.ifi.hase.soprafs22.entity.Game;
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
+import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -12,40 +14,28 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
-import ch.uzh.ifi.hase.soprafs22.entity.Game;
-import ch.uzh.ifi.hase.soprafs22.entity.Player;
-import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
-import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-@Disabled
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
 public class GameServiceTest {
     @Mock
+    GameRepository gameRepository;
+    @Mock
     private PlayerRepository playerRepository;
-
     @InjectMocks
     private PlayerService playerService;
-
     @InjectMocks
     private GameService gameService;
-
     @MockBean
     private Game testGame;
-
     @MockBean
     private SpotifyService spotifyService;
-
     @Mock
     private Player testPlayer;
-
     @MockBean
     private RaveWaverRepository raveWaverRepository;
-
-    @Mock
-    GameRepository gameRepository;
 
     @BeforeEach
     void setup() {
@@ -54,7 +44,7 @@ public class GameServiceTest {
         testPlayer.setId(1L);
         testPlayer.setLobbyId(1L);
         testPlayer.setPlayerName("Test");
-      //TODO NOT WORKING
+        //TODO NOT WORKING
         //  testGame = new Game(spotifyService, SongPool.COUNTRY, raveWaverRepository);
 
         Mockito.when(playerRepository.save(Mockito.any())).thenReturn(testPlayer);
@@ -70,6 +60,7 @@ public class GameServiceTest {
         assertEquals(gameService.createNewLobby(spotifyService), 1);
     }
 
+    @Disabled
     @Test
     public void saveAnswerTest() {
 

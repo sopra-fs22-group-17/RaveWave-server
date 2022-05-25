@@ -1,17 +1,18 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class QuestionTest {
     Question testQuestion = new Question();
+
     @Test
-    public void testQuestion(){
+    public void testQuestion() {
         ArrayList<String> testList = new ArrayList<>();
         testList.add("testy");
 

@@ -1,13 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -19,10 +16,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.server.ResponseStatusException;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Player;
-import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
+import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
+
 public class PlayerServiceTest {
 
     @Mock

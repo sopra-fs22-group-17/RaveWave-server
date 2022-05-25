@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -81,6 +82,20 @@ public class PlayerService {
         playerJoinDTO.setName(player.getPlayerName());
 
         this.webSocketService.sendMessageToClients("/topic/lobbies/" + player.getlobbyId(), playerJoinDTO);
+    }
+
+    public boolean checkFourRaveWaversConnected(Long lobbyId) {
+
+        List<Player> players = playerRepository.findByLobbyId(lobbyId);
+        System.out.println(players.get(0));
+        int counter = 0;
+        for (Player player : players) {
+            if (player.getRaveWaverId() != 0) {
+                System.out.println(player.getRaveWaverId());
+                counter++;
+            }
+        }
+        return counter >= 4;
     }
 
 }

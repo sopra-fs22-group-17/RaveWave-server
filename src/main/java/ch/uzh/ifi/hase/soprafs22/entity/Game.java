@@ -19,7 +19,6 @@ import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +42,9 @@ public class Game {
     private SongPool songGenre;
     private int gameRounds;
     private int currentGameRound;
+
+    private int numberOfPlayers;
+    private int numberOfReceivedAnswers;
 
     public Game(SpotifyService spotifyService, SongPool songGenre, RaveWaverRepository raveWaverRepository) {
         this.spotifyService = spotifyService;
@@ -82,16 +84,31 @@ public class Game {
 
     }
 
-    public Question startNextTurn() {
+    public Question startNextTurn(List<Player> players) {
+        countPlayersInLobby(players);
         Question question = gamePlan.get(currentGameRound).getQuestion();
         question.setPlaybackDuration(playbackDuration);
         currentGameRound++;
         this.answers.clear();
+        this.numberOfReceivedAnswers = 0;
         return question;
     }
 
-    public void addAnswers(Answer answer) {
+    private void countPlayersInLobby(List<Player> players) {
+        int numberOfPlayers = players.size();
+
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+
+    public boolean addAnswers(Answer answer) {
         this.answers.add(answer);
+        this.numberOfReceivedAnswers++;
+        return receivedAllAnswers();
+    }
+
+    private boolean receivedAllAnswers() {
+        return this.numberOfReceivedAnswers >= this.numberOfPlayers;
     }
 
     public LeaderboardDTO endRound(List<Player> players) {
@@ -103,7 +120,7 @@ public class Game {
                 .get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
         leaderboardDTO.setSongTitle(gamePlan.get(currentGameRound - 1).getQuestion().getSongTitle());
         leaderboardDTO.setSpotifyLink(gamePlan.get(currentGameRound - 1).getQuestion().getSpotifyLink());
-        leaderboardDTO.setCorrectAnswer((gamePlan.get(currentGameRound - 1).getQuestion().getAnswers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer()-1)));
+        leaderboardDTO.setCorrectAnswer((gamePlan.get(currentGameRound - 1).getQuestion().getAnswers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1)));
         return leaderboardDTO;
     }
 
@@ -128,7 +145,8 @@ public class Game {
 
             if (points != 0) {
                 player.setStreak(player.getStreak() + 1);
-            } else {
+            }
+            else {
                 player.setStreak(0);
             }
         }
@@ -143,14 +161,16 @@ public class Game {
                     songs.addAll(spotifyService.getPersonalizedPlaylistsItems(raveWaverId));
                 }
             }
-        } else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
+        }
+        else if (this.songGenre == SongPool.USERSSAVEDTRACKS) {
             for (Player player : players) {
                 Long raveWaverId = player.getRaveWaverId();
                 if (raveWaverId != 0) {
                     songs.addAll(spotifyService.getSavedTrackItems(raveWaverId));
                 }
             }
-        } else {
+        }
+        else {
             songs.addAll(spotifyService.getPlaylistsItems(songGenre.getPlaylistId()));
         }
 
@@ -182,11 +202,14 @@ public class Game {
             }
             if (this.gameMode == GameMode.ARTISTGAME) {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
-            } else if (this.gameMode == GameMode.SONGTITLEGAME) {
+            }
+            else if (this.gameMode == GameMode.SONGTITLEGAME) {
                 gamePlan.add(new SongTitleGame(id, songs));
-            } else if (this.gameMode == GameMode.LIKEDSONGGAME) {
+            }
+            else if (this.gameMode == GameMode.LIKEDSONGGAME) {
                 gamePlan.add(new LikedSongGame(id, songs, players));
-            } else {
+            }
+            else {
                 gamePlan.add(new ArtistGame(id, songs, spotifyService));
             }
             pickedSongs.add(id);
@@ -241,28 +264,6 @@ public class Game {
         return players;
     }
 
-    // TODO in progress
-    /*
-     * private List<Player> sortPlayersPreviousScore(List<Player> players) {
-     * int pos;
-     * Player temp;
-     * for (int i = 0; i < players.size(); i++) {
-     * pos = i;
-     * for (int j = i + 1; j < players.size(); j++) {
-     * if (players.get(j).getTotalScore() - players.get(j).getRoundScore() >
-     * players.get(pos).getTotalScore() - players.get(pos).getRoundScore()) //find
-     * the index of the minimum element
-     * {
-     * pos = j;
-     * }
-     * }
-     * temp = players.get(pos); //swap the current element with the minimum element
-     * players.set(pos, players.get(i));
-     * players.set(i, temp);
-     * }
-     * return players;
-     * }
-     */
     public List<Answer> getListOfAnswers() {
         return this.answers;
     }
@@ -288,7 +289,8 @@ public class Game {
             if (player.getRaveWaverId() != 0) {
                 Optional<RaveWaver> raveWaver = raveWaverRepository.findById(player.getRaveWaverId());
                 player.setProfilePicture(raveWaver.get().getProfilePicture());
-            } else {
+            }
+            else {
                 String name = player.getPlayerName();
 
                 Pattern p = Pattern.compile("[^A-Za-z0-9]");
@@ -296,7 +298,8 @@ public class Game {
                 boolean b = m.find();
                 if (b) {
                     player.setProfilePicture("https://robohash.org/dontknow.png");
-                } else {
+                }
+                else {
                     player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
                 }
             }

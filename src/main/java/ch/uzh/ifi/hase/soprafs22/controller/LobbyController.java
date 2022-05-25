@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.FourRaveWaversConnectedDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LobbyIdDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerPostDTO;
@@ -28,7 +29,7 @@ public class LobbyController {
     Logger log = LoggerFactory.getLogger(LobbyController.class);
 
     LobbyController(GameService gameService, SpotifyService spotifyService, PlayerService playerService,
-            RaveWaverService raveWaverService, RaveWaverRepository raveWaverRepository) {
+                    RaveWaverService raveWaverService, RaveWaverRepository raveWaverRepository) {
         this.gameService = gameService;
         this.spotifyService = spotifyService;
         this.playerService = playerService;
@@ -51,7 +52,7 @@ public class LobbyController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public PlayerGetDTO createPlayer(@RequestBody PlayerPostDTO playerPostDTO, @PathVariable Long lobbyId,
-            HttpServletResponse response, HttpServletRequest token) {
+                                     HttpServletResponse response, HttpServletRequest token) {
 
         if (raveWaverRepository.findByToken(token.getHeader("Authorization")) != null) {
             Player newPlayer = raveWaverService.addRaveWaverToLobby(token, lobbyId);
@@ -73,4 +74,16 @@ public class LobbyController {
 
     }
 
+
+    @GetMapping("/lobbies/{lobbyId}/likedSongsUnlocked")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public FourRaveWaversConnectedDTO checkFourRaveWaversConnected(@PathVariable Long lobbyId) {
+
+        log.info("Lobby" + lobbyId + ": checking if four players are connected to Spotify");
+        FourRaveWaversConnectedDTO fourRaveWaversConnectedDTO = new FourRaveWaversConnectedDTO();
+        fourRaveWaversConnectedDTO.setFourRaveWaversConnected(playerService.checkFourRaveWaversConnected(lobbyId));
+
+        return fourRaveWaversConnectedDTO;
+    }
 }

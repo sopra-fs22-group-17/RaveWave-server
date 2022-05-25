@@ -1,12 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.rest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
-
-import org.junit.jupiter.api.Test;
-
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerGetDTO;
@@ -14,6 +7,12 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
+import org.junit.jupiter.api.Test;
+
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DTOMapperTest {
     @Test

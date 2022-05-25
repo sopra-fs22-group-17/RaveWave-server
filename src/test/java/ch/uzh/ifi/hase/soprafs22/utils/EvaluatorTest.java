@@ -1,12 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.utils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EvaluatorTest {
     private Answer playerAnswer;

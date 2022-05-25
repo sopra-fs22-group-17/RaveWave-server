@@ -1,49 +1,37 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
-import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
-import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
-import org.junit.Rule;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.mapstruct.BeforeMapping;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.web.server.ResponseStatusException;
-
-import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
+import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LobbyIdDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.PlayerService;
+import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.web.server.ResponseStatusException;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-
-@Disabled
 @WebMvcTest(LobbyController.class)
-public class LobbyControllerTest {
+class LobbyControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -66,6 +54,10 @@ public class LobbyControllerTest {
     @MockBean
     private SpotifyService spotifyService;
 
+    @MockBean
+    private RaveWaverService raveWaverService;
+
+
     /**
      * Helper Method to convert userPostDTO into a JSON string such that the input
      * can be processed
@@ -77,9 +69,10 @@ public class LobbyControllerTest {
     private String asJsonString(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+        }
+        catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("The request body could not be created.%s", e.toString()));
+                    String.format("The request body could not be created.%s", e));
         }
     }
 
@@ -106,20 +99,22 @@ public class LobbyControllerTest {
         mockMvc.perform(postRequest).andExpect(status().isCreated()).andExpect(jsonPath("$.lobbyId", is(1)));
     }
 
+
+    @Disabled
     @Test
     public void createPlayerPOSTTest() throws Exception {
-    PlayerPostDTO playerPostDTO = new PlayerPostDTO();
-    playerPostDTO.setPlayerName("playerName");
+        PlayerPostDTO playerPostDTO = new PlayerPostDTO();
+        playerPostDTO.setPlayerName("playerName");
 
-    given(playerService.addPlayer(Mockito.any())).willReturn(player);
+        given(playerService.addPlayer(Mockito.any())).willReturn(player);
 
-    MockHttpServletRequestBuilder postRequest = post("/lobbies/1")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(playerPostDTO));
+        MockHttpServletRequestBuilder postRequest = post("/lobbies/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(playerPostDTO));
 
-    mockMvc.perform(postRequest).andExpect(status().isCreated())
-            .andExpect(jsonPath("$.playerName", is(player.getPlayerName())));
+        mockMvc.perform(postRequest).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.playerName", is(player.getPlayerName())));
 
-     }
+    }
 
 }
