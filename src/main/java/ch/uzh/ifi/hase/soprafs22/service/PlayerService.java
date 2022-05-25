@@ -80,14 +80,13 @@ public class PlayerService {
     public void greetPlayers(Player player){
         PlayerJoinDTO playerJoinDTO = new PlayerJoinDTO();
         playerJoinDTO.setName(player.getPlayerName());
-
+        playerJoinDTO.setLikedGameModeUnlocked(checkFourRaveWaversConnected(player.getlobbyId()));
         this.webSocketService.sendMessageToClients("/topic/lobbies/" + player.getlobbyId(), playerJoinDTO);
     }
 
     public boolean checkFourRaveWaversConnected(Long lobbyId) {
 
         List<Player> players = playerRepository.findByLobbyId(lobbyId);
-        System.out.println(players.get(0));
         int counter = 0;
         for (Player player : players) {
             if (player.getRaveWaverId() != 0) {
