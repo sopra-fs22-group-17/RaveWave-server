@@ -19,7 +19,6 @@ import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,6 +83,8 @@ public class Game {
 
     public Question startNextTurn() {
         Question question = gamePlan.get(currentGameRound).getQuestion();
+        question.setCurrentRound(currentGameRound+1);
+        question.setTotalRounds(gameRounds);
         question.setPlaybackDuration(playbackDuration);
         currentGameRound++;
         this.answers.clear();
@@ -99,8 +100,7 @@ public class Game {
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
         leaderboardDTO.setGameOver(this.currentGameRound == this.gameRounds);
         leaderboardDTO.setArtist(gamePlan.get(currentGameRound - 1).getQuestion().getArtist());
-        leaderboardDTO.setCoverUrl(gamePlan.get(currentGameRound - 1).getQuestion().getPicture()
-                .get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer() - 1));
+        leaderboardDTO.setCoverUrl(gamePlan.get(currentGameRound -1).getQuestion().getCoverUrl());
         leaderboardDTO.setSongTitle(gamePlan.get(currentGameRound - 1).getQuestion().getSongTitle());
         leaderboardDTO.setSpotifyLink(gamePlan.get(currentGameRound - 1).getQuestion().getSpotifyLink());
         leaderboardDTO.setCorrectAnswer((gamePlan.get(currentGameRound - 1).getQuestion().getAnswers().get(gamePlan.get(currentGameRound - 1).getQuestion().getCorrectAnswer()-1)));

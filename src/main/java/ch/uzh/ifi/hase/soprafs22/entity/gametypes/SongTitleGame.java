@@ -78,9 +78,9 @@ public class SongTitleGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.SONGTITLEGAME);
-        question.setPicture(getPictures());
+        question.setPictures(getPictures());
         question.setSongTitle(songs.get(songToPick).getTrack().getName());
-
+        question.setCoverUrl(getPictures().get(correctAnswerIndex));
     }
 
     @Override

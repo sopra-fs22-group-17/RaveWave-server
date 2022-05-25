@@ -41,6 +41,8 @@ public class WebSocketController {
         log.info("Lobby" + lobbyId + ": Game started.");
         gameService.startGame(lobbyId);
         QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
+        System.out.println(questionToSend.getCurrentRound());
+        System.out.println(questionToSend.getTotalRounds());
         this.webSocketService.sendMessageToClients(destination + lobbyId, questionToSend);
     }
 
@@ -62,6 +64,8 @@ public class WebSocketController {
     public void startNextRound(@DestinationVariable int lobbyId) {
         log.info("Next round started");
         QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
+        System.out.println(questionToSend.getCurrentRound());
+        System.out.println(questionToSend.getTotalRounds());
         this.webSocketService.sendMessageToClients(destination + lobbyId, questionToSend);
     }
 

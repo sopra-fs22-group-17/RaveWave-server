@@ -9,6 +9,8 @@ public class QuestionDTO {
     private String songTitle;
     private String playBackDuration;
     private ArrayList<AnswerOptions> answers;
+    private int currentRound;
+    private int totalRounds;
 
     public String getType() {
         return type;
@@ -52,5 +54,21 @@ public class QuestionDTO {
 
     public void setPlayBackDuration(String playBackDuration) {
         this.playBackDuration = playBackDuration;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public int getTotalRounds() {
+        return totalRounds;
+    }
+
+    public void setTotalRounds(int totalRounds) {
+        this.totalRounds = totalRounds;
     }
 }

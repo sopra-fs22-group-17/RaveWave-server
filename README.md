@@ -1,4 +1,10 @@
-# RaveWave
+<h1 align="center">
+  <br>
+  <a href="https://github.com/soprafs22-group17"><img src="RaveWaveLogoDurchsichtig.png" alt="RaveWave" width="200"></a>
+  <br>
+  RaveWave-Server
+  <br>
+</h1>
 
 
 
