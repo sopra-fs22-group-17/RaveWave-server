@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -41,7 +42,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-@Disabled
 @WebMvcTest(LobbyController.class)
 public class LobbyControllerTest {
 
@@ -65,6 +65,12 @@ public class LobbyControllerTest {
 
     @MockBean
     private SpotifyService spotifyService;
+
+    @MockBean
+    private RaveWaverService raveWaverService;
+
+
+
 
     /**
      * Helper Method to convert userPostDTO into a JSON string such that the input
@@ -106,6 +112,7 @@ public class LobbyControllerTest {
         mockMvc.perform(postRequest).andExpect(status().isCreated()).andExpect(jsonPath("$.lobbyId", is(1)));
     }
 
+    @Disabled
     @Test
     public void createPlayerPOSTTest() throws Exception {
     PlayerPostDTO playerPostDTO = new PlayerPostDTO();
