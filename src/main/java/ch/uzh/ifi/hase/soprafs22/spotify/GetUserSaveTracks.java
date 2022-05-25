@@ -15,7 +15,7 @@ public class GetUserSaveTracks {
     public static SavedTrack[] fetchUserSaveTracks(SpotifyApi spotifyApi) {
 
         final GetUsersSavedTracksRequest getUsersSavedTracksRequest = spotifyApi.getUsersSavedTracks()
-                // .limit(10)
+                .limit(50)
                 // .offset(0)
                 // .market(CountryCode.SE)
                 .build();
@@ -24,8 +24,7 @@ public class GetUserSaveTracks {
 
             return savedTrackPaging.getItems();
 
-        }
-        catch (IOException | SpotifyWebApiException | ParseException e) {
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "An error while fetching the song information occured: " + e.getMessage());
         }

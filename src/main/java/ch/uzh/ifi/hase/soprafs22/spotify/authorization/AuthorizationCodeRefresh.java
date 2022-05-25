@@ -10,8 +10,7 @@ import java.io.IOException;
 
 public class AuthorizationCodeRefresh {
 
-
-    public static void authorizationCodeRefresh_Sync(SpotifyApi spotifyApi) {
+    public static void authorizationCodeRefresh_Sync(SpotifyApi spotifyApi) throws Exception {
         final AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest = spotifyApi.authorizationCodeRefresh()
                 .build();
         try {
@@ -20,10 +19,10 @@ public class AuthorizationCodeRefresh {
             // Set access and refresh token for further "spotifyApi" object usage
             spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
 
-            //System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
-        }
-        catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
+            // System.out.println("Expires in: " +
+            // authorizationCodeCredentials.getExpiresIn());
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            throw new Exception("Invalid Refresh Token");
         }
     }
 

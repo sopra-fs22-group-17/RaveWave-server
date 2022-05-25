@@ -39,20 +39,25 @@ public class SpotifyAuthController {
         return URL;
     }
 
-    //get code from spotify API-Login Page
+    // get code from spotify API-Login Page
     @PostMapping("/Spotify/authorizationCode")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public SpotifyGetDTO getAuthorizationCode(@RequestBody SpotifyPostDTO spotifyPostDTO, HttpServletRequest token) throws IOException, ParseException, SpotifyWebApiException {
+    public SpotifyGetDTO getAuthorizationCode(@RequestBody SpotifyPostDTO spotifyPostDTO, HttpServletRequest token)
+            throws IOException, ParseException, SpotifyWebApiException {
 
         spotifyService.authorizationCode(spotifyPostDTO);
 
-        //set the authorizationToken of a RaveWaver if a RaveWaver is given
+        // set the authorizationToken of a RaveWaver if a RaveWaver is given
         if (token != null) {
             raveWaverService.updateSpotifyToken(token, spotifyService);
         }
 
-        spotifyService.authorizationCodeRefresh(raveWaverService.getRaveWaverByToken(token));
+        try {
+            spotifyService.authorizationCodeRefresh(raveWaverService.getRaveWaverByToken(token));
+        } catch (Exception e) {
+            log.info("failed authorization code refresh");
+        }
 
         SpotifyGetDTO response = new SpotifyGetDTO();
         response.setAccessToken(spotifyService.getAccessToken());
@@ -61,5 +66,3 @@ public class SpotifyAuthController {
     }
 
 }
-
-

@@ -50,7 +50,7 @@ public class SpotifyService {
         return authorizationCodeUri_Sync(spotifyApi);
     }
 
-    public void authorizationCodeRefresh(RaveWaver raveWaver) {
+    public void authorizationCodeRefresh(RaveWaver raveWaver) throws Exception {
         String oldAccessToken = raveWaver.getSpotifyToken();
         String refreshToken = raveWaver.getSpotifyRefreshToken();
 
@@ -112,7 +112,7 @@ public class SpotifyService {
     private ArrayList<Song> playlistTrackToTrackList(PlaylistTrack[] playlistsItems) {
         ArrayList<Song> songs = new ArrayList<>();
         for (PlaylistTrack pTrack : playlistsItems) {
-            songs.add(new Song((Track) pTrack.getTrack()));
+            songs.add(new Song((Track) pTrack.getTrack(), "HOST"));
         }
         return songs;
     }
@@ -123,7 +123,6 @@ public class SpotifyService {
             songs.add(new Song(track, raveWaverId, "[RW] " + playerName));
         }
         return songs;
-
     }
 
     public String getRefreshToken() {

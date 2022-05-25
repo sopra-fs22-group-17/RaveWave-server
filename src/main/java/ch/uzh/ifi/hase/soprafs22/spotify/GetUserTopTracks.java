@@ -14,7 +14,7 @@ import java.io.IOException;
 public class GetUserTopTracks {
     public static Track[] fetchUsersTopTracks(SpotifyApi spotifyApi) {
         final GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks()
-                // .limit(10)
+                .limit(50)
                 // .offset(0)
                 .time_range("medium_term")
                 .build();
@@ -23,8 +23,7 @@ public class GetUserTopTracks {
 
             return trackPaging.getItems();
 
-        }
-        catch (IOException | SpotifyWebApiException | ParseException e) {
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "An error while fetching the song information occured: " + e.getMessage());
         }

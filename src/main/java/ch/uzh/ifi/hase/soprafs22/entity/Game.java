@@ -75,8 +75,12 @@ public class Game {
     private void refreshAccessTokens(List<Player> players) {
         for (Player player : players) {
             if (player.getRaveWaverId() != 0) {
-                RaveWaver raveWaver = raveWaverRepository.findById(player.getRaveWaverId()).get();
-                spotifyService.authorizationCodeRefresh(raveWaver);
+                try {
+                    RaveWaver raveWaver = raveWaverRepository.findById(player.getRaveWaverId()).get();
+                    spotifyService.authorizationCodeRefresh(raveWaver);
+                } catch (Exception e) {
+                    log.info("Refreshtoken invalid");
+                }
             }
         }
 

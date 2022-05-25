@@ -13,8 +13,9 @@ public class Song {
         this.playerName = playerName;
     }
 
-    public Song(Track track) {
+    public Song(Track track, String host) {
         this.track = track;
+        this.playerName = host;
     }
 
     public Track getTrack() {

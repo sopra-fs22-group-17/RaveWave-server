@@ -63,13 +63,13 @@ public class RaveWaverController {
     @PostMapping("/ravewavers")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public RaveWaverGetDTO createRaveWaver(@RequestBody RaveWaverPostDTO raveWaverPostDTO, HttpServletResponse response) throws IOException, ParseException, SpotifyWebApiException {
+    public RaveWaverGetDTO createRaveWaver(@RequestBody RaveWaverPostDTO raveWaverPostDTO, HttpServletResponse response)
+            throws IOException, ParseException, SpotifyWebApiException {
         // convert API raveWaver to internal representation
         RaveWaver raveWaverInput = DTOMapper.INSTANCE.convertRaveWaverPostDTOtoEntity(raveWaverPostDTO);
 
         // create raveWaver
         RaveWaver createdRaveWaver = raveWaverService.createRaveWaver(raveWaverInput);
-
 
         response.addHeader("Authorization", createdRaveWaver.getToken());
 
@@ -87,6 +87,7 @@ public class RaveWaverController {
         RaveWaver raveWaver = raveWaverService.loginRaveWaver(loginPostDTO);
 
         response.addHeader("Authorization", raveWaver.getToken());
+        response.addHeader("Refreshtoken", raveWaverService.checkRefreshToken(raveWaver));
 
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaver);
     }
@@ -100,6 +101,5 @@ public class RaveWaverController {
 
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaverUpdate);
     }
-
 
 }
