@@ -57,7 +57,7 @@ public class SongTitleGame implements GameType {
             int wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
 
             // ensures that there will never be the same answer twice
-            while (wrongAnswerIndex == songToPick && wrongAnswersIndex.size() > 0) {
+            while ((wrongAnswerIndex == songToPick || songs.get(wrongAnswerIndex).getTrack().getName() == songs.get(songToPick).getTrack().getName()) && wrongAnswersIndex.size() > 0) {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
             String answer = songs.get(wrongAnswerIndex).getTrack().getName();
@@ -78,9 +78,9 @@ public class SongTitleGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.SONGTITLEGAME);
-        question.setPicture(getPictures());
+        question.setPictures(getPictures());
         question.setSongTitle(songs.get(songToPick).getTrack().getName());
-
+        question.setCoverUrl(getPictures().get(correctAnswerIndex));
     }
 
     @Override

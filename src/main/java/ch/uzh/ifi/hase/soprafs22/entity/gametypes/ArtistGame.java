@@ -1,16 +1,20 @@
 package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
+import ch.uzh.ifi.hase.soprafs22.controller.LobbyController;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import org.apache.hc.core5.http.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -21,6 +25,7 @@ public class ArtistGame implements GameType {
     private final int songToPick;
     private final ArrayList<Track> answerSongs;
     private final SpotifyService spotifyService;
+    Logger log = LoggerFactory.getLogger(LobbyController.class);
 
     public ArtistGame(int songToPick, ArrayList<Song> songs, SpotifyService spotifyService2) {
         this.question = new Question();
@@ -29,6 +34,7 @@ public class ArtistGame implements GameType {
         this.answerSongs = new ArrayList<Track>();
         this.spotifyService = spotifyService2;
         generateQuestion();
+
 
     }
 
@@ -65,7 +71,7 @@ public class ArtistGame implements GameType {
             int wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
 
             // ensures that there will never be the same answer twice
-            while (wrongAnswerIndex == songToPick && wrongAnswersIndex.size() > 0) {
+            while (wrongAnswerIndex == songToPick || Arrays.equals(songs.get(wrongAnswerIndex).getTrack().getArtists(), songs.get(songToPick).getTrack().getArtists())) {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
             StringBuilder answer = new StringBuilder();
@@ -77,11 +83,14 @@ public class ArtistGame implements GameType {
 
             if (answers.contains(answer.toString())) {
                 a++;
+
+
             }
             else {
                 answers.add(answer.toString());
+                answerSongs.add(songs.get(wrongAnswerIndex).getTrack());
             }
-            answerSongs.add(songs.get(wrongAnswerIndex).getTrack());
+
         }
 
         int correctAnswerIndex = rand.nextInt(4);
@@ -91,9 +100,9 @@ public class ArtistGame implements GameType {
         question.setAnswers(answers);
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.ARTISTGAME);
-        question.setPicture(getPictures());
+        question.setPictures(getPictures());
         question.setSongTitle(songs.get(songToPick).getTrack().getName());
-
+        question.setCoverUrl(songs.get(songToPick).getTrack().getAlbum().getImages()[1].getUrl());
     }
 
     @Override
@@ -107,23 +116,23 @@ public class ArtistGame implements GameType {
     }
 
     public ArrayList<String> getPictures() {
-        ArrayList<String> artisPictures = new ArrayList<String>();
+        ArrayList<String> artistPictures = new ArrayList<String>();
 
         for (int i = 0; i < 4; i++) {
             String id = answerSongs.get(i).getArtists()[0].getId();
 
             try {
                 if (!Objects.equals(spotifyService.getArtistProfilePicture(id), "")) {
-                    artisPictures.add(spotifyService.getArtistProfilePicture(id));
+                    artistPictures.add(spotifyService.getArtistProfilePicture(id));
                 }
                 else {
-                    artisPictures.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());
+                    artistPictures.add(answerSongs.get(i).getAlbum().getImages()[1].getUrl());
                 }
             }
             catch (IOException | ParseException | SpotifyWebApiException e) {
                 e.printStackTrace();
             }
         }
-        return artisPictures;
+        return artistPictures;
     }
 }

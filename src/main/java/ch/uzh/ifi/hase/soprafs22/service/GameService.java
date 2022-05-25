@@ -107,6 +107,8 @@ public class GameService {
         nextQuestionDTO.setPreviewURL(nextQuestion.getPreviewUrl());
         nextQuestionDTO.setSongTitle(nextQuestion.getSongTitle());
         nextQuestionDTO.setPlayBackDuration(nextQuestion.getPlaybackDuration().toString());
+        nextQuestionDTO.setCurrentRound(nextQuestion.getCurrentRound());
+        nextQuestionDTO.setTotalRounds(nextQuestion.getTotalRounds());
 
         ArrayList<AnswerOptions> options = new ArrayList<>();
         List<String> singleAnswer = nextQuestion.getAnswers();
@@ -117,11 +119,10 @@ public class GameService {
             option.setAnswer(answer);
             option.setAnswerId(i);
             options.add(option);
-            option.setPicture(nextQuestion.getPicture().get(i - 1));
+            option.setPicture(nextQuestion.getPictures().get(i - 1));
             i++;
         }
         nextQuestionDTO.setAnswers(options);
-
         return nextQuestionDTO;
     }
 

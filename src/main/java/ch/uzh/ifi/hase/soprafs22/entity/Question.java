@@ -13,11 +13,15 @@ public class Question {
     private List<String> answers;
     private int correctAnswer;
     private GameMode gamemode;
-    private ArrayList<String> picture;
+    private ArrayList<String> pictures;
     private PlaybackDuration playbackDuration;
     private String songTitle;
-    private String spotifyLink;
     private String artist;
+    private String spotifyLink;
+    private int currentRound;
+    private int totalRounds;
+
+    private String coverUrl;
 
     public String getPreviewUrl() {
         return previewUrl;
@@ -62,12 +66,12 @@ public class Question {
         this.gamemode = gamemode;
     }
 
-    public ArrayList<String> getPicture() {
-        return picture;
+    public ArrayList<String> getPictures() {
+        return pictures;
     }
 
-    public void setPicture(ArrayList<String> picture) {
-        this.picture = picture;
+    public void setPictures(ArrayList<String> pictures) {
+        this.pictures = pictures;
     }
 
     public String getSongTitle() {
@@ -101,4 +105,29 @@ public class Question {
     public void setArtist(String artist) {
         this.artist = artist;
     }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public int getTotalRounds() {
+        return totalRounds;
+    }
+
+    public void setTotalRounds(int totalRounds) {
+        this.totalRounds = totalRounds;
+    }
+
 }

@@ -20,7 +20,7 @@ public class QuestionTest {
         testQuestion.setPlaybackDuration(PlaybackDuration.EIGHTEEN);
         testQuestion.setSongTitle("Test Title");
         testQuestion.setPreviewUrl("test URL");
-        testQuestion.setPicture(testList);
+        testQuestion.setPictures(testList);
         testQuestion.setAnswers(testList);
         testQuestion.setCorrectAnswer(1);
 
@@ -29,7 +29,7 @@ public class QuestionTest {
         ArrayList<String> questionActual = new ArrayList<>();
         Collections.addAll(
                 questionActual, testQuestion.getQuestion(), testQuestion.getPlaybackDuration().toString(),
-                testQuestion.getSongTitle(), testQuestion.getPreviewUrl(), testQuestion.getPicture().toString(),
+                testQuestion.getSongTitle(), testQuestion.getPreviewUrl(), testQuestion.getPictures().toString(),
                 testQuestion.getAnswers().toString(), correctTestAnswer);
 
         ArrayList<String> questionExpected = new ArrayList<>();

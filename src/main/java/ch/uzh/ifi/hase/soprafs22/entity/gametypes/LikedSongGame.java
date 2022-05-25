@@ -81,9 +81,9 @@ public class LikedSongGame implements GameType {
         question.setAnswers(stringifyAnswer(answers));
         question.setCorrectAnswer(correctAnswerIndex + 1);
         question.setGamemode(GameMode.LIKEDSONGGAME);
-        question.setPicture(getUserProfilPictures(answers));
+        question.setPictures(getUserProfilPictures(answers));
         question.setSongTitle(songs.get(songToPick).getTrack().getName());
-
+        question.setCoverUrl(songs.get(songToPick).getTrack().getAlbum().getImages()[1].getUrl());
     }
 
     @Override
