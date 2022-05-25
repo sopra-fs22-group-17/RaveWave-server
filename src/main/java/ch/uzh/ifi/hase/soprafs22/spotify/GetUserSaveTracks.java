@@ -15,7 +15,7 @@ public class GetUserSaveTracks {
     public static SavedTrack[] fetchUserSaveTracks(SpotifyApi spotifyApi) {
 
         final GetUsersSavedTracksRequest getUsersSavedTracksRequest = spotifyApi.getUsersSavedTracks()
-                // .limit(10)
+                .limit(30)
                 // .offset(0)
                 // .market(CountryCode.SE)
                 .build();
