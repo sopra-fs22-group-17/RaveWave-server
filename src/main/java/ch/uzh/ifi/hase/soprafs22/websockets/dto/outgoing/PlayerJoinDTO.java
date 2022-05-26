@@ -1,11 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
 public class PlayerJoinDTO {
-    private String type = "playerJoin";
-
-    private String name;
-
     public boolean likedGameModeUnlocked;
+    private String type = "playerJoin";
+    private String name;
 
     public String getName() {
         return name;

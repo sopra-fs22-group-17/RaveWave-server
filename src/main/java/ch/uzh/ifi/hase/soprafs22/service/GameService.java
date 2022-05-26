@@ -143,8 +143,8 @@ public class GameService {
         GameRepository.removeGame((int) lobbyId);
     }
 
-    public CurrentAnswersDTO fillAnswers(long lobbyId){
-        Game game = GameRepository.findByLobbyId((int)lobbyId);
+    public CurrentAnswersDTO fillAnswers(long lobbyId) {
+        Game game = GameRepository.findByLobbyId((int) lobbyId);
         CurrentAnswersDTO currentAnswersDTO = new CurrentAnswersDTO();
         currentAnswersDTO.setCurrentAnswers(game.howManyAnswered());
         currentAnswersDTO.setExpectedAnswers(game.getNumberOfPlayers());
