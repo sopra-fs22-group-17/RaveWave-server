@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.WebSocketService;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.CurrentAnswersDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
 import org.apache.hc.core5.http.ParseException;
@@ -51,6 +52,9 @@ public class WebSocketController {
         if (receivedAllAnswers) {
             endRound((long) lobbyId);
         }
+        CurrentAnswersDTO currentAnswersDTO = gameService.fillAnswers(lobbyId);
+        System.out.println("current Answers: " + currentAnswersDTO.getCurrentAnswers() + ", expected Answers: " + currentAnswersDTO.getExpectedAnswers());
+        this.webSocketService.sendMessageToClients(destination + lobbyId, currentAnswersDTO);
     }
 
     @MessageMapping("/lobbies/{lobbyId}/end-round")

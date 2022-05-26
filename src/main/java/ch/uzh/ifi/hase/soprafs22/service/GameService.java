@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
@@ -10,7 +9,8 @@ import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.AnswerOptions;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.AnswerOptionsDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.CurrentAnswersDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
 import org.apache.hc.core5.http.ParseException;
@@ -88,7 +88,6 @@ public class GameService {
         Game game = GameRepository.findByLobbyId((int) player.getlobbyId());
         answer.setPlayerId((long) playerId);
         boolean receivedAllAnswers = game.addAnswers(answer);
-
         return receivedAllAnswers;
         // save received answer to the corresponding player
     }
@@ -113,12 +112,12 @@ public class GameService {
         nextQuestionDTO.setCurrentRound(nextQuestion.getCurrentRound());
         nextQuestionDTO.setTotalRounds(nextQuestion.getTotalRounds());
 
-        ArrayList<AnswerOptions> options = new ArrayList<>();
+        ArrayList<AnswerOptionsDTO> options = new ArrayList<>();
         List<String> singleAnswer = nextQuestion.getAnswers();
 
         int i = 1;
         for (String answer : singleAnswer) {
-            AnswerOptions option = new AnswerOptions();
+            AnswerOptionsDTO option = new AnswerOptionsDTO();
             option.setAnswer(answer);
             option.setAnswerId(i);
             options.add(option);
@@ -142,6 +141,14 @@ public class GameService {
     private void endGame(long lobbyId) {
         playerRepository.deleteByLobbyId(lobbyId);
         GameRepository.removeGame((int) lobbyId);
+    }
+
+    public CurrentAnswersDTO fillAnswers(long lobbyId){
+        Game game = GameRepository.findByLobbyId((int)lobbyId);
+        CurrentAnswersDTO currentAnswersDTO = new CurrentAnswersDTO();
+        currentAnswersDTO.setCurrentAnswers(game.howManyAnswered());
+        currentAnswersDTO.setExpectedAnswers(game.getNumberOfPlayers());
+        return currentAnswersDTO;
     }
 
 }

@@ -8,7 +8,7 @@ public class QuestionDTO {
     private String previewURL;
     private String songTitle;
     private String playBackDuration;
-    private ArrayList<AnswerOptions> answers;
+    private ArrayList<AnswerOptionsDTO> answers;
     private int currentRound;
     private int totalRounds;
 
@@ -32,11 +32,11 @@ public class QuestionDTO {
         this.previewURL = previewURL;
     }
 
-    public ArrayList<AnswerOptions> getAnswers() {
+    public ArrayList<AnswerOptionsDTO> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(ArrayList<AnswerOptions> answers) {
+    public void setAnswers(ArrayList<AnswerOptionsDTO> answers) {
         this.answers = answers;
     }
 

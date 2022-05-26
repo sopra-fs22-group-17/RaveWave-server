@@ -98,8 +98,11 @@ public class Game {
 
     private void countPlayersInLobby(List<Player> players) {
         int numberOfPlayers = players.size();
-
         this.numberOfPlayers = numberOfPlayers;
+    }
+
+    public int howManyAnswered(){
+        return this.answers.size();
     }
 
 
@@ -282,6 +285,10 @@ public class Game {
 
     public boolean hasStarted() {
         return currentGameRound != 0;
+    }
+
+    public int getNumberOfPlayers(){
+        return this.numberOfPlayers;
     }
 
     public void generateAvatar(List<Player> players) throws IOException, ParseException, SpotifyWebApiException {

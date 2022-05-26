@@ -1,6 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
-public class AnswerOptions {
+public class AnswerOptionsDTO {
     private String answer;
     private int answerId;
     private String picture;
