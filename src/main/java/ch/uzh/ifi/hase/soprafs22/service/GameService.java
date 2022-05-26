@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
@@ -35,15 +36,17 @@ import java.util.List;
 public class GameService {
     private final PlayerRepository playerRepository;
     private final RaveWaverRepository raveWaverRepository;
+    private final PlayerService playerService;
     Logger log = LoggerFactory.getLogger(GameService.class);
     private int lobbyToCreate;
 
 
     @Autowired
     public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
-                       @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
+                       @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository, PlayerService playerService) {
         this.playerRepository = playerRepository;
         this.raveWaverRepository = raveWaverRepository;
+        this.playerService = playerService;
         this.lobbyToCreate = 0;
     }
 

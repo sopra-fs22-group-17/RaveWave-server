@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
@@ -80,21 +81,30 @@ public class PlayerService {
     public void greetPlayers(Player player){
         PlayerJoinDTO playerJoinDTO = new PlayerJoinDTO();
         playerJoinDTO.setName(player.getPlayerName());
-        playerJoinDTO.setLikedGameModeUnlocked(checkFourRaveWaversConnected(player.getlobbyId()));
+        playerJoinDTO.setLikedGameModeUnlocked(likedGameModeUnlocked(player.getlobbyId()));
+        System.out.println("likedGameModeUnlocked " + likedGameModeUnlocked(player.getlobbyId()));
         this.webSocketService.sendMessageToClients("/topic/lobbies/" + player.getlobbyId(), playerJoinDTO);
     }
 
     public boolean checkFourRaveWaversConnected(Long lobbyId) {
-
         List<Player> players = playerRepository.findByLobbyId(lobbyId);
         int counter = 0;
         for (Player player : players) {
-            if (player.getRaveWaverId() != 0) {
+            if (player.getRaveWaverId() != 0 || player.getRaveWaverId() != null) {
                 System.out.println(player.getRaveWaverId());
                 counter++;
             }
         }
         return counter >= 4;
+    }
+
+    public boolean likedGameModeUnlocked(Long lobbyId){
+        if (GameRepository.findByLobbyId(Math.toIntExact(lobbyId)).getGameSettings().getGameMode() != GameMode.LIKEDSONGGAME){
+            System.out.println("i dont know the actual gamemode");
+            return true;
+        }
+
+        return checkFourRaveWaversConnected(lobbyId);
     }
 
 }
