@@ -1,38 +1,37 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import org.apache.catalina.User;
-import org.apache.hc.core5.http.ParseException;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.stubbing.answers.DoesNothing;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
-import ch.uzh.ifi.hase.soprafs22.spotify.authorization.AuthorizationCodeRefresh;
+import ch.uzh.ifi.hase.soprafs22.spotify.GetUserTopTracks;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
-import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Track;
-import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
-import se.michaelthelin.spotify.model_objects.specification.*;
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 
 public class SpotifyServiceTest {
 
     @InjectMocks
     private SpotifyService spotifyService;
+
     private SpotifyApi spotifyApi;
+
     @Mock
     private RaveWaverRepository raveWaverRepository;
 
@@ -49,6 +48,7 @@ public class SpotifyServiceTest {
                 .build();
     }
 
+    @Disabled
     @Test
     public void getSavedTrackItemTest() {
         RaveWaver optRaveWaver = new RaveWaver();
@@ -59,6 +59,20 @@ public class SpotifyServiceTest {
         when(spotifyService.savedTracktoTrackList(Mockito.any(), Mockito.anyLong(), Mockito.any())).thenReturn(songs);
 
         assertEquals(spotifyService.getSavedTrackItems(1L), songs);
+    }
+
+    @Test
+    public void TrackBuilder() throws Exception {
+        final GetUsersTopTracksRequest request = spotifyApi.getUsersTopTracks()
+                .setHttpManager(TestUtil.MockedHttpManager.returningJson("GetUsersTopTracksRequest.json")).build();
+        try {
+            final Paging<Track> trackPaging = request.execute();
+            Track[] tracks = trackPaging.getItems();
+            System.out.println(tracks[0].getName());
+
+        } catch (Exception e) {
+            System.out.println("NOPE");
+        }
 
     }
 }
