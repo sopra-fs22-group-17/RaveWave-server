@@ -71,7 +71,6 @@ public class GameService {
         List<Player> players = playerRepository.findByLobbyId((long) lobbyId);
         Game game = GameRepository.findByLobbyId(lobbyId);
         game.generateAvatar(players);
-
         GameRepository.findByLobbyId(lobbyId).startGame(players);
     }
 
@@ -101,8 +100,8 @@ public class GameService {
     }
 
     public QuestionDTO startNextRound(int lobbyId) {
-
-        Question nextQuestion = GameRepository.findByLobbyId(lobbyId).startNextTurn(playerRepository.findByLobbyId((long) lobbyId));
+        Game game =  GameRepository.findByLobbyId(lobbyId);
+        Question nextQuestion = game.startNextTurn(playerRepository.findByLobbyId((long) lobbyId));
         QuestionDTO nextQuestionDTO = new QuestionDTO();
 
         nextQuestionDTO.setQuestion(nextQuestion.getQuestion());

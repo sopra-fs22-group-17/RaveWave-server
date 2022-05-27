@@ -4,7 +4,6 @@ import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
-import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.PlayerJoinDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +81,6 @@ public class PlayerService {
         PlayerJoinDTO playerJoinDTO = new PlayerJoinDTO();
         playerJoinDTO.setName(player.getPlayerName());
         playerJoinDTO.setLikedGameModeUnlocked(likedGameModeUnlocked(player.getlobbyId()));
-        System.out.println("likedGameModeUnlocked " + likedGameModeUnlocked(player.getlobbyId()));
         this.webSocketService.sendMessageToClients("/topic/lobbies/" + player.getlobbyId(), playerJoinDTO);
     }
 
@@ -100,7 +98,6 @@ public class PlayerService {
 
     public boolean likedGameModeUnlocked(Long lobbyId){
         if (GameRepository.findByLobbyId(Math.toIntExact(lobbyId)).getGameSettings().getGameMode() != GameMode.LIKEDSONGGAME){
-            System.out.println("i dont know the actual gamemode");
             return true;
         }
 
