@@ -60,6 +60,7 @@ public class LobbyController {
                     + " created");
             response.addHeader("Authorization", newPlayer.getToken());
             playerService.greetPlayers(newPlayer);
+
             return DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(newPlayer);
         }
 
