@@ -19,9 +19,13 @@ import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.spotify.GetUserTopTracks;
+import ch.uzh.ifi.hase.soprafs22.utils.SpotifyFetchHelper;
+import ch.uzh.ifi.hase.soprafs22.utils.TestUtil;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
+import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 
@@ -62,17 +66,15 @@ public class SpotifyServiceTest {
     }
 
     @Test
-    public void TrackBuilder() throws Exception {
-        final GetUsersTopTracksRequest request = spotifyApi.getUsersTopTracks()
-                .setHttpManager(TestUtil.MockedHttpManager.returningJson("GetUsersTopTracksRequest.json")).build();
-        try {
-            final Paging<Track> trackPaging = request.execute();
-            Track[] tracks = trackPaging.getItems();
-            System.out.println(tracks[0].getName());
+    public void TrackTester() throws Exception {
+        SpotifyFetchHelper sph = new SpotifyFetchHelper();
+        Track[] tracks = sph.getTopTracksFixtures();
+        PlaylistTrack[] ptracks = sph.getPlaylistFixtures();
+        SavedTrack[] stracks = sph.getSavedTracksFixtures();
 
-        } catch (Exception e) {
-            System.out.println("NOPE");
-        }
+        System.out.println(tracks[0].getName());
+        System.out.println(ptracks[0].getTrack().getName());
+        System.out.println(stracks[0].getTrack().getName());
 
     }
 }
