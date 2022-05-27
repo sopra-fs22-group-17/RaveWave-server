@@ -81,7 +81,6 @@ public class PlayerService {
         PlayerJoinDTO playerJoinDTO = new PlayerJoinDTO();
         playerJoinDTO.setName(player.getPlayerName());
         playerJoinDTO.setLikedGameModeUnlocked(likedGameModeUnlocked(player.getlobbyId()));
-        System.out.println("likedGameModeUnlocked " + likedGameModeUnlocked(player.getlobbyId()));
         this.webSocketService.sendMessageToClients("/topic/lobbies/" + player.getlobbyId(), playerJoinDTO);
     }
 
@@ -97,9 +96,8 @@ public class PlayerService {
         return counter >= 4;
     }
 
-    public boolean likedGameModeUnlocked(Long lobbyId) {
-        if (GameRepository.findByLobbyId(Math.toIntExact(lobbyId)).getGameSettings().getGameMode() != GameMode.LIKEDSONGGAME) {
-            System.out.println("i dont know the actual gamemode");
+    public boolean likedGameModeUnlocked(Long lobbyId){
+        if (GameRepository.findByLobbyId(Math.toIntExact(lobbyId)).getGameSettings().getGameMode() != GameMode.LIKEDSONGGAME){
             return true;
         }
 

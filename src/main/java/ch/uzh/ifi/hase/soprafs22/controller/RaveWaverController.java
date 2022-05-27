@@ -4,7 +4,6 @@ import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import org.apache.hc.core5.http.ParseException;
@@ -91,15 +90,6 @@ public class RaveWaverController {
         return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaver);
     }
 
-    @PutMapping("/ravewavers/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ResponseBody
-    public RaveWaverGetDTO updateRaveWaver(@RequestBody RaveWaverPutDTO raveWaverPutDTO, @PathVariable Long id) {
-
-        RaveWaver raveWaverUpdate = raveWaverService.updateRaveWaver(raveWaverPutDTO, id);
-
-        return DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(raveWaverUpdate);
-    }
 
 
 }

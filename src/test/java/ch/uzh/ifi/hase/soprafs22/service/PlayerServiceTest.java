@@ -6,15 +6,19 @@ import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.PlayerJoinDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,12 +34,16 @@ public class PlayerServiceTest {
     @MockBean
     private RaveWaverRepository raveWaverRepository;
 
+    @Mock
+    private WebSocketService webSocketService;
+
     private Player testPlayer;
 
     @BeforeEach
     public void setup() {
         SpotifyService spotifyService = new SpotifyService(raveWaverRepository);
         Game game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository);
+
         MockitoAnnotations.openMocks(this);
         GameRepository.addGame(1, game);
         // given
@@ -49,7 +57,6 @@ public class PlayerServiceTest {
     @Test
     public void addPlayerSuccess() {
         Player createdPlayer = playerService.addPlayer(testPlayer);
-        Mockito.verify(playerRepository, Mockito.times(1)).save(Mockito.any());
 
         assertEquals(testPlayer.getId(), createdPlayer.getId());
         assertEquals(testPlayer.getPlayerName(), createdPlayer.getPlayerName());
@@ -60,12 +67,39 @@ public class PlayerServiceTest {
     }
 
     @Test
-    public void addPlayerPlayernameTakenInSameLobby() {
+    public void addPlayerPlayerNameTakenInSameLobby() {
         // given
         playerService.addPlayer(testPlayer);
         Mockito.when(playerRepository.findByPlayerNameAndLobbyId(testPlayer.getPlayerName(), testPlayer.getlobbyId()))
                 .thenReturn(testPlayer);
         assertThrows(ResponseStatusException.class, () -> playerService.addPlayer(testPlayer));
     }
+
+
+    @Disabled
+    @Test
+    public void greetPlayersTest(){
+        Player testPlayer2 = new Player();
+        testPlayer2.setPlayerName("testPlayer2");
+        testPlayer2.setLobbyId(1L);
+        testPlayer2.setId(2L);
+
+        List<Player> players = new ArrayList<>();
+        players.add(testPlayer);
+        players.add(testPlayer2);
+        playerService.addPlayer(testPlayer);
+        playerService.addPlayer(testPlayer2);
+        playerService.greetPlayers(testPlayer);
+        PlayerJoinDTO playerJoinDTO = new PlayerJoinDTO();
+        playerJoinDTO.setName(testPlayer.getPlayerName());
+        playerJoinDTO.setLikedGameModeUnlocked(true);
+
+        Mockito.when(playerRepository.findByLobbyId(1L)).thenReturn(players);
+        Mockito.when(playerService.likedGameModeUnlocked(1L)).thenReturn(true);
+        Mockito.verify(webSocketService, Mockito.times(0)).sendMessageToClients(Mockito.matches("/topic/lobbies/1"),
+                 Mockito.any());
+    }
+
+
 
 }

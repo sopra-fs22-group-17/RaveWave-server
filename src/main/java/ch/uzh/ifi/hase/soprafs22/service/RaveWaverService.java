@@ -5,7 +5,6 @@ import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.RaveWaverPutDTO;
 import org.apache.hc.core5.http.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -159,12 +158,6 @@ public class RaveWaverService {
         }
     }
 
-    public RaveWaver updateRaveWaver(RaveWaverPutDTO raveWaverPutDTO, Long id) {
-        RaveWaver raveWaverToUpdate = getRaveWaverById(id);
-
-        return raveWaverToUpdate;
-    }
-
     public void updateSpotifyToken(HttpServletRequest token, SpotifyService spotifyService) throws IOException, ParseException, SpotifyWebApiException {
         RaveWaver raveWaverToUpdate = getRaveWaverByToken(token);
         raveWaverToUpdate.setSpotifyToken(spotifyService.getAccessToken());
@@ -183,7 +176,6 @@ public class RaveWaverService {
         }
         convertedRaveWaver.setPlayerName("[RW] " + raveWaverToConvert.getUsername());
         convertedRaveWaver.setRaveWaverId(raveWaverToConvert.getId());
-        convertedRaveWaver.setProfilePicture(convertedRaveWaver.getProfilePicture());
         convertedRaveWaver.setLobbyId(lobbyId);
         convertedRaveWaver.setProfilePicture(raveWaverToConvert.getProfilePicture());
         convertedRaveWaver.setToken(UUID.randomUUID().toString());
