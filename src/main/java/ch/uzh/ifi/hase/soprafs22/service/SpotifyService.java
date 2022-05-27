@@ -103,7 +103,7 @@ public class SpotifyService {
         return null;
     }
 
-    private ArrayList<Song> savedTracktoTrackList(SavedTrack[] savedTracks, long raveWaverId, String playerName) {
+    public ArrayList<Song> savedTracktoTrackList(SavedTrack[] savedTracks, long raveWaverId, String playerName) {
         ArrayList<Song> songs = new ArrayList<>();
         for (SavedTrack sTrack : savedTracks) {
             songs.add(new Song(sTrack.getTrack(), raveWaverId, "[RW] " + playerName));
@@ -139,9 +139,10 @@ public class SpotifyService {
         User info;
         try {
             info = getCurrentUsersProfileRequest.execute();
-        }
-        catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Something went wrong when fetching the profile picture. Are you using a Spotify-Premium Account? " + e.getMessage());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "Something went wrong when fetching the profile picture. Are you using a Spotify-Premium Account? "
+                            + e.getMessage());
         }
 
         if (info.getImages().length == 0) {
@@ -149,7 +150,6 @@ public class SpotifyService {
         }
         return info.getImages()[0].getUrl();
     }
-
 
     public String getArtistProfilePicture(String id) throws IOException, ParseException, SpotifyWebApiException {
         GetArtistRequest.Builder getArtistRequest = spotifyApi.getArtist(id);

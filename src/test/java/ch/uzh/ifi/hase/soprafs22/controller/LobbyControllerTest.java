@@ -1,8 +1,12 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
+import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
+import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.FourRaveWaversConnectedDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LobbyIdDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.PlayerPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
@@ -11,9 +15,12 @@ import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,9 +33,15 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @WebMvcTest(LobbyController.class)
 class LobbyControllerTest {
@@ -52,11 +65,16 @@ class LobbyControllerTest {
     private RaveWaverRepository raveWaverRepository;
 
     @MockBean
+    private PlayerRepository playerRepository;
+
+    @MockBean
     private SpotifyService spotifyService;
 
     @MockBean
     private RaveWaverService raveWaverService;
 
+    @Mock
+    private GameRepository gamepRepository;
 
     /**
      * Helper Method to convert userPostDTO into a JSON string such that the input
@@ -69,8 +87,7 @@ class LobbyControllerTest {
     private String asJsonString(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
-        }
-        catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("The request body could not be created.%s", e));
         }
@@ -82,7 +99,9 @@ class LobbyControllerTest {
         player.setPlayerName("playerName");
         player.setLobbyId(1L);
 
-        //game = new Game(spotifyService, SongPool.ROCK, raveWaverRepository);
+        // game = new Game(spotifyService, SongPool.ROCK, raveWaverRepository);
+        // GameRepository.addGame(1, game);
+
     }
 
     @Test
@@ -99,12 +118,13 @@ class LobbyControllerTest {
         mockMvc.perform(postRequest).andExpect(status().isCreated()).andExpect(jsonPath("$.lobbyId", is(1)));
     }
 
-
+    // TODO: Thinks game has already started.
     @Disabled
     @Test
     public void createPlayerPOSTTest() throws Exception {
         PlayerPostDTO playerPostDTO = new PlayerPostDTO();
         playerPostDTO.setPlayerName("playerName");
+        Mockito.when(GameRepository.findByLobbyId(Mockito.anyInt()).hasStarted()).thenReturn(false);
 
         given(playerService.addPlayer(Mockito.any())).willReturn(player);
 
@@ -114,6 +134,50 @@ class LobbyControllerTest {
 
         mockMvc.perform(postRequest).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.playerName", is(player.getPlayerName())));
+
+    }
+
+    @Test
+    public void unlocklikedSongs() throws Exception {
+        FourRaveWaversConnectedDTO checkFRWC = new FourRaveWaversConnectedDTO();
+        checkFRWC.setFourRaveWaversConnected(true);
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+
+        List<Player> players = Arrays.asList(player, player1, player2, player3);
+
+        when(playerRepository.findByLobbyId(Mockito.anyLong())).thenReturn(players);
+
+        given(playerService.checkFourRaveWaversConnected(1L)).willReturn(true);
+
+        MockHttpServletRequestBuilder getRequest = get("/lobbies/1/likedSongsUnlocked")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(checkFRWC));
+
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$.fourRaveWaversConnected", is(checkFRWC.getFourRaveWaversConnected())));
+
+    }
+
+    @Test
+    public void lockedlikedSongs() throws Exception {
+        FourRaveWaversConnectedDTO checkFRWC = new FourRaveWaversConnectedDTO();
+        checkFRWC.setFourRaveWaversConnected(false);
+        Player player1 = new Player();
+
+        List<Player> players = Arrays.asList(player, player1);
+
+        when(playerRepository.findByLobbyId(Mockito.anyLong())).thenReturn(players);
+
+        given(playerService.checkFourRaveWaversConnected(1L)).willReturn(false);
+
+        MockHttpServletRequestBuilder getRequest = get("/lobbies/1/likedSongsUnlocked")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(checkFRWC));
+
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$.fourRaveWaversConnected", is(checkFRWC.getFourRaveWaversConnected())));
 
     }
 

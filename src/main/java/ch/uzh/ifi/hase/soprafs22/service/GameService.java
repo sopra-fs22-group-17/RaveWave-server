@@ -38,10 +38,9 @@ public class GameService {
     Logger log = LoggerFactory.getLogger(GameService.class);
     private int lobbyToCreate;
 
-
     @Autowired
     public GameService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
-                       @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
+            @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository) {
         this.playerRepository = playerRepository;
         this.raveWaverRepository = raveWaverRepository;
         this.lobbyToCreate = 0;
@@ -72,21 +71,18 @@ public class GameService {
         GameRepository.findByLobbyId(lobbyId).startGame(players);
     }
 
-
     public boolean saveAnswer(Answer answer, int playerId) {
         Player player = playerRepository.findById(playerId);
         Player playerByToken = playerRepository.findByToken(answer.getToken());
         if (playerByToken == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The player with the given token does not exist!");
-        }
-        else if (!(player.getToken().equals(playerByToken.getToken()))) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You're not allowed to answer in that player's name!");
+        } else if (!(player.getToken().equals(playerByToken.getToken()))) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "You're not allowed to answer in that player's name!");
         }
         Game game = GameRepository.findByLobbyId((int) player.getlobbyId());
         answer.setPlayerId((long) playerId);
-        boolean receivedAllAnswers = game.addAnswers(answer);
-
-        return receivedAllAnswers;
+        return game.addAnswers(answer);
         // save received answer to the corresponding player
     }
 
@@ -100,7 +96,8 @@ public class GameService {
 
     public QuestionDTO startNextRound(int lobbyId) {
 
-        Question nextQuestion = GameRepository.findByLobbyId(lobbyId).startNextTurn(playerRepository.findByLobbyId((long) lobbyId));
+        Question nextQuestion = GameRepository.findByLobbyId(lobbyId)
+                .startNextTurn(playerRepository.findByLobbyId((long) lobbyId));
         QuestionDTO nextQuestionDTO = new QuestionDTO();
 
         nextQuestionDTO.setQuestion(nextQuestion.getQuestion());

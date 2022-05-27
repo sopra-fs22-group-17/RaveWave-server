@@ -1,6 +1,6 @@
 {
   "name": "sampleDataFetchPlaylist",
-  "items":{
+  "items": {
     "href": "https://api.spotify.com/v1/playlists/6vDGVr652ztNWKZuHvsFvx/tracks?offset=0&limit=4&market=CH&locale=en-GB,en;q=0.9",
     "items": [
       {
