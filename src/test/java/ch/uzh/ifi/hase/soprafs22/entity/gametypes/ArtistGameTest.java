@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.controller.gametypes;
+package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.apache.hc.core5.http.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -41,7 +42,11 @@ public class ArtistGameTest {
     @MockBean
     private RaveWaverRepository raveWaverRepository;
 
+    @Mock
     private SpotifyService spotifyService;
+
+    @Mock
+    private SpotifyService spotifyService2;
 
     @BeforeEach
     void setup() throws Exception {
@@ -55,15 +60,16 @@ public class ArtistGameTest {
 
         mockQuestion = new Question();
         mockQuestion.setQuestion("Guess the song artist!");
-        mockQuestion.setPreviewUrl("https://p.scdn.co/mp3-preview/79c8c9edc4f1ced9dbc368f24374421ed0a33005");
+        mockQuestion.setPreviewUrl(
+                "https://p.scdn.co/mp3-preview/9c3a62c08079cea9d25fff6db9177a08360ff0d8?cid=774b29d4f13844c495f206cafdad9c86");
         mockQuestion.setGamemode(GameMode.ARTISTGAME);
-        mockQuestion.setSongTitle("Otra Vez (feat. J Balvin)");
+        mockQuestion.setSongTitle("Dust");
         mockQuestion.setPlaybackDuration(PlaybackDuration.FOURTEEN);
-        mockQuestion.setArtist("Zion & Lennox");
-        mockQuestion.setSpotifyLink("https://open.spotify.com/track/7pk3EpFtmsOdj8iUhjmeCM");
+        mockQuestion.setArtist("M|O|O|N");
+        mockQuestion.setSpotifyLink("https://open.spotify.com/artist/0M2HHtY3OOQzIZxrHkbJLT");
         mockQuestion.setCurrentRound(4);
         mockQuestion.setTotalRounds(10);
-        mockQuestion.setCoverUrl("https://i.scdn.co/image/9f05124de35d807b78563ea2ca69550325081747");
+        mockQuestion.setCoverUrl("https://i.scdn.co/image/ab67616d00001e0253bc7ff619726c8640616154");
 
         sfh = new SpotifyFetchHelper();
         PlaylistTrack[] tracks = sfh.getPlaylistFixtures();
@@ -72,15 +78,15 @@ public class ArtistGameTest {
 
     @Test
     public void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
-        System.out.println(songs.get(0).getTrack().getArtists());
-        ArtistGame artistGame = new ArtistGame(0, songs, spotifyService);
+        System.out.println(songs.get(0).getTrack().getName());
+        ArtistGame artistGame = new ArtistGame(1, songs, spotifyService2);
+
         String profilePictureString = "https://i.scdn.co/image/9f05124de35d807b78563ea2ca69550325081747";
 
-        // when(spotifyService.getArtistProfilePicture(Mockito.any())).thenReturn(profilePictureString);
-
-        artistGame.generateQuestion();
+        when(spotifyService2.getArtistProfilePicture(Mockito.any())).thenReturn(profilePictureString);
 
         assertEquals(mockQuestion.getSongTitle(), artistGame.getQuestion().getSongTitle());
+        assertEquals(mockQuestion.getPreviewUrl(), artistGame.getQuestion().getPreviewUrl());
 
     }
 
