@@ -58,7 +58,7 @@ public class LikedSongGameTest {
         player.setPlayerName("playerName");
 
         mockQuestion = new Question();
-        mockQuestion.setQuestion("Guess the song artist");
+        mockQuestion.setQuestion("Guess the liked song");
         mockQuestion.setPreviewUrl(
                 "https://p.scdn.co/mp3-preview/9c3a62c08079cea9d25fff6db9177a08360ff0d8?cid=774b29d4f13844c495f206cafdad9c86");
         mockQuestion.setGamemode(GameMode.ARTISTGAME);
@@ -75,19 +75,15 @@ public class LikedSongGameTest {
 
     }
 
-    @Disabled
     @Test
     public void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
 
         Player one = new Player();
         Player two = new Player();
         Player three = new Player();
-        Player four = new Player();
-        List<Player> players = List.of(one, two, three, four);
+        List<Player> players = List.of(one, two, three);
         System.out.println(songs.get(0).getTrack().getName());
         LikedSongGame likedSongGame = new LikedSongGame(1, songs, players);
-
-        String profilePictureString = "https://i.scdn.co/image/9f05124de35d807b78563ea2ca69550325081747";
 
         assertEquals(mockQuestion.getSongTitle(), likedSongGame.getQuestion().getSongTitle());
         assertEquals(mockQuestion.getPreviewUrl(), likedSongGame.getQuestion().getPreviewUrl());
