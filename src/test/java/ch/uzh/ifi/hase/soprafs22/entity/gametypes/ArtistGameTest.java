@@ -96,6 +96,7 @@ public class ArtistGameTest {
         assertNotEquals(0, artistGame.getQuestion().getCorrectAnswer());
         assertNotNull(artistGame.getQuestion().getPictures());
 
+        
     }
 
 }
