@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.service;
+package ch.uzh.ifi.hase.soprafs22.utils;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
