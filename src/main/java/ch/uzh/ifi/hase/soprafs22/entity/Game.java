@@ -42,6 +42,7 @@ public class Game {
     private SongPool songGenre;
     private int gameRounds;
     private int currentGameRound;
+    private int roundPointsDistributed;
 
     private int numberOfPlayers;
     private int numberOfReceivedAnswers;
@@ -56,7 +57,7 @@ public class Game {
         this.gameRounds = 15;
         this.rand = new Random();
         this.raveWaverRepository = raveWaverRepository;
-
+        this.roundPointsDistributed = 0;
     }
 
     public void updateGameSettings(GameSettingsDTO updatedSettings) {
@@ -116,8 +117,11 @@ public class Game {
         return this.numberOfReceivedAnswers >= this.numberOfPlayers;
     }
 
-    public synchronized LeaderboardDTO endRound(List<Player> players) {
-        distributePoints(players);
+    public LeaderboardDTO endRound(List<Player> players) {
+        if(currentGameRound > roundPointsDistributed){
+            distributePoints(players);
+            roundPointsDistributed = currentGameRound;
+        }
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
         leaderboardDTO.setGameOver(this.currentGameRound == this.gameRounds);
         leaderboardDTO.setArtist(gamePlan.get(currentGameRound - 1).getQuestion().getArtist());
