@@ -58,5 +58,15 @@ public class GameSettingsDTO {
         this.gameRounds = gameRounds;
     }
 
-
+    @Override
+    public String toString() {
+        return "{\n" +
+                "\"type\": \"" + type + "\"" +
+                "\"roundDuration\": \"" + roundDuration + "\"" +
+                "\"playBackDuration\": \"" + playBackDuration + "\"" +
+                "\"songPool\": \"" + songPool + "\"" +
+                "\"gameRounds\": \"" + gameRounds + "\"" +
+                "\"gameMode\": \"" + gameMode + "\"" +
+                "},";
+    }
 }
