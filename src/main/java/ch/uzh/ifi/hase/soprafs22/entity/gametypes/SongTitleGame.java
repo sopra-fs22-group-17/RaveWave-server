@@ -89,11 +89,6 @@ public class SongTitleGame implements GameType {
     }
 
     @Override
-    public int getCorrectAnswer() {
-        return question.getCorrectAnswer();
-    }
-
-    @Override
     public ArrayList<String> getPictures() {
         ArrayList<String> albumCovers = new ArrayList<String>();
 

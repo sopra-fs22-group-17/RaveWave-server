@@ -91,11 +91,6 @@ public class LikedSongGame implements GameType {
         return question;
     }
 
-    @Override
-    public int getCorrectAnswer() {
-        return question.getCorrectAnswer();
-    }
-
     private ArrayList<String> stringifyAnswer(ArrayList<Player> players) {
         ArrayList<String> answers = new ArrayList<>();
         for (Player player : players) {

@@ -86,6 +86,7 @@ public class PlayerServiceTest {
     @Disabled
     @Test
     public void greetPlayersTest(){
+
         Player testPlayer2 = new Player();
         testPlayer2.setPlayerName("testPlayer2");
         testPlayer2.setLobbyId(1L);
