@@ -120,6 +120,7 @@ public class Game {
     public LeaderboardDTO endRound(List<Player> players) {
         if(currentGameRound > roundPointsDistributed){
             distributePoints(players);
+            log.info("points for round " + currentGameRound + " were distributed");
             roundPointsDistributed = currentGameRound;
         }
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
