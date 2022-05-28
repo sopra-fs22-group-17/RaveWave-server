@@ -31,6 +31,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -77,6 +79,9 @@ class LobbyControllerTest {
     @Mock
     private GameRepository gamepRepository;
 
+    @MockBean
+    private HttpServletResponse response;
+
     /**
      * Helper Method to convert userPostDTO into a JSON string such that the input
      * can be processed
@@ -120,16 +125,14 @@ class LobbyControllerTest {
     }
 
     // TODO: Thinks game has already started.
-    @Disabled
     @Test
     public void createPlayerPOSTTest() throws Exception {
         PlayerPostDTO playerPostDTO = new PlayerPostDTO();
         playerPostDTO.setPlayerName("PlayerName");
         //playerPostDTO.setRaveWaverId(1L);
 
-        MockHttpServletRequestBuilder postRequest = post("/lobbies/1", playerPostDTO)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(playerPostDTO));
+
+
 
         Player player = new Player();
         player.setPlayerName("Name");
@@ -144,12 +147,20 @@ class LobbyControllerTest {
 
         given(playerService.addPlayer(Mockito.any())).willReturn(player);
 
-        //TODO greet
+        doNothing().when(response).addHeader(Mockito.any(), Mockito.any());
+
+        //TODO greet testen?
         doNothing().when(playerService).greetPlayers(player);
 
 
+        MockHttpServletRequestBuilder postRequest = post("/lobbies/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(playerPostDTO))
+                .header("Authorization", "bla");
+
         mockMvc.perform(postRequest).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.playerName", is(player.getPlayerName())));
+                .andExpect(jsonPath("$.playerName", is(player.getPlayerName())))
+                .andExpect(jsonPath("$.lobbyId", is((int)player.getlobbyId())));
 
     }
 

@@ -69,12 +69,13 @@ public class LobbyController {
         playerToAdd.setLobbyId(lobbyId);
 
         Player newPlayer = playerService.addPlayer(playerToAdd);
-        //System.out.println(newPlayer.getToken());
 
-        response.addHeader("Authorization", playerToAdd.getToken());
+        response.addHeader("Authorization", newPlayer.getToken());
+
         log.info("Player " + newPlayer.getPlayerName() + " with ID: " + newPlayer.getId() + " created");
         playerService.greetPlayers(newPlayer);
-        //System.out.println(newPlayer.getId());
+
+
         return DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(newPlayer);
 
     }
