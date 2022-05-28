@@ -117,7 +117,7 @@ public class Game {
     }
 
     public LeaderboardDTO endRound(List<Player> players) {
-        //distributePoints(players);
+        distributePoints(players);
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
         leaderboardDTO.setGameOver(this.currentGameRound == this.gameRounds);
         leaderboardDTO.setArtist(gamePlan.get(currentGameRound - 1).getQuestion().getArtist());

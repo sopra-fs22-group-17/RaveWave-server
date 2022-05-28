@@ -53,7 +53,6 @@ public class WebSocketController {
             endRound((long) lobbyId);
         }
         CurrentAnswersDTO currentAnswersDTO = gameService.fillAnswers(lobbyId);
-        System.out.println("current Answers: " + currentAnswersDTO.getCurrentAnswers() + ", expected Answers: " + currentAnswersDTO.getExpectedAnswers());
         this.webSocketService.sendMessageToClients(destination + lobbyId, currentAnswersDTO);
     }
 

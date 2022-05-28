@@ -86,8 +86,7 @@ public class GameService {
         }
         Game game = GameRepository.findByLobbyId((int) player.getlobbyId());
         answer.setPlayerId((long) playerId);
-        boolean receivedAllAnswers = game.addAnswers(answer);
-        return receivedAllAnswers;
+        return game.addAnswers(answer);
         // save received answer to the corresponding player
     }
 
