@@ -79,8 +79,14 @@ public class LikedSongGameTest {
     public void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
 
         Player one = new Player();
+        one.setRaveWaverId(1L);
+        one.setPlayerName("one");
         Player two = new Player();
+        two.setRaveWaverId(2L);
+        two.setPlayerName("two");
         Player three = new Player();
+        three.setRaveWaverId(3L);
+        three.setPlayerName("three");
         List<Player> players = List.of(one, two, three);
         System.out.println(songs.get(0).getTrack().getName());
         LikedSongGame likedSongGame = new LikedSongGame(1, songs, players);
