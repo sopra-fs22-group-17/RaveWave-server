@@ -37,8 +37,6 @@ public class ArtistGameTest {
 
     private Player player;
 
-    private ArtistGame artistGame;
-
     @MockBean
     private RaveWaverRepository raveWaverRepository;
 
