@@ -116,7 +116,7 @@ public class Game {
         return this.numberOfReceivedAnswers >= this.numberOfPlayers;
     }
 
-    public LeaderboardDTO endRound(List<Player> players) {
+    public synchronized LeaderboardDTO endRound(List<Player> players) {
         distributePoints(players);
         LeaderboardDTO leaderboardDTO = fillLeaderboard(players);
         leaderboardDTO.setGameOver(this.currentGameRound == this.gameRounds);

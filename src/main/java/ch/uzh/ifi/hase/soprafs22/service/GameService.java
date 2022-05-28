@@ -126,7 +126,7 @@ public class GameService {
         return nextQuestionDTO;
     }
 
-    public LeaderboardDTO endRound(long lobbyId) {
+    public synchronized LeaderboardDTO endRound(long lobbyId) {
         Game game = GameRepository.findByLobbyId((int) lobbyId);
         List<Player> players = playerRepository.findByLobbyId(lobbyId);
         LeaderboardDTO leaderboardDTO = game.endRound(players);
