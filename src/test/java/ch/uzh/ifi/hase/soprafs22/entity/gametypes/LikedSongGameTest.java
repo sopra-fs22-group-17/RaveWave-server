@@ -8,10 +8,14 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.hc.core5.http.ParseException;
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.params.DisableIfAllArguments;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -27,7 +31,7 @@ import ch.uzh.ifi.hase.soprafs22.utils.SpotifyFetchHelper;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 
-public class ArtistGameTest {
+public class LikedSongGameTest {
 
     private Question mockQuestion;
 
@@ -42,9 +46,6 @@ public class ArtistGameTest {
 
     @Mock
     private SpotifyService spotifyService;
-
-    @Mock
-    private SpotifyService spotifyService2;
 
     @BeforeEach
     void setup() throws Exception {
@@ -71,30 +72,36 @@ public class ArtistGameTest {
         sfh = new SpotifyFetchHelper();
         PlaylistTrack[] tracks = sfh.getPlaylistFixtures();
         songs = spotifyService.playlistTrackToTrackList(tracks);
+
     }
 
+    @Disabled
     @Test
     public void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
+
+        Player one = new Player();
+        Player two = new Player();
+        Player three = new Player();
+        Player four = new Player();
+        List<Player> players = List.of(one, two, three, four);
         System.out.println(songs.get(0).getTrack().getName());
-        ArtistGame artistGame = new ArtistGame(1, songs, spotifyService2);
+        LikedSongGame likedSongGame = new LikedSongGame(1, songs, players);
 
         String profilePictureString = "https://i.scdn.co/image/9f05124de35d807b78563ea2ca69550325081747";
 
-        when(spotifyService2.getArtistProfilePicture(Mockito.any())).thenReturn(profilePictureString);
-
-        assertEquals(mockQuestion.getSongTitle(), artistGame.getQuestion().getSongTitle());
-        assertEquals(mockQuestion.getPreviewUrl(), artistGame.getQuestion().getPreviewUrl());
-        assertEquals(mockQuestion.getQuestion(), artistGame.getQuestion().getQuestion());
-        assertEquals(mockQuestion.getSongTitle(), artistGame.getQuestion().getSongTitle());
-        assertNull(artistGame.getQuestion().getPlaybackDuration());
-        assertEquals(mockQuestion.getArtist(), artistGame.getQuestion().getArtist());
-        assertEquals(mockQuestion.getSpotifyLink(), artistGame.getQuestion().getSpotifyLink());
-        assertEquals(mockQuestion.getCurrentRound(), artistGame.getQuestion().getCurrentRound());
-        assertEquals(mockQuestion.getTotalRounds(), artistGame.getQuestion().getTotalRounds());
-        assertEquals(mockQuestion.getCoverUrl(), artistGame.getQuestion().getCoverUrl());
-        assertNotNull(artistGame.getQuestion().getAnswers());
-        assertNotEquals(0, artistGame.getQuestion().getCorrectAnswer());
-        assertNotNull(artistGame.getQuestion().getPictures());
+        assertEquals(mockQuestion.getSongTitle(), likedSongGame.getQuestion().getSongTitle());
+        assertEquals(mockQuestion.getPreviewUrl(), likedSongGame.getQuestion().getPreviewUrl());
+        assertEquals(mockQuestion.getQuestion(), likedSongGame.getQuestion().getQuestion());
+        assertEquals(mockQuestion.getSongTitle(), likedSongGame.getQuestion().getSongTitle());
+        assertNull(likedSongGame.getQuestion().getPlaybackDuration());
+        assertEquals(mockQuestion.getArtist(), likedSongGame.getQuestion().getArtist());
+        assertEquals(mockQuestion.getSpotifyLink(), likedSongGame.getQuestion().getSpotifyLink());
+        assertEquals(mockQuestion.getCurrentRound(), likedSongGame.getQuestion().getCurrentRound());
+        assertEquals(mockQuestion.getTotalRounds(), likedSongGame.getQuestion().getTotalRounds());
+        assertEquals(mockQuestion.getCoverUrl(), likedSongGame.getQuestion().getCoverUrl());
+        assertNotNull(likedSongGame.getQuestion().getAnswers());
+        assertNotEquals(0, likedSongGame.getQuestion().getCorrectAnswer());
+        assertNotNull(likedSongGame.getQuestion().getPictures());
 
     }
 

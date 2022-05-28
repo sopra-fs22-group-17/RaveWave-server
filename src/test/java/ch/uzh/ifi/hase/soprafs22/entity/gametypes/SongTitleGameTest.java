@@ -27,7 +27,7 @@ import ch.uzh.ifi.hase.soprafs22.utils.SpotifyFetchHelper;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 
-public class ArtistGameTest {
+public class SongTitleGameTest {
 
     private Question mockQuestion;
 
@@ -37,14 +37,13 @@ public class ArtistGameTest {
 
     private Player player;
 
+    private SongTitleGame songTitleGame;
+
     @MockBean
     private RaveWaverRepository raveWaverRepository;
 
     @Mock
     private SpotifyService spotifyService;
-
-    @Mock
-    private SpotifyService spotifyService2;
 
     @BeforeEach
     void setup() throws Exception {
@@ -57,7 +56,7 @@ public class ArtistGameTest {
         player.setPlayerName("playerName");
 
         mockQuestion = new Question();
-        mockQuestion.setQuestion("Guess the song artist");
+        mockQuestion.setQuestion("Guess the song title");
         mockQuestion.setPreviewUrl(
                 "https://p.scdn.co/mp3-preview/9c3a62c08079cea9d25fff6db9177a08360ff0d8?cid=774b29d4f13844c495f206cafdad9c86");
         mockQuestion.setGamemode(GameMode.ARTISTGAME);
@@ -75,26 +74,21 @@ public class ArtistGameTest {
 
     @Test
     public void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
-        System.out.println(songs.get(0).getTrack().getName());
-        ArtistGame artistGame = new ArtistGame(1, songs, spotifyService2);
+        SongTitleGame songTitleGame = new SongTitleGame(1, songs);
 
-        String profilePictureString = "https://i.scdn.co/image/9f05124de35d807b78563ea2ca69550325081747";
-
-        when(spotifyService2.getArtistProfilePicture(Mockito.any())).thenReturn(profilePictureString);
-
-        assertEquals(mockQuestion.getSongTitle(), artistGame.getQuestion().getSongTitle());
-        assertEquals(mockQuestion.getPreviewUrl(), artistGame.getQuestion().getPreviewUrl());
-        assertEquals(mockQuestion.getQuestion(), artistGame.getQuestion().getQuestion());
-        assertEquals(mockQuestion.getSongTitle(), artistGame.getQuestion().getSongTitle());
-        assertNull(artistGame.getQuestion().getPlaybackDuration());
-        assertEquals(mockQuestion.getArtist(), artistGame.getQuestion().getArtist());
-        assertEquals(mockQuestion.getSpotifyLink(), artistGame.getQuestion().getSpotifyLink());
-        assertEquals(mockQuestion.getCurrentRound(), artistGame.getQuestion().getCurrentRound());
-        assertEquals(mockQuestion.getTotalRounds(), artistGame.getQuestion().getTotalRounds());
-        assertEquals(mockQuestion.getCoverUrl(), artistGame.getQuestion().getCoverUrl());
-        assertNotNull(artistGame.getQuestion().getAnswers());
-        assertNotEquals(0, artistGame.getQuestion().getCorrectAnswer());
-        assertNotNull(artistGame.getQuestion().getPictures());
+        assertEquals(mockQuestion.getSongTitle(), songTitleGame.getQuestion().getSongTitle());
+        assertEquals(mockQuestion.getPreviewUrl(), songTitleGame.getQuestion().getPreviewUrl());
+        assertEquals(mockQuestion.getQuestion(), songTitleGame.getQuestion().getQuestion());
+        assertEquals(mockQuestion.getSongTitle(), songTitleGame.getQuestion().getSongTitle());
+        assertNull(songTitleGame.getQuestion().getPlaybackDuration());
+        assertEquals(mockQuestion.getArtist(), songTitleGame.getQuestion().getArtist());
+        assertEquals(mockQuestion.getSpotifyLink(), songTitleGame.getQuestion().getSpotifyLink());
+        assertEquals(mockQuestion.getCurrentRound(), songTitleGame.getQuestion().getCurrentRound());
+        assertEquals(mockQuestion.getTotalRounds(), songTitleGame.getQuestion().getTotalRounds());
+        assertEquals(mockQuestion.getCoverUrl(), songTitleGame.getQuestion().getCoverUrl());
+        assertNotNull(songTitleGame.getQuestion().getAnswers());
+        assertNotEquals(0, songTitleGame.getQuestion().getCorrectAnswer());
+        assertNotNull(songTitleGame.getQuestion().getPictures());
 
     }
 
