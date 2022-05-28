@@ -31,8 +31,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -75,6 +78,9 @@ class LobbyControllerTest {
 
     @Mock
     private GameRepository gamepRepository;
+
+    @MockBean
+    private HttpServletResponse response;
 
     /**
      * Helper Method to convert userPostDTO into a JSON string such that the input
@@ -119,21 +125,42 @@ class LobbyControllerTest {
     }
 
     // TODO: Thinks game has already started.
-    @Disabled
     @Test
     public void createPlayerPOSTTest() throws Exception {
         PlayerPostDTO playerPostDTO = new PlayerPostDTO();
-        playerPostDTO.setPlayerName("playerName");
-        Mockito.when(GameRepository.findByLobbyId(Mockito.anyInt()).hasStarted()).thenReturn(false);
+        playerPostDTO.setPlayerName("PlayerName");
+        //playerPostDTO.setRaveWaverId(1L);
+
+
+
+
+        Player player = new Player();
+        player.setPlayerName("Name");
+        player.setId(1L);
+        player.setCorrectAnswers(1);
+        player.setRaveWaverId(1L);
+        player.setProfilePicture("ThisIsAPicture");
+        player.setRoundScore(1000);
+        player.setStreak(1);
+        player.setToken("Tokenerino");
+        player.setTotalScore(1000);
 
         given(playerService.addPlayer(Mockito.any())).willReturn(player);
 
+        doNothing().when(response).addHeader(Mockito.any(), Mockito.any());
+
+        //TODO greet testen?
+        doNothing().when(playerService).greetPlayers(player);
+
+
         MockHttpServletRequestBuilder postRequest = post("/lobbies/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(playerPostDTO));
+                .content(asJsonString(playerPostDTO))
+                .header("Authorization", "bla");
 
         mockMvc.perform(postRequest).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.playerName", is(player.getPlayerName())));
+                .andExpect(jsonPath("$.playerName", is(player.getPlayerName())))
+                .andExpect(jsonPath("$.lobbyId", is((int)player.getlobbyId())));
 
     }
 

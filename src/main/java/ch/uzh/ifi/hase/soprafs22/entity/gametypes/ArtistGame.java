@@ -108,11 +108,6 @@ public class ArtistGame implements GameType {
         return question;
     }
 
-    @Override
-    public int getCorrectAnswer() {
-        return question.getCorrectAnswer();
-    }
-
     public ArrayList<String> getPictures() {
         ArrayList<String> artistPictures = new ArrayList<String>();
 

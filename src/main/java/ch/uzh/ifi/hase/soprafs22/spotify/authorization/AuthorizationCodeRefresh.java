@@ -21,7 +21,8 @@ public class AuthorizationCodeRefresh {
 
             // System.out.println("Expires in: " +
             // authorizationCodeCredentials.getExpiresIn());
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
+        }
+        catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }

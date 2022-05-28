@@ -10,8 +10,6 @@ public interface GameType {
 
     Question getQuestion();
 
-    int getCorrectAnswer();
-
     ArrayList<String> getPictures();
 
 }

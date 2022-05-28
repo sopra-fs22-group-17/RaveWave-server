@@ -139,7 +139,8 @@ public class SpotifyService {
         User info;
         try {
             info = getCurrentUsersProfileRequest.execute();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Something went wrong when fetching the profile picture. Are you using a Spotify-Premium Account? "
                             + e.getMessage());

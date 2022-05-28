@@ -71,4 +71,18 @@ public class QuestionDTO {
     public void setTotalRounds(int totalRounds) {
         this.totalRounds = totalRounds;
     }
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "\"type\": \"" + type + "\"" +
+                "\"question\": \"" + question + "\"" +
+                "\"previewURL\": \"" + previewURL + "\"" +
+                "\"songTitle\": \"" + songTitle + "\"" +
+                "\"playBackDuration\": \"" + playBackDuration + "\"" +
+                "\"answers\": \"" + answers + "\"" +
+                "\"currentRound\": \"" + currentRound + "\"" +
+                "\"totalRounds\": \"" + totalRounds + "\"" +
+                "},";
+    }
 }

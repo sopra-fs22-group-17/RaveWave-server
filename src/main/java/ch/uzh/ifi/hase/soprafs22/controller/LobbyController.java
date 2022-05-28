@@ -29,7 +29,7 @@ public class LobbyController {
     Logger log = LoggerFactory.getLogger(LobbyController.class);
 
     LobbyController(GameService gameService, SpotifyService spotifyService, PlayerService playerService,
-            RaveWaverService raveWaverService, RaveWaverRepository raveWaverRepository) {
+                    RaveWaverService raveWaverService, RaveWaverRepository raveWaverRepository) {
         this.gameService = gameService;
         this.spotifyService = spotifyService;
         this.playerService = playerService;
@@ -52,7 +52,7 @@ public class LobbyController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public PlayerGetDTO createPlayer(@RequestBody PlayerPostDTO playerPostDTO, @PathVariable Long lobbyId,
-            HttpServletResponse response, HttpServletRequest token) {
+                                     HttpServletResponse response, HttpServletRequest token) {
 
         if (raveWaverRepository.findByToken(token.getHeader("Authorization")) != null) {
             Player newPlayer = raveWaverService.addRaveWaverToLobby(token, lobbyId);
@@ -68,9 +68,13 @@ public class LobbyController {
         playerToAdd.setLobbyId(lobbyId);
 
         Player newPlayer = playerService.addPlayer(playerToAdd);
-        response.addHeader("Authorization", playerToAdd.getToken());
+
+        response.addHeader("Authorization", newPlayer.getToken());
+
         log.info("Player " + newPlayer.getPlayerName() + " with ID: " + newPlayer.getId() + " created");
         playerService.greetPlayers(newPlayer);
+
+
         return DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(newPlayer);
 
     }
