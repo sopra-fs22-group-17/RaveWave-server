@@ -14,9 +14,9 @@ import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
+
 
 public class ArtistGame implements GameType {
     private final Question question;
@@ -71,7 +71,7 @@ public class ArtistGame implements GameType {
             int wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
 
             // ensures that there will never be the same answer twice
-            while (wrongAnswerIndex == songToPick || Arrays.equals(songs.get(wrongAnswerIndex).getTrack().getArtists(), songs.get(songToPick).getTrack().getArtists())) {
+            while (wrongAnswerIndex == songToPick || Objects.equals(songs.get(wrongAnswerIndex).getTrack().getArtists()[0].getName(), songs.get(songToPick).getTrack().getArtists()[0].getName())) {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
             StringBuilder answer = new StringBuilder();
@@ -83,8 +83,6 @@ public class ArtistGame implements GameType {
 
             if (answers.contains(answer.toString())) {
                 a++;
-
-
             }
             else {
                 answers.add(answer.toString());

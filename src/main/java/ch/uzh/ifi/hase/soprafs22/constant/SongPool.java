@@ -20,6 +20,7 @@ public enum SongPool {
     NINETIES("29c6gYmiNOicHDieRrQONr"),
     // https://open.spotify.com/playlist/37i9dQZF1DX4UtSsGT1Sbe?si=59869cc268a74530
     EIGHTIES("37i9dQZF1DX4UtSsGT1Sbe"),
+    //EIGHTIES("0MUBlJUXISyAO4eb71DC7Y"),
 
     USERSTOPTRACKS(""),
     USERSSAVEDTRACKS("");
