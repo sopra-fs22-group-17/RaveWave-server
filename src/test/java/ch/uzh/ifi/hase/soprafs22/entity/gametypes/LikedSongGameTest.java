@@ -4,20 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hc.core5.http.ParseException;
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.params.DisableIfAllArguments;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -29,7 +24,7 @@ import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.SpotifyFetchHelper;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 
 public class LikedSongGameTest {
 
@@ -60,18 +55,18 @@ public class LikedSongGameTest {
         mockQuestion = new Question();
         mockQuestion.setQuestion("Guess the liked song");
         mockQuestion.setPreviewUrl(
-                "https://p.scdn.co/mp3-preview/9c3a62c08079cea9d25fff6db9177a08360ff0d8?cid=774b29d4f13844c495f206cafdad9c86");
+                "https://p.scdn.co/mp3-preview/a8c9419cf7e46b58647420bb511839aaf5e9e8be");
         mockQuestion.setGamemode(GameMode.ARTISTGAME);
-        mockQuestion.setSongTitle("Dust");
-        mockQuestion.setArtist("M|O|O|N");
-        mockQuestion.setSpotifyLink("https://open.spotify.com/track/2BZYVqGyL1L1adBbq2ClVv");
+        mockQuestion.setSongTitle("More Than You Know");
+        mockQuestion.setArtist("Axwell /\\ Ingrosso");
+        mockQuestion.setSpotifyLink("https://open.spotify.com/track/71bBFbfn2OBK5QwUJSLS44");
         mockQuestion.setCurrentRound(0);
         mockQuestion.setTotalRounds(0);
-        mockQuestion.setCoverUrl("https://i.scdn.co/image/ab67616d00001e0253bc7ff619726c8640616154");
+        mockQuestion.setCoverUrl("https://i.scdn.co/image/ed38596d8ed2b3fdf2ab9e823df4c5f29758d42f");
 
         sfh = new SpotifyFetchHelper();
-        PlaylistTrack[] tracks = sfh.getPlaylistFixtures();
-        songs = spotifyService.playlistTrackToTrackList(tracks);
+        Track[] tracks = sfh.getTopTracksFixtures();
+        songs = spotifyService.trackToTrackList(tracks, 1L, "one");
 
     }
 
