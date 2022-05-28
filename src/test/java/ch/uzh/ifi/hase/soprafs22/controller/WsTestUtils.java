@@ -1,12 +1,12 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
-import net.minidev.json.JSONObject;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.CurrentAnswersDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.messaging.converter.ByteArrayMessageConverter;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.converter.StringMessageConverter;
 import org.springframework.messaging.simp.stomp.*;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -53,11 +53,11 @@ class WsTestUtils {
         }
     }
 
-    public static class MyStompFrameHandler implements StompFrameHandler {
+    public static class MyStompFrameHandlerGameSettings implements StompFrameHandler {
 
         private final Consumer<String> frameHandler;
 
-        public MyStompFrameHandler(Consumer<String> frameHandler) {
+        public MyStompFrameHandlerGameSettings(Consumer<String> frameHandler) {
             this.frameHandler = frameHandler;
         }
 
@@ -69,6 +69,88 @@ class WsTestUtils {
         @Override
         public void handleFrame(StompHeaders headers, Object payload) {
             GameSettingsDTO obj =  (GameSettingsDTO)payload;
+            log.info("received message: {} with headers: {}", obj, headers);
+            frameHandler.accept(payload.toString());
+        }
+    }
+    public static class MyStompFrameHandlerStartGame implements StompFrameHandler {
+
+        private final Consumer<String> frameHandler;
+
+        public MyStompFrameHandlerStartGame(Consumer<String> frameHandler) {
+            this.frameHandler = frameHandler;
+        }
+
+        @Override
+        public Type getPayloadType(StompHeaders headers) {
+            return QuestionDTO.class;
+        }
+
+        @Override
+        public void handleFrame(StompHeaders headers, Object payload) {
+            QuestionDTO obj =  (QuestionDTO)payload;
+            log.info("received message: {} with headers: {}", obj, headers);
+            frameHandler.accept(payload.toString());
+        }
+    }
+    public static class MyStompFrameHandlerSaveAnswer implements StompFrameHandler {
+
+        private final Consumer<String> frameHandler;
+
+        public MyStompFrameHandlerSaveAnswer(Consumer<String> frameHandler) {
+            this.frameHandler = frameHandler;
+        }
+
+        @Override
+        public Type getPayloadType(StompHeaders headers) {
+            return CurrentAnswersDTO.class;
+        }
+
+        @Override
+        public void handleFrame(StompHeaders headers, Object payload) {
+            CurrentAnswersDTO obj =  (CurrentAnswersDTO)payload;
+            log.info("received message: {} with headers: {}", obj, headers);
+            frameHandler.accept(payload.toString());
+        }
+    }
+
+    public static class MyStompFrameHandlerEndRound implements StompFrameHandler {
+
+        private final Consumer<String> frameHandler;
+
+        public MyStompFrameHandlerEndRound(Consumer<String> frameHandler) {
+            this.frameHandler = frameHandler;
+        }
+
+        @Override
+        public Type getPayloadType(StompHeaders headers) {
+            return LeaderboardDTO.class;
+        }
+
+        @Override
+        public void handleFrame(StompHeaders headers, Object payload) {
+            LeaderboardDTO obj =  (LeaderboardDTO)payload;
+            log.info("received message: {} with headers: {}", obj, headers);
+            frameHandler.accept(payload.toString());
+        }
+    }
+
+    public static class MyStompFrameHandlerStartNextRound implements StompFrameHandler {
+
+        private final Consumer<String> frameHandler;
+
+        public MyStompFrameHandlerStartNextRound(Consumer<String> frameHandler) {
+            this.frameHandler = frameHandler;
+        }
+
+        @Override
+        public Type getPayloadType(StompHeaders headers) {
+            return QuestionDTO.class;
+        }
+
+        @Override
+        public void handleFrame(StompHeaders headers, Object payload) {
+            QuestionDTO obj =  (QuestionDTO)payload;
             log.info("received message: {} with headers: {}", obj, headers);
             frameHandler.accept(payload.toString());
         }

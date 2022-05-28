@@ -7,16 +7,17 @@ import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.service.GameService;
 import ch.uzh.ifi.hase.soprafs22.service.PlayerService;
-import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.Answer;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.CurrentAnswersDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
+import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,15 +26,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -78,14 +77,14 @@ public class WebsocketControllerTest {
     }
 
     @Test
-    public void receivesMessageFromSubscribedQueue() throws Exception {
+    public void updateGameSettingsTest() throws Exception {
 
         //given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
         int lobbyId = 1;
         stompSession.subscribe(
                 "/topic/lobbies/"+lobbyId,
-                new WsTestUtils.MyStompFrameHandler((payload) -> resultKeeper.complete(payload)));
+                new WsTestUtils.MyStompFrameHandlerGameSettings((payload) -> resultKeeper.complete(payload)));
 
         Thread.sleep(1000);
 
@@ -107,6 +106,142 @@ public class WebsocketControllerTest {
 
         //then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(gameSettingsDTO.toString());
+    }
+
+    @Test
+    public void startGameTest() throws Exception {
+
+        //given
+        CompletableFuture<String> resultKeeper = new CompletableFuture<>();
+        int lobbyId = 1;
+        stompSession.subscribe(
+                "/topic/lobbies/"+lobbyId,
+                new WsTestUtils.MyStompFrameHandlerStartGame((payload) -> resultKeeper.complete(payload)));
+
+        Thread.sleep(1000);
+
+
+        QuestionDTO question = new QuestionDTO();
+        question.setCurrentRound(1);
+        question.setQuestion("This is a question!");
+        question.setAnswers(null);
+        question.setPlayBackDuration("TEN");
+        question.setPreviewURL("ThisIsAPreviewURL");
+        question.setSongTitle("Title");
+
+        doNothing().when(gameService).startGame(lobbyId);
+
+        given(gameService.startNextRound(lobbyId)).willReturn(question);
+
+        Thread.sleep(1000);
+        //when
+        webSocketController.startGame(lobbyId);
+
+
+        //then
+        assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(question.toString());
+    }
+
+    @Test
+    public void saveAnswerTest() throws Exception {
+
+        //given
+        CompletableFuture<String> resultKeeper = new CompletableFuture<>();
+        int lobbyId = 1;
+        stompSession.subscribe(
+                "/topic/lobbies/"+lobbyId,
+                new WsTestUtils.MyStompFrameHandlerSaveAnswer((payload) -> resultKeeper.complete(payload)));
+
+        Thread.sleep(1000);
+
+        Answer answer = new Answer();
+        answer.setPlayerId(1L);
+        answer.setAnswerTime(1);
+        answer.setplayerGuess(1);
+        answer.setToken("THISISATOKEN");
+
+
+        CurrentAnswersDTO currentAnswersDTO = new CurrentAnswersDTO();
+        currentAnswersDTO.setCurrentAnswers(1);
+        currentAnswersDTO.setExpectedAnswers(2);
+
+        when(gameService.saveAnswer(answer, 1)).thenReturn(false);
+
+        given(gameService.fillAnswers(lobbyId)).willReturn(currentAnswersDTO);
+
+        Thread.sleep(1000);
+        //when
+        webSocketController.saveAnswer(lobbyId, 1, answer);
+
+
+        //then
+        assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(currentAnswersDTO.toString());
+    }
+
+    @Test
+    public void startNextRoundTest() throws Exception {
+
+        //given
+        CompletableFuture<String> resultKeeper = new CompletableFuture<>();
+        int lobbyId = 1;
+        stompSession.subscribe(
+                "/topic/lobbies/"+lobbyId,
+                new WsTestUtils.MyStompFrameHandlerStartNextRound((payload) -> resultKeeper.complete(payload)));
+
+        Thread.sleep(1000);
+
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setQuestion("This is a question");
+        questionDTO.setCurrentRound(1);
+        questionDTO.setTotalRounds(10);
+        questionDTO.setSongTitle("This is a song title");
+        questionDTO.setPlayBackDuration("PlaybackDuration.EIGHT");
+        questionDTO.setCurrentRound(1);
+        questionDTO.setPreviewURL("This is a preview URL");
+
+        given(gameService.startNextRound(lobbyId)).willReturn(questionDTO);
+
+        //when
+        webSocketController.startNextRound(lobbyId);
+
+
+        //then
+        assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(questionDTO.toString());
+    }
+
+    @Test
+    public void endRoundTest() throws Exception {
+
+        //given
+        CompletableFuture<String> resultKeeper = new CompletableFuture<>();
+        int lobbyId = 1;
+        stompSession.subscribe(
+                "/topic/lobbies/"+lobbyId,
+                new WsTestUtils.MyStompFrameHandlerEndRound((payload) -> resultKeeper.complete(payload)));
+
+        Thread.sleep(1000);
+
+
+        Thread.sleep(1000);
+        //when
+
+
+        LeaderboardDTO leaderboardDTO = new LeaderboardDTO();
+
+        leaderboardDTO.setArtist("Artist");
+        leaderboardDTO.setSongTitle("songTitle");
+        leaderboardDTO.setCorrectAnswer("correctAnswer");
+        leaderboardDTO.setCoverUrl("CoverUrl");
+        leaderboardDTO.setGameOver(false);
+        leaderboardDTO.setSpotifyLink("SpotifyLink");
+        leaderboardDTO.setPlayers(null);
+
+        given(gameService.endRound((long)lobbyId)).willReturn(leaderboardDTO);
+
+        webSocketController.endRound((long)lobbyId);
+
+        //then
+        assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(leaderboardDTO.toString());
     }
 
     @After

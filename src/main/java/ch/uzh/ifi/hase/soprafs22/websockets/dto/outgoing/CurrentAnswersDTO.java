@@ -20,4 +20,13 @@ public class CurrentAnswersDTO {
     public void setExpectedAnswers(int expectedAnswers) {
         this.expectedAnswers = expectedAnswers;
     }
+
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "\"currentAnswers\": \"" + currentAnswers + "\"" +
+                "\"expectedAnswers\": \"" + expectedAnswers + "\"" +
+                "},";
+    }
 }

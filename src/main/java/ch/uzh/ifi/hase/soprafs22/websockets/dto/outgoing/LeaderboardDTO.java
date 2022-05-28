@@ -73,4 +73,17 @@ public class LeaderboardDTO {
         this.spotifyLink = spotifyLink;
     }
 
+    @Override
+    public String toString() {
+        return "{\n" +
+                "\"type\": \"" + type + "\"" +
+                "\"isGameOver\": \"" + isGameOver + "\"" +
+                "\"coverUrl\": \"" + coverUrl + "\"" +
+                "\"songTitle\": \"" + songTitle + "\"" +
+                "\"correctAnswer\": \"" + correctAnswer + "\"" +
+                "\"spotifyLink\": \"" + spotifyLink + "\"" +
+                "\"players\": \"" + players + "\"" +
+                "},";
+    }
+
 }
