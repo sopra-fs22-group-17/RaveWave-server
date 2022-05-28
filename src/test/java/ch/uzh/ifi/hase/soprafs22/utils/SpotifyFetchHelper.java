@@ -13,8 +13,6 @@ import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest
 public class SpotifyFetchHelper {
     private SpotifyApi spotifyApi;
 
-    private String playlistId;
-
     public SpotifyFetchHelper() {
         spotifyApi = new SpotifyApi.Builder()
                 .setClientId("zyuxhfo1c51b5hxjk09x2uhv5n0svgd6g")

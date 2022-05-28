@@ -13,8 +13,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
@@ -31,50 +33,50 @@ import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUser
 
 public class SpotifyServiceTest {
 
-    @InjectMocks
-    private SpotifyService spotifyService;
-
-    private SpotifyApi spotifyApi;
-
     @Mock
     private RaveWaverRepository raveWaverRepository;
 
+    @InjectMocks
+    private SpotifyService spotifyService;
+
+    private SpotifyFetchHelper sfh;
+
+    private Player player;
+
     @BeforeEach
     void setup() {
-        spotifyApi = new SpotifyApi.Builder()
-                .setClientId("zyuxhfo1c51b5hxjk09x2uhv5n0svgd6g")
-                .setClientSecret("zudknyqbh3wunbhcvg9uyvo7uwzeu6nne")
-                .setRedirectUri(SpotifyHttpManager.makeUri("https://example.com/spotify-redirect"))
-                .setAccessToken(
-                        "taHZ2SdB-bPA3FsK3D7ZN5npZS47cMy-IEySVEGttOhXmqaVAIo0ESvTCLjLBifhHOHOIuhFUKPW1WMDP7w6dj3MAZdWT8CLI2MkZaXbYLTeoDvXesf2eeiLYPBGdx8tIwQJKgV8XdnzH_DONk")
-                .setRefreshToken(
-                        "b0KuPuLw77Z0hQhCsK-GTHoEx_kethtn357V7iqwEpCTIsLgqbBC_vQBTGC6M5rINl0FrqHK-D3cbOsMOlfyVKuQPvpyGcLcxAoLOTpYXc28nVwB7iBq2oKj9G9lHkFOUKn")
-                .build();
-    }
-
-    @Disabled
-    @Test
-    public void getSavedTrackItemTest() {
-        RaveWaver optRaveWaver = new RaveWaver();
-        ArrayList<Song> songs = new ArrayList<>();
-        optRaveWaver.setSpotifyToken("spotifytoken");
-        Optional<RaveWaver> raveWaver = Optional.of(optRaveWaver);
-        when(raveWaverRepository.findById(Mockito.anyLong())).thenReturn(raveWaver);
-        when(spotifyService.savedTracktoTrackList(Mockito.any(), Mockito.anyLong(), Mockito.any())).thenReturn(songs);
-
-        assertEquals(spotifyService.getSavedTrackItems(1L), songs);
+        MockitoAnnotations.openMocks(this);
+        sfh = new SpotifyFetchHelper();
+        player = new Player();
+        player.setRaveWaverId(1L);
+        player.setPlayerName("playerName");
     }
 
     @Test
-    public void TrackTester() throws Exception {
-        SpotifyFetchHelper sph = new SpotifyFetchHelper();
-        Track[] tracks = sph.getTopTracksFixtures();
-        PlaylistTrack[] ptracks = sph.getPlaylistFixtures();
-        SavedTrack[] stracks = sph.getSavedTracksFixtures();
-
-        System.out.println(tracks[0].getName());
-        System.out.println(ptracks[0].getTrack().getName());
-        System.out.println(stracks[0].getTrack().getName());
-
+    public void trackToTrackListTest() throws Exception {
+        Track[] tracks = sfh.getTopTracksFixtures();
+        ArrayList<Song> songs = spotifyService.trackToTrackList(tracks, player.getRaveWaverId(),
+                player.getPlayerName());
+        assertEquals(songs.get(0).getTrack(), tracks[0]);
+        assertEquals(songs.get(0).getPlayerName(), "[RW] " + player.getPlayerName());
+        assertEquals(songs.get(0).getIdentiy(), player.getRaveWaverId());
     }
+
+    @Test
+    public void savedTracktoTrackListTest() throws Exception {
+        SavedTrack[] tracks = sfh.getSavedTracksFixtures();
+        ArrayList<Song> songs = spotifyService.savedTracktoTrackList(tracks, player.getRaveWaverId(),
+                player.getPlayerName());
+        assertEquals(songs.get(0).getTrack(), tracks[0].getTrack());
+        assertEquals(songs.get(0).getPlayerName(), "[RW] " + player.getPlayerName());
+        assertEquals(songs.get(0).getIdentiy(), player.getRaveWaverId());
+    }
+
+    @Test
+    public void playlistTrackToTrackListTest() throws Exception {
+        PlaylistTrack[] tracks = sfh.getPlaylistFixtures();
+        ArrayList<Song> songs = spotifyService.playlistTrackToTrackList(tracks);
+        assertEquals(songs.get(0).getTrack(), tracks[0].getTrack());
+    }
+
 }

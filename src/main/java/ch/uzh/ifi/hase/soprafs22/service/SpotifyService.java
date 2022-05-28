@@ -111,7 +111,7 @@ public class SpotifyService {
         return songs;
     }
 
-    private ArrayList<Song> playlistTrackToTrackList(PlaylistTrack[] playlistsItems) {
+    public ArrayList<Song> playlistTrackToTrackList(PlaylistTrack[] playlistsItems) {
         ArrayList<Song> songs = new ArrayList<>();
         for (PlaylistTrack pTrack : playlistsItems) {
             songs.add(new Song((Track) pTrack.getTrack()));
@@ -119,7 +119,7 @@ public class SpotifyService {
         return songs;
     }
 
-    private ArrayList<Song> trackToTrackList(Track[] personalizedPlaylistsItems, long raveWaverId, String playerName) {
+    public ArrayList<Song> trackToTrackList(Track[] personalizedPlaylistsItems, long raveWaverId, String playerName) {
         ArrayList<Song> songs = new ArrayList<>();
         for (Track track : personalizedPlaylistsItems) {
             songs.add(new Song(track, raveWaverId, "[RW] " + playerName));
