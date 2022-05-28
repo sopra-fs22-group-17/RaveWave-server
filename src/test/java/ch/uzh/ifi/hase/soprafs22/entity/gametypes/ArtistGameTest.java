@@ -86,6 +86,7 @@ public class ArtistGameTest {
         when(spotifyService2.getArtistProfilePicture(Mockito.any())).thenReturn(profilePictureString);
 
         assertEquals(mockQuestion.getSongTitle(), artistGame.getQuestion().getSongTitle());
+        assertEquals(mockQuestion.getPreviewUrl(), artistGame.getQuestion().getPreviewUrl());
 
     }
 
