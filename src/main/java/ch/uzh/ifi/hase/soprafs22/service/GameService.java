@@ -99,7 +99,7 @@ public class GameService {
     }
 
     public QuestionDTO startNextRound(int lobbyId) {
-        Game game =  GameRepository.findByLobbyId(lobbyId);
+        Game game = GameRepository.findByLobbyId(lobbyId);
         Question nextQuestion = game.startNextTurn(playerRepository.findByLobbyId((long) lobbyId));
         QuestionDTO nextQuestionDTO = new QuestionDTO();
 

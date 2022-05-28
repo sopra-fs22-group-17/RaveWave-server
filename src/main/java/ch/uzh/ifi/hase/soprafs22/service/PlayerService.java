@@ -96,8 +96,8 @@ public class PlayerService {
         return counter >= 4;
     }
 
-    public boolean likedGameModeUnlocked(Long lobbyId){
-        if (GameRepository.findByLobbyId(Math.toIntExact(lobbyId)).getGameSettings().getGameMode() != GameMode.LIKEDSONGGAME){
+    public boolean likedGameModeUnlocked(Long lobbyId) {
+        if (GameRepository.findByLobbyId(Math.toIntExact(lobbyId)).getGameSettings().getGameMode() != GameMode.LIKEDSONGGAME) {
             return true;
         }
 

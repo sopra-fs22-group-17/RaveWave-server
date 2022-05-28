@@ -36,22 +36,4 @@ public class GetPlaylistsItems {
                     "An error while fetching the song information occured: " + e.getMessage());
         }
     }
-/*
-    public static Track[] fetchUsersTopTracks(SpotifyApi spotifyApi) {
-        final GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks()
-                // .limit(10)
-                // .offset(0)
-                // .time_range("medium_term")
-                .build();
-        try {
-            final Paging<Track> trackPaging = getUsersTopTracksRequest.execute();
-
-            return trackPaging.getItems();
-
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "An error while fetching the song information occured: " + e.getMessage());
-        }
-    }
-*/
 }
