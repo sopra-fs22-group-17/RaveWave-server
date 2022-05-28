@@ -63,4 +63,16 @@ public class SpotifyFetchHelper {
 
     }
 
+    public PlaylistTrack[] getRepeatedPlaylistFixtures() throws Exception {
+        final GetPlaylistsItemsRequest request = spotifyApi.getPlaylistsItems("0MUBlJUXISyAO4eb71DC7Y")
+                .setHttpManager(TestUtil.MockedHttpManager.returningJson("GetRepeatedPlaylistIItemsRequest.json")).build();
+        try {
+            final Paging<PlaylistTrack> playlistTrackPaging = request.execute();
+            return playlistTrackPaging.getItems();
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

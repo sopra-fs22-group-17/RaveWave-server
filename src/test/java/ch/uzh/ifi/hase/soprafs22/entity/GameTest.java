@@ -2,9 +2,11 @@ package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
 import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
+import ch.uzh.ifi.hase.soprafs22.constant.RoundDuration;
 import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
+import ch.uzh.ifi.hase.soprafs22.utils.SpotifyFetchHelper;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import org.apache.hc.core5.http.ParseException;
@@ -26,6 +28,8 @@ public class GameTest {
 
     @Mock
     private SpotifyService spotifyService;
+
+    private SpotifyService spotifyServiceNotMocked;
     @Mock
     private Player testPlayer;
     @Mock
@@ -49,6 +53,8 @@ public class GameTest {
         testPlayer.setLobbyId(1L);
         testPlayer.setPlayerName("Test");
         testPlayer.setToken("token");
+
+
     }
 
     @Test
@@ -199,6 +205,166 @@ public class GameTest {
         assertEquals("Index 0 out of bounds for length 0", msg);
     }
 
+    @Test
+    public void startRockGameTest() throws Exception {
 
+        SpotifyFetchHelper spotifyFetchHelper = new SpotifyFetchHelper();
+        Game game = new Game(spotifyService, SongPool.PARTY, raveWaverRepository2);
+
+        GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
+        gameSettingsDTO.setRoundDuration(RoundDuration.ELEVEN);
+        gameSettingsDTO.setPlayBackDuration(PlaybackDuration.NINE);
+        gameSettingsDTO.setSongPool(SongPool.ROCK);
+        gameSettingsDTO.setGameRounds(1);
+        gameSettingsDTO.setGameMode(GameMode.ARTISTGAME);
+
+        game.updateGameSettings(gameSettingsDTO);
+
+        spotifyServiceNotMocked = new SpotifyService(raveWaverRepository2);
+        ArrayList<Song> songs = spotifyServiceNotMocked.playlistTrackToTrackList(spotifyFetchHelper.getPlaylistFixtures());
+
+        List<Player> players = new ArrayList<>();
+        testPlayer.setRaveWaverId(1L);
+        players.add(testPlayer);
+
+        RaveWaver raveWaver = new RaveWaver();
+        raveWaver.setId(1L);
+        raveWaver.setSpotifyToken("spotifyToken");
+        raveWaver.setToken("token");
+        raveWaver.setProfilePicture("profilePicture");
+        raveWaver.setPassword("password");
+
+        Mockito.when(spotifyService.getPlaylistsItems("37i9dQZF1DX4vth7idTQch")).thenReturn(songs);
+        Mockito.when(raveWaverRepository2.findById(1L)).thenReturn(Optional.of(raveWaver));
+        Mockito.doNothing().when(spotifyService).authorizationCodeRefresh(raveWaver);
+
+
+        game.startGame(players);
+        Question question = game.startNextTurn(players);
+
+        assertEquals("Guess the song artist", question.getQuestion());
+    }
+
+    @Test
+    public void endRoundTest() throws Exception {
+
+        SpotifyFetchHelper spotifyFetchHelper = new SpotifyFetchHelper();
+        Game game = new Game(spotifyService, SongPool.PARTY, raveWaverRepository2);
+
+        GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
+        gameSettingsDTO.setRoundDuration(RoundDuration.ELEVEN);
+        gameSettingsDTO.setPlayBackDuration(PlaybackDuration.NINE);
+        gameSettingsDTO.setSongPool(SongPool.ROCK);
+        gameSettingsDTO.setGameRounds(1);
+        gameSettingsDTO.setGameMode(GameMode.ARTISTGAME);
+
+        game.updateGameSettings(gameSettingsDTO);
+
+        spotifyServiceNotMocked = new SpotifyService(raveWaverRepository2);
+        ArrayList<Song> songs = spotifyServiceNotMocked.playlistTrackToTrackList(spotifyFetchHelper.getPlaylistFixtures());
+
+        List<Player> players = new ArrayList<>();
+        testPlayer.setRaveWaverId(1L);
+        players.add(testPlayer);
+
+        RaveWaver raveWaver = new RaveWaver();
+        raveWaver.setId(1L);
+        raveWaver.setSpotifyToken("spotifyToken");
+        raveWaver.setToken("token");
+        raveWaver.setProfilePicture("profilePicture");
+        raveWaver.setPassword("password");
+
+        Mockito.when(spotifyService.getPlaylistsItems("37i9dQZF1DX4vth7idTQch")).thenReturn(songs);
+        Mockito.when(raveWaverRepository2.findById(1L)).thenReturn(Optional.of(raveWaver));
+        Mockito.doNothing().when(spotifyService).authorizationCodeRefresh(raveWaver);
+
+
+        game.startGame(players);
+        Question question = game.startNextTurn(players);
+        LeaderboardDTO leaderboardDTO = game.endRound(players);
+
+        assertEquals(question.getArtist(),leaderboardDTO.getArtist());
+    }
+
+    @Test
+    public void startUserTopTracksGameTest() throws Exception {
+
+        SpotifyFetchHelper spotifyFetchHelper = new SpotifyFetchHelper();
+        Game game = new Game(spotifyService, SongPool.PARTY, raveWaverRepository2);
+
+        GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
+        gameSettingsDTO.setRoundDuration(RoundDuration.FOUR);
+        gameSettingsDTO.setPlayBackDuration(PlaybackDuration.SIX);
+        gameSettingsDTO.setSongPool(SongPool.USERSTOPTRACKS);
+        gameSettingsDTO.setGameRounds(1);
+        gameSettingsDTO.setGameMode(GameMode.ARTISTGAME);
+
+        game.updateGameSettings(gameSettingsDTO);
+
+        spotifyServiceNotMocked = new SpotifyService(raveWaverRepository2);
+        ArrayList<Song> songs = spotifyServiceNotMocked.playlistTrackToTrackList(spotifyFetchHelper.getPlaylistFixtures());
+
+        List<Player> players = new ArrayList<>();
+        testPlayer.setRaveWaverId(1L);
+        players.add(testPlayer);
+
+        RaveWaver raveWaver = new RaveWaver();
+        raveWaver.setId(1L);
+        raveWaver.setSpotifyToken("spotifyToken");
+        raveWaver.setToken("token");
+        raveWaver.setProfilePicture("profilePicture");
+        raveWaver.setPassword("password");
+
+        Mockito.when(spotifyService.getPersonalizedPlaylistsItems(1L)).thenReturn(songs);
+        Mockito.when(raveWaverRepository2.findById(1L)).thenReturn(Optional.of(raveWaver));
+        Mockito.doNothing().when(spotifyService).authorizationCodeRefresh(raveWaver);
+
+
+        game.startGame(players);
+        Question question = game.startNextTurn(players);
+
+        assertEquals("Guess the song artist", question.getQuestion());
+    }
+
+
+    @Test
+    public void startUserSavedTracksGameTest() throws Exception {
+
+        SpotifyFetchHelper spotifyFetchHelper = new SpotifyFetchHelper();
+        Game game = new Game(spotifyService, SongPool.PARTY, raveWaverRepository2);
+
+        GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
+        gameSettingsDTO.setRoundDuration(RoundDuration.ELEVEN);
+        gameSettingsDTO.setPlayBackDuration(PlaybackDuration.NINE);
+        gameSettingsDTO.setSongPool(SongPool.USERSSAVEDTRACKS);
+        gameSettingsDTO.setGameRounds(1);
+        gameSettingsDTO.setGameMode(GameMode.SONGTITLEGAME);
+
+        game.updateGameSettings(gameSettingsDTO);
+
+        spotifyServiceNotMocked = new SpotifyService(raveWaverRepository2);
+        ArrayList<Song> songs = spotifyServiceNotMocked.playlistTrackToTrackList(spotifyFetchHelper.getPlaylistFixtures());
+
+        List<Player> players = new ArrayList<>();
+        testPlayer.setRaveWaverId(1L);
+        players.add(testPlayer);
+
+        RaveWaver raveWaver = new RaveWaver();
+        raveWaver.setId(1L);
+        raveWaver.setSpotifyToken("spotifyToken");
+        raveWaver.setToken("token");
+        raveWaver.setProfilePicture("profilePicture");
+        raveWaver.setPassword("password");
+
+        Mockito.when(spotifyService.getSavedTrackItems(1L)).thenReturn(songs);
+        Mockito.when(raveWaverRepository2.findById(1L)).thenReturn(Optional.of(raveWaver));
+        Mockito.doNothing().when(spotifyService).authorizationCodeRefresh(raveWaver);
+
+
+        game.startGame(players);
+        Question question = game.startNextTurn(players);
+
+        assertEquals("Guess the song title", question.getQuestion());
+    }
 
 }
