@@ -14,9 +14,9 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,11 +31,11 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -61,7 +61,7 @@ public class WebsocketControllerTest {
 
 
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         System.out.println(port);
         String wsUrl = "ws://localhost:" + port + "/ws";
@@ -244,7 +244,7 @@ public class WebsocketControllerTest {
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(leaderboardDTO.toString());
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         stompSession.disconnect();
         stompClient.stop();
