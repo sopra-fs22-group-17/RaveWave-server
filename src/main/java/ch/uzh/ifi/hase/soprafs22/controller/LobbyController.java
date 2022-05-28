@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sound.midi.Soundbank;
 
 @RestController
 public class LobbyController {
@@ -68,9 +69,12 @@ public class LobbyController {
         playerToAdd.setLobbyId(lobbyId);
 
         Player newPlayer = playerService.addPlayer(playerToAdd);
+        //System.out.println(newPlayer.getToken());
+
         response.addHeader("Authorization", playerToAdd.getToken());
         log.info("Player " + newPlayer.getPlayerName() + " with ID: " + newPlayer.getId() + " created");
         playerService.greetPlayers(newPlayer);
+        //System.out.println(newPlayer.getId());
         return DTOMapper.INSTANCE.convertEntityToPlayerGetDTO(newPlayer);
 
     }

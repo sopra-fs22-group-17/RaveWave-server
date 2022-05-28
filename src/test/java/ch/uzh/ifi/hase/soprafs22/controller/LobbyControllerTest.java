@@ -33,6 +33,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -123,14 +124,29 @@ class LobbyControllerTest {
     @Test
     public void createPlayerPOSTTest() throws Exception {
         PlayerPostDTO playerPostDTO = new PlayerPostDTO();
-        playerPostDTO.setPlayerName("playerName");
-        Mockito.when(GameRepository.findByLobbyId(Mockito.anyInt()).hasStarted()).thenReturn(false);
+        playerPostDTO.setPlayerName("PlayerName");
+        //playerPostDTO.setRaveWaverId(1L);
+
+        MockHttpServletRequestBuilder postRequest = post("/lobbies/1", playerPostDTO)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(playerPostDTO));
+
+        Player player = new Player();
+        player.setPlayerName("Name");
+        player.setId(1L);
+        player.setCorrectAnswers(1);
+        player.setRaveWaverId(1L);
+        player.setProfilePicture("ThisIsAPicture");
+        player.setRoundScore(1000);
+        player.setStreak(1);
+        player.setToken("Tokenerino");
+        player.setTotalScore(1000);
 
         given(playerService.addPlayer(Mockito.any())).willReturn(player);
 
-        MockHttpServletRequestBuilder postRequest = post("/lobbies/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(playerPostDTO));
+        //TODO greet
+        doNothing().when(playerService).greetPlayers(player);
+
 
         mockMvc.perform(postRequest).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.playerName", is(player.getPlayerName())));
