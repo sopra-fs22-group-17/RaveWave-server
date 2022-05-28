@@ -1,6 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -9,18 +12,15 @@ import java.util.ArrayList;
 import org.apache.hc.core5.http.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
-import ch.uzh.ifi.hase.soprafs22.constant.PlaybackDuration;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
-import ch.uzh.ifi.hase.soprafs22.entity.gametypes.ArtistGame;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs22.utils.SpotifyFetchHelper;
@@ -59,16 +59,15 @@ public class ArtistGameTest {
         player.setPlayerName("playerName");
 
         mockQuestion = new Question();
-        mockQuestion.setQuestion("Guess the song artist!");
+        mockQuestion.setQuestion("Guess the song artist");
         mockQuestion.setPreviewUrl(
                 "https://p.scdn.co/mp3-preview/9c3a62c08079cea9d25fff6db9177a08360ff0d8?cid=774b29d4f13844c495f206cafdad9c86");
         mockQuestion.setGamemode(GameMode.ARTISTGAME);
         mockQuestion.setSongTitle("Dust");
-        mockQuestion.setPlaybackDuration(PlaybackDuration.FOURTEEN);
         mockQuestion.setArtist("M|O|O|N");
-        mockQuestion.setSpotifyLink("https://open.spotify.com/artist/0M2HHtY3OOQzIZxrHkbJLT");
-        mockQuestion.setCurrentRound(4);
-        mockQuestion.setTotalRounds(10);
+        mockQuestion.setSpotifyLink("https://open.spotify.com/track/2BZYVqGyL1L1adBbq2ClVv");
+        mockQuestion.setCurrentRound(0);
+        mockQuestion.setTotalRounds(0);
         mockQuestion.setCoverUrl("https://i.scdn.co/image/ab67616d00001e0253bc7ff619726c8640616154");
 
         sfh = new SpotifyFetchHelper();
@@ -87,6 +86,17 @@ public class ArtistGameTest {
 
         assertEquals(mockQuestion.getSongTitle(), artistGame.getQuestion().getSongTitle());
         assertEquals(mockQuestion.getPreviewUrl(), artistGame.getQuestion().getPreviewUrl());
+        assertEquals(mockQuestion.getQuestion(), artistGame.getQuestion().getQuestion());
+        assertEquals(mockQuestion.getSongTitle(), artistGame.getQuestion().getSongTitle());
+        assertNull(artistGame.getQuestion().getPlaybackDuration());
+        assertEquals(mockQuestion.getArtist(), artistGame.getQuestion().getArtist());
+        assertEquals(mockQuestion.getSpotifyLink(), artistGame.getQuestion().getSpotifyLink());
+        assertEquals(mockQuestion.getCurrentRound(), artistGame.getQuestion().getCurrentRound());
+        assertEquals(mockQuestion.getTotalRounds(), artistGame.getQuestion().getTotalRounds());
+        assertEquals(mockQuestion.getCoverUrl(), artistGame.getQuestion().getCoverUrl());
+        assertNotNull(artistGame.getQuestion().getAnswers());
+        assertNotEquals(0, artistGame.getQuestion().getCorrectAnswer());
+        assertNotNull(artistGame.getQuestion().getPictures());
 
     }
 
