@@ -17,6 +17,10 @@ jobs:
       HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
       clientSecret: ${{secrets.clientSecret}}
       redirectURL: ${{secrets.redirectURL}}
+      SPRING_DATASOURCE_URL: ${{secrets.SPRING_DATASOURCE_URL}}
+      SPRING_DATASOURCE_USERNAME: ${{secrets.SPRING_DATASOURCE_USERNAME}}
+      SPRING_DATASOURCE_PASSWORD: ${{secrets.SPRING_DATASOURCE_PASSWORD}
+      
 
     steps:
     - name: checkout repository code
