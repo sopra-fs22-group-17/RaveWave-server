@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 import ch.uzh.ifi.hase.soprafs22.entity.Game;
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
 import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
@@ -15,11 +14,8 @@ import ch.uzh.ifi.hase.soprafs22.service.RaveWaverService;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +28,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
@@ -41,10 +39,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @WebMvcTest(LobbyController.class)
 class LobbyControllerTest {
@@ -93,7 +87,8 @@ class LobbyControllerTest {
     private String asJsonString(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+        }
+        catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("The request body could not be created.%s", e));
         }
@@ -132,8 +127,6 @@ class LobbyControllerTest {
         //playerPostDTO.setRaveWaverId(1L);
 
 
-
-
         Player player = new Player();
         player.setPlayerName("Name");
         player.setId(1L);
@@ -160,7 +153,7 @@ class LobbyControllerTest {
 
         mockMvc.perform(postRequest).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.playerName", is(player.getPlayerName())))
-                .andExpect(jsonPath("$.lobbyId", is((int)player.getlobbyId())));
+                .andExpect(jsonPath("$.lobbyId", is((int) player.getlobbyId())));
 
     }
 

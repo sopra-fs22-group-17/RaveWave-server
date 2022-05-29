@@ -16,7 +16,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +57,7 @@ public class WebsocketControllerTest {
 
     private WebSocketStompClient stompClient;
     private StompSession stompSession;
-    private WsTestUtils wsTestUtils = new WsTestUtils();
+    private final WsTestUtils wsTestUtils = new WsTestUtils();
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -225,7 +224,7 @@ public class WebsocketControllerTest {
         leaderboardDTO.setSpotifyLink("SpotifyLink");
         leaderboardDTO.setPlayers(null);
 
-        given(gameService.endRound((long) lobbyId)).willReturn(leaderboardDTO);
+        given(gameService.endRound(lobbyId)).willReturn(leaderboardDTO);
 
         webSocketController.endRound((long) lobbyId);
 
@@ -242,7 +241,8 @@ public class WebsocketControllerTest {
     private String asJsonString(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+        }
+        catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("The request body could not be created.%s", e));
         }

@@ -16,7 +16,10 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.CurrentAnswersDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
 import org.apache.hc.core5.http.ParseException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -29,7 +32,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class GameServiceTest {
@@ -136,7 +140,7 @@ public class GameServiceTest {
     }
 
     @Test
-    public void updateGameSettingsTest(){
+    public void updateGameSettingsTest() {
         GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
         gameSettingsDTO.setRoundDuration(RoundDuration.EIGHTEEN);
         gameSettingsDTO.setGameRounds(12);
@@ -152,7 +156,7 @@ public class GameServiceTest {
 
 
     @Test
-    public void startNextRoundTest(){
+    public void startNextRoundTest() {
         Player testPlayer2 = new Player();
         testPlayer2.setId(2L);
         testPlayer2.setLobbyId(2L);
@@ -185,11 +189,11 @@ public class GameServiceTest {
 
         QuestionDTO questionDTO = gameService.startNextRound(2);
 
-        assertEquals(questionDTO.getQuestion(), question.getQuestion() );
+        assertEquals(questionDTO.getQuestion(), question.getQuestion());
     }
 
     @Test
-    public void fillAnswersTest(){
+    public void fillAnswersTest() {
         Game game = org.mockito.Mockito.mock(Game.class);
 
         GameRepository.addGame(2, game);
@@ -203,7 +207,7 @@ public class GameServiceTest {
 
 
     @Test
-    public void endRoundTest(){
+    public void endRoundTest() {
         Player testPlayer2 = new Player();
         testPlayer2.setId(2L);
         testPlayer2.setLobbyId(2L);
@@ -232,7 +236,7 @@ public class GameServiceTest {
 
 
     @Test
-    public void endRoundGameOverTest(){
+    public void endRoundGameOverTest() {
         LeaderboardDTO leaderboardDTO = new LeaderboardDTO();
         leaderboardDTO.setCorrectAnswer("correctAnswer");
         leaderboardDTO.setGameOver(true);
@@ -258,12 +262,6 @@ public class GameServiceTest {
 
         assertThrows(ResponseStatusException.class, () -> GameRepository.findByLobbyId(2));
     }
-
-
-
-
-
-
 
 
 }

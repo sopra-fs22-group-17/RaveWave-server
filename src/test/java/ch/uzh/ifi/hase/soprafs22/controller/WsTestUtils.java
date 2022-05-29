@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 
 class WsTestUtils {
 
-    private static Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     WebSocketStompClient createWebSocketClient() {
         /*
@@ -31,7 +31,7 @@ class WsTestUtils {
         stompClient.setMessageConverter(new StringMessageConverter());*/
 
         List<Transport> transports = new ArrayList<>(1);
-        transports.add(new WebSocketTransport( new StandardWebSocketClient()) );
+        transports.add(new WebSocketTransport(new StandardWebSocketClient()));
         WebSocketClient transport = new SockJsClient(transports);
 
         WebSocketStompClient stompClient = new WebSocketStompClient(transport);
@@ -68,11 +68,12 @@ class WsTestUtils {
 
         @Override
         public void handleFrame(StompHeaders headers, Object payload) {
-            GameSettingsDTO obj =  (GameSettingsDTO)payload;
+            GameSettingsDTO obj = (GameSettingsDTO) payload;
             log.info("received message: {} with headers: {}", obj, headers);
             frameHandler.accept(payload.toString());
         }
     }
+
     public static class MyStompFrameHandlerStartGame implements StompFrameHandler {
 
         private final Consumer<String> frameHandler;
@@ -88,11 +89,12 @@ class WsTestUtils {
 
         @Override
         public void handleFrame(StompHeaders headers, Object payload) {
-            QuestionDTO obj =  (QuestionDTO)payload;
+            QuestionDTO obj = (QuestionDTO) payload;
             log.info("received message: {} with headers: {}", obj, headers);
             frameHandler.accept(payload.toString());
         }
     }
+
     public static class MyStompFrameHandlerSaveAnswer implements StompFrameHandler {
 
         private final Consumer<String> frameHandler;
@@ -108,7 +110,7 @@ class WsTestUtils {
 
         @Override
         public void handleFrame(StompHeaders headers, Object payload) {
-            CurrentAnswersDTO obj =  (CurrentAnswersDTO)payload;
+            CurrentAnswersDTO obj = (CurrentAnswersDTO) payload;
             log.info("received message: {} with headers: {}", obj, headers);
             frameHandler.accept(payload.toString());
         }
@@ -129,7 +131,7 @@ class WsTestUtils {
 
         @Override
         public void handleFrame(StompHeaders headers, Object payload) {
-            LeaderboardDTO obj =  (LeaderboardDTO)payload;
+            LeaderboardDTO obj = (LeaderboardDTO) payload;
             log.info("received message: {} with headers: {}", obj, headers);
             frameHandler.accept(payload.toString());
         }
@@ -150,7 +152,7 @@ class WsTestUtils {
 
         @Override
         public void handleFrame(StompHeaders headers, Object payload) {
-            QuestionDTO obj =  (QuestionDTO)payload;
+            QuestionDTO obj = (QuestionDTO) payload;
             log.info("received message: {} with headers: {}", obj, headers);
             frameHandler.accept(payload.toString());
         }

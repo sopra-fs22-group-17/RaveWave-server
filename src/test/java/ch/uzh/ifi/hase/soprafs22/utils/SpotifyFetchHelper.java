@@ -11,7 +11,7 @@ import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUser
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
 
 public class SpotifyFetchHelper {
-    private SpotifyApi spotifyApi;
+    private final SpotifyApi spotifyApi;
 
     public SpotifyFetchHelper() {
         spotifyApi = new SpotifyApi.Builder()
@@ -32,7 +32,8 @@ public class SpotifyFetchHelper {
             final Paging<Track> trackPaging = request.execute();
             return trackPaging.getItems();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return null;
         }
 
@@ -45,7 +46,8 @@ public class SpotifyFetchHelper {
             final Paging<PlaylistTrack> playlistTrackPaging = request.execute();
             return playlistTrackPaging.getItems();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return null;
         }
     }
@@ -57,7 +59,8 @@ public class SpotifyFetchHelper {
             final Paging<SavedTrack> savedTrackPaging = request.execute();
             return savedTrackPaging.getItems();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return null;
         }
 
@@ -70,7 +73,8 @@ public class SpotifyFetchHelper {
             final Paging<PlaylistTrack> playlistTrackPaging = request.execute();
             return playlistTrackPaging.getItems();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return null;
         }
     }

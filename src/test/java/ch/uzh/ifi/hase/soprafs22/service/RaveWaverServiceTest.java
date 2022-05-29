@@ -47,7 +47,6 @@ public class RaveWaverServiceTest {
     private SpotifyService spotifyService;
 
 
-
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
@@ -152,17 +151,17 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void getUserByUsernameNotExistingTest(){
+    public void getUserByUsernameNotExistingTest() {
         assertThrows(ResponseStatusException.class, () -> raveWaverService.getUserByUsername("doesn't exist"));
     }
 
     @Test
-    public void getRaveWaverByIdNotExistingTest(){
+    public void getRaveWaverByIdNotExistingTest() {
         assertThrows(ResponseStatusException.class, () -> raveWaverService.getRaveWaverById(2L));
     }
 
     @Test
-    public void addRaveWaverToLobbyTest(){
+    public void addRaveWaverToLobbyTest() {
         Game game = org.mockito.Mockito.mock(Game.class);
         gameService.createNewLobby(spotifyService);
         GameRepository.addGame(1, game);
@@ -182,7 +181,7 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void addRaveWaverToLobbyInvalidTest(){
+    public void addRaveWaverToLobbyInvalidTest() {
         Game game = org.mockito.Mockito.mock(Game.class);
         gameService.createNewLobby(spotifyService);
         GameRepository.addGame(1, game);
@@ -203,7 +202,7 @@ public class RaveWaverServiceTest {
 
     //TODO
     @Test
-    public void getRaveWaverByTokenTest(){
+    public void getRaveWaverByTokenTest() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.addHeader("Authorization", "token");
         Mockito.when(raveWaverRepository.findByToken("token")).thenReturn(testRaveWaver);
@@ -212,7 +211,7 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void getRaveWaverByInvalidTokenTest(){
+    public void getRaveWaverByInvalidTokenTest() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.addHeader("Authorization", "invalidToken");
 
@@ -232,6 +231,6 @@ public class RaveWaverServiceTest {
         when(spotifyService.generateProfilePicture(testRaveWaver)).thenReturn("profilePicture");
 
         raveWaverService.updateSpotifyToken(mockRequest, spotifyService);
-        assertEquals( "newToken",testRaveWaver.getToken());
+        assertEquals("newToken", testRaveWaver.getToken());
     }
 }

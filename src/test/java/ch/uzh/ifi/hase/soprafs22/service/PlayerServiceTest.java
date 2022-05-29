@@ -14,8 +14,8 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.PlayerJoinDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -85,7 +85,7 @@ public class PlayerServiceTest {
 
     @Disabled
     @Test
-    public void greetPlayersTest(){
+    public void greetPlayersTest() {
 
         Player testPlayer2 = new Player();
         testPlayer2.setPlayerName("testPlayer2");
@@ -105,16 +105,16 @@ public class PlayerServiceTest {
         Mockito.when(playerRepository.findByLobbyId(1L)).thenReturn(players);
         Mockito.when(playerService.likedGameModeUnlocked(1L)).thenReturn(true);
         Mockito.verify(webSocketService, Mockito.times(0)).sendMessageToClients(Mockito.matches("/topic/lobbies/1"),
-                 Mockito.any());
+                Mockito.any());
     }
 
     @Test
-    public void likedGameUnlockedArtistGameTest(){
+    public void likedGameUnlockedArtistGameTest() {
         assertTrue(playerService.likedGameModeUnlocked(1L));
     }
 
     @Test
-    public void likedGameUnlockedLikedGameTest(){
+    public void likedGameUnlockedLikedGameTest() {
         GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
         gameSettingsDTO.setRoundDuration(RoundDuration.EIGHTEEN);
         gameSettingsDTO.setGameRounds(12);
@@ -133,7 +133,6 @@ public class PlayerServiceTest {
 
         assertFalse(playerService.likedGameModeUnlocked(1L));
     }
-
 
 
 }

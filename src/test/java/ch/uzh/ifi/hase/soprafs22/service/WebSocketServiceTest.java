@@ -9,7 +9,6 @@ import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

@@ -1,35 +1,21 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
 import ch.uzh.ifi.hase.soprafs22.entity.Player;
-import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
-import ch.uzh.ifi.hase.soprafs22.spotify.GetUserTopTracks;
 import ch.uzh.ifi.hase.soprafs22.utils.SpotifyFetchHelper;
-import ch.uzh.ifi.hase.soprafs22.utils.TestUtil;
-import se.michaelthelin.spotify.SpotifyApi;
-import se.michaelthelin.spotify.SpotifyHttpManager;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
 import se.michaelthelin.spotify.model_objects.specification.Track;
-import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SpotifyServiceTest {
 

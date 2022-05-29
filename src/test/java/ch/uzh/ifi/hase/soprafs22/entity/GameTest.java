@@ -173,13 +173,13 @@ public class GameTest {
     }
 
     @Test
-    public void howManyAnsweredTest(){
+    public void howManyAnsweredTest() {
         assertEquals(0, testGame.howManyAnswered());
     }
 
 
     @Test
-    public void startGameTest(){
+    public void startGameTest() {
         Game game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository2);
         ArrayList<Song> songs = new ArrayList<>();
 
@@ -200,7 +200,9 @@ public class GameTest {
         Mockito.doNothing().when(spotifyService).authorizationCodeRefresh(raveWaver);
         game.startGame(players);
 
-        Exception e = Assertions.assertThrows(IndexOutOfBoundsException.class, () -> {testGame.startNextTurn(players);});
+        Exception e = Assertions.assertThrows(IndexOutOfBoundsException.class, () -> {
+            testGame.startNextTurn(players);
+        });
         String msg = e.getMessage();
         assertEquals("Index 0 out of bounds for length 0", msg);
     }
@@ -283,7 +285,7 @@ public class GameTest {
         Question question = game.startNextTurn(players);
         LeaderboardDTO leaderboardDTO = game.endRound(players);
 
-        assertEquals(question.getArtist(),leaderboardDTO.getArtist());
+        assertEquals(question.getArtist(), leaderboardDTO.getArtist());
     }
 
     @Test

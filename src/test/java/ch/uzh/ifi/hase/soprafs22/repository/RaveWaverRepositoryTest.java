@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.repository;
 
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -70,7 +69,7 @@ class RaveWaverRepositoryTest {
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         raveWaverRepository.deleteAll();
     }
 

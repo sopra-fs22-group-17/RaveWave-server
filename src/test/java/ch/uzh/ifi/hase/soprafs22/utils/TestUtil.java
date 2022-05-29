@@ -1,22 +1,16 @@
 package ch.uzh.ifi.hase.soprafs22.utils;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import se.michaelthelin.spotify.IHttpManager;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.hc.core5.http.Header;
-import org.apache.hc.core5.http.HttpEntity;
-
-import se.michaelthelin.spotify.IHttpManager;
-import se.michaelthelin.spotify.SpotifyApi;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TestUtil {
     private static final String FIXTURE_DIR = "src/test/json/";
@@ -43,7 +37,8 @@ public class TestUtil {
     protected static String readFromFileTry(File file) {
         try {
             return readFromFile(file);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.println("WHY");
             return null;
         }
@@ -61,8 +56,8 @@ public class TestUtil {
                 fixture = readTestData(jsonFixtureFileName);
             }
 
-            when(mockedHttpManager.get(any(URI.class), (Header[]) any(Header[].class))).thenReturn(fixture);
-            when(mockedHttpManager.post(any(URI.class), any(Header[].class), (HttpEntity) any(HttpEntity.class)))
+            when(mockedHttpManager.get(any(URI.class), any(Header[].class))).thenReturn(fixture);
+            when(mockedHttpManager.post(any(URI.class), any(Header[].class), any(HttpEntity.class)))
                     .thenReturn(fixture);
             when(mockedHttpManager.put(any(URI.class), any(Header[].class), any(HttpEntity.class))).thenReturn(fixture);
             when(mockedHttpManager.delete(any(URI.class), any(Header[].class), any(HttpEntity.class)))
