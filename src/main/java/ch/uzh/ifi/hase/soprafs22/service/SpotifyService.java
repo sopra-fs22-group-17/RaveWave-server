@@ -70,7 +70,9 @@ public class SpotifyService {
     }
 
     public ArrayList<Song> getPlaylistsItems(String playlistId) {
-        return playlistTrackToTrackList(fetchPlaylistsItems(spotifyApi, playlistId));
+        ArrayList<Song> songs = playlistTrackToTrackList(fetchPlaylistsItems(spotifyApi, playlistId));
+        songs.removeIf(song -> song.getTrack().getPreviewUrl() == null);
+        return songs;
     }
 
     public String getRaveWaverProfilePicture() throws IOException, ParseException, SpotifyWebApiException {
@@ -88,7 +90,9 @@ public class SpotifyService {
         if (opRaveWaver.isPresent()) {
             RaveWaver raveWaver = opRaveWaver.get();
             spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
-            return trackToTrackList(fetchUsersTopTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
+            ArrayList<Song> songs = trackToTrackList(fetchUsersTopTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
+            songs.removeIf(song -> song.getTrack().getPreviewUrl() == null);
+            return songs;
         }
         return null;
     }
@@ -98,7 +102,9 @@ public class SpotifyService {
         if (opRaveWaver.isPresent()) {
             RaveWaver raveWaver = opRaveWaver.get();
             spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
-            return savedTracktoTrackList(fetchUserSaveTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
+            ArrayList<Song> songs = savedTracktoTrackList(fetchUserSaveTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
+            songs.removeIf(song -> song.getTrack().getPreviewUrl() == null);
+            return songs;
         }
         return null;
     }

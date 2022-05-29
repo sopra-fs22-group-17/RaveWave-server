@@ -39,4 +39,3 @@ We want to thank our Teaching Assistant [Tarek Alakmeh](https://github.com/orgs/
 
 ## License
 
-
