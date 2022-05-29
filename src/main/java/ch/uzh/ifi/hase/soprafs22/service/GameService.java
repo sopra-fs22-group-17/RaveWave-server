@@ -109,6 +109,8 @@ public class GameService {
         nextQuestionDTO.setPlayBackDuration(nextQuestion.getPlaybackDuration().toString());
         nextQuestionDTO.setCurrentRound(nextQuestion.getCurrentRound());
         nextQuestionDTO.setTotalRounds(nextQuestion.getTotalRounds());
+        nextQuestionDTO.setExpectedAnswers(game.getNumberOfPlayers());
+        nextQuestionDTO.setCurrentAnswers(game.howManyAnswered());
 
         ArrayList<AnswerOptionsDTO> options = new ArrayList<>();
         List<String> singleAnswer = nextQuestion.getAnswers();

@@ -20,8 +20,20 @@ public class Question {
     private String spotifyLink;
     private int currentRound;
     private int totalRounds;
-
+    private int expectedAnswers;
     private String coverUrl;
+
+    public GameMode getGamemode() {
+        return gamemode;
+    }
+
+    public int getExpectedAnswers() {
+        return expectedAnswers;
+    }
+
+    public void setExpectedAnswers(int expectedAnswers) {
+        this.expectedAnswers = expectedAnswers;
+    }
 
     public String getPreviewUrl() {
         return previewUrl;

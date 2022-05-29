@@ -11,6 +11,8 @@ public class QuestionDTO {
     private ArrayList<AnswerOptionsDTO> answers;
     private int currentRound;
     private int totalRounds;
+    private int currentAnswers;
+    private int expectedAnswers;
 
     public String getType() {
         return type;
@@ -70,6 +72,22 @@ public class QuestionDTO {
 
     public void setTotalRounds(int totalRounds) {
         this.totalRounds = totalRounds;
+    }
+
+    public int getExpectedAnswers() {
+        return expectedAnswers;
+    }
+
+    public void setExpectedAnswers(int expectedAnswers) {
+        this.expectedAnswers = expectedAnswers;
+    }
+
+    public int getCurrentAnswers() {
+        return currentAnswers;
+    }
+
+    public void setCurrentAnswers(int currentAnswers) {
+        this.currentAnswers = currentAnswers;
     }
 
     @Override
