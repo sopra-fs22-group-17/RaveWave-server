@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+@Disabled
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class WebsocketControllerTest {
@@ -59,8 +61,6 @@ public class WebsocketControllerTest {
     private StompSession stompSession;
     private WsTestUtils wsTestUtils = new WsTestUtils();
 
-
-
     @BeforeEach
     public void setUp() throws Exception {
         System.out.println(port);
@@ -68,7 +68,6 @@ public class WebsocketControllerTest {
         stompClient = wsTestUtils.createWebSocketClient();
         stompSession = stompClient.connect(wsUrl, new WsTestUtils.MyStompSessionHandler()).get();
     }
-
 
     @Test
     public void connectsToSocket() throws Exception {
@@ -79,11 +78,11 @@ public class WebsocketControllerTest {
     @Test
     public void updateGameSettingsTest() throws Exception {
 
-        //given
+        // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
         int lobbyId = 1;
         stompSession.subscribe(
-                "/topic/lobbies/"+lobbyId,
+                "/topic/lobbies/" + lobbyId,
                 new WsTestUtils.MyStompFrameHandlerGameSettings((payload) -> resultKeeper.complete(payload)));
 
         Thread.sleep(1000);
@@ -96,30 +95,27 @@ public class WebsocketControllerTest {
         gameSettingsDTO.setRoundDuration(RoundDuration.EIGHT);
         gameSettingsDTO.setSongPool(SongPool.LATIN);
 
-        doNothing().when(gameService).updateGameSettings(gameSettingsDTO,lobbyId);
-
+        doNothing().when(gameService).updateGameSettings(gameSettingsDTO, lobbyId);
 
         Thread.sleep(1000);
-        //when
+        // when
         webSocketController.updateGameSettings(lobbyId, gameSettingsDTO);
 
-
-        //then
+        // then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(gameSettingsDTO.toString());
     }
 
     @Test
     public void startGameTest() throws Exception {
 
-        //given
+        // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
         int lobbyId = 1;
         stompSession.subscribe(
-                "/topic/lobbies/"+lobbyId,
+                "/topic/lobbies/" + lobbyId,
                 new WsTestUtils.MyStompFrameHandlerStartGame((payload) -> resultKeeper.complete(payload)));
 
         Thread.sleep(1000);
-
 
         QuestionDTO question = new QuestionDTO();
         question.setCurrentRound(1);
@@ -134,22 +130,21 @@ public class WebsocketControllerTest {
         given(gameService.startNextRound(lobbyId)).willReturn(question);
 
         Thread.sleep(1000);
-        //when
+        // when
         webSocketController.startGame(lobbyId);
 
-
-        //then
+        // then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(question.toString());
     }
 
     @Test
     public void saveAnswerTest() throws Exception {
 
-        //given
+        // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
         int lobbyId = 1;
         stompSession.subscribe(
-                "/topic/lobbies/"+lobbyId,
+                "/topic/lobbies/" + lobbyId,
                 new WsTestUtils.MyStompFrameHandlerSaveAnswer((payload) -> resultKeeper.complete(payload)));
 
         Thread.sleep(1000);
@@ -160,7 +155,6 @@ public class WebsocketControllerTest {
         answer.setplayerGuess(1);
         answer.setToken("THISISATOKEN");
 
-
         CurrentAnswersDTO currentAnswersDTO = new CurrentAnswersDTO();
         currentAnswersDTO.setCurrentAnswers(1);
         currentAnswersDTO.setExpectedAnswers(2);
@@ -170,22 +164,21 @@ public class WebsocketControllerTest {
         given(gameService.fillAnswers(lobbyId)).willReturn(currentAnswersDTO);
 
         Thread.sleep(1000);
-        //when
+        // when
         webSocketController.saveAnswer(lobbyId, 1, answer);
 
-
-        //then
+        // then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(currentAnswersDTO.toString());
     }
 
     @Test
     public void startNextRoundTest() throws Exception {
 
-        //given
+        // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
         int lobbyId = 1;
         stompSession.subscribe(
-                "/topic/lobbies/"+lobbyId,
+                "/topic/lobbies/" + lobbyId,
                 new WsTestUtils.MyStompFrameHandlerStartNextRound((payload) -> resultKeeper.complete(payload)));
 
         Thread.sleep(1000);
@@ -201,30 +194,27 @@ public class WebsocketControllerTest {
 
         given(gameService.startNextRound(lobbyId)).willReturn(questionDTO);
 
-        //when
+        // when
         webSocketController.startNextRound(lobbyId);
 
-
-        //then
+        // then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(questionDTO.toString());
     }
 
     @Test
     public void endRoundTest() throws Exception {
 
-        //given
+        // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
         int lobbyId = 1;
         stompSession.subscribe(
-                "/topic/lobbies/"+lobbyId,
+                "/topic/lobbies/" + lobbyId,
                 new WsTestUtils.MyStompFrameHandlerEndRound((payload) -> resultKeeper.complete(payload)));
 
         Thread.sleep(1000);
 
-
         Thread.sleep(1000);
-        //when
-
+        // when
 
         LeaderboardDTO leaderboardDTO = new LeaderboardDTO();
 
@@ -236,11 +226,11 @@ public class WebsocketControllerTest {
         leaderboardDTO.setSpotifyLink("SpotifyLink");
         leaderboardDTO.setPlayers(null);
 
-        given(gameService.endRound((long)lobbyId)).willReturn(leaderboardDTO);
+        given(gameService.endRound((long) lobbyId)).willReturn(leaderboardDTO);
 
-        webSocketController.endRound((long)lobbyId);
+        webSocketController.endRound((long) lobbyId);
 
-        //then
+        // then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(leaderboardDTO.toString());
     }
 
@@ -253,13 +243,10 @@ public class WebsocketControllerTest {
     private String asJsonString(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
-        }
-        catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("The request body could not be created.%s", e));
         }
     }
 
 }
-
-
