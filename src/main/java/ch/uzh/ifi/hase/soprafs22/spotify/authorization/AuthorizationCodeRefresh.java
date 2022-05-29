@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.spotify.authorization;
 
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
@@ -23,7 +25,8 @@ public class AuthorizationCodeRefresh {
             // authorizationCodeCredentials.getExpiresIn());
         }
         catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+            //System.out.println("Error: " + e.getMessage());
         }
     }
 
