@@ -310,10 +310,10 @@ public class Game {
                 Matcher m = p.matcher(name);
                 boolean b = m.find();
                 if (b) {
-                    player.setProfilePicture("https://robohash.org/dontknow.png");
+                    player.setProfilePicture("https://api.multiavatar.com/dontknow.png");
                 }
                 else {
-                    player.setProfilePicture("https://robohash.org/" + player.getPlayerName() + ".png");
+                    player.setProfilePicture("https://api.multiavatar.com/" + player.getPlayerName() + ".png");
                 }
             }
         }

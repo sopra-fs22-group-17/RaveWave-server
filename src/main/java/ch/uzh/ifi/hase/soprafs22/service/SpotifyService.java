@@ -147,7 +147,7 @@ public class SpotifyService {
         }
 
         if (info.getImages().length == 0) {
-            return ("https://robohash.org/" + raveWaver.getUsername() + ".png");
+            return ("https://api.multiavatar.com/" + raveWaver.getUsername() + ".png");
         }
         return info.getImages()[0].getUrl();
     }

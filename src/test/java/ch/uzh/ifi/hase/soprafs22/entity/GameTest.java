@@ -141,7 +141,7 @@ public class GameTest {
         players.add(testPlayer);
         testGame.generateAvatar(players);
 
-        assertEquals(testPlayer.getProfilePicture(), "https://robohash.org/Test.png");
+        assertEquals( "https://api.multiavatar.com/Test.png", testPlayer.getProfilePicture());
     }
 
     @Test
@@ -152,7 +152,7 @@ public class GameTest {
         players.add(testPlayer);
         testGame.generateAvatar(players);
 
-        assertEquals(testPlayer.getProfilePicture(), "https://robohash.org/dontknow.png");
+        assertEquals( "https://api.multiavatar.com/dontknow.png", testPlayer.getProfilePicture());
     }
 
     @Test
