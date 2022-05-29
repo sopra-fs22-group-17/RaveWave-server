@@ -10,7 +10,7 @@ public enum SongPool {
     // https://open.spotify.com/playlist/0CFXqmgHlSnEzjSVMmZ24w?si=d9d28d2caea846a3
     PARTY("0CFXqmgHlSnEzjSVMmZ24w"),
     // https://open.spotify.com/playlist/37i9dQZF1DX7ZUug1ANKRP?si=ed597f24ca6243e8
-    TECHNO("560oqzJhNbJiQy4OPXXquw"),
+    GERMAN("560oqzJhNbJiQy4OPXXquw"),
 
     // https://open.spotify.com/playlist/0q1di38xTtJS21GjOtaeNb?si=9ecf843e99c242b6
     LATIN("0q1di38xTtJS21GjOtaeNb"),
