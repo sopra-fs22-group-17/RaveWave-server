@@ -10,7 +10,6 @@ import se.michaelthelin.spotify.model_objects.specification.SavedTrack;
 import se.michaelthelin.spotify.requests.data.library.GetUsersSavedTracksRequest;
 
 import java.io.IOException;
-
 public class GetUserSaveTracks {
     public static SavedTrack[] fetchUserSaveTracks(SpotifyApi spotifyApi) {
 
