@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,7 @@ public class WebSocketService {
     Logger log = LoggerFactory.getLogger(WebSocketService.class);
 
     public WebSocketService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
-                            @Lazy PlayerService playerService) {
+            @Lazy PlayerService playerService) {
         this.playerRepo = playerRepository;
         this.playerService = playerService;
     }
@@ -31,6 +30,5 @@ public class WebSocketService {
         this.smesg.convertAndSend(destination, dto);
 
     }
-
 
 }

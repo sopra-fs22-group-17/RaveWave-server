@@ -90,7 +90,8 @@ public class SpotifyService {
         if (opRaveWaver.isPresent()) {
             RaveWaver raveWaver = opRaveWaver.get();
             spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
-            ArrayList<Song> songs = trackToTrackList(fetchUsersTopTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
+            ArrayList<Song> songs = trackToTrackList(fetchUsersTopTracks(spotifyApi), raveWaverId,
+                    raveWaver.getUsername());
             songs.removeIf(song -> song.getTrack().getPreviewUrl() == null);
             return songs;
         }
@@ -102,7 +103,8 @@ public class SpotifyService {
         if (opRaveWaver.isPresent()) {
             RaveWaver raveWaver = opRaveWaver.get();
             spotifyApi.setAccessToken(raveWaver.getSpotifyToken());
-            ArrayList<Song> songs = savedTracktoTrackList(fetchUserSaveTracks(spotifyApi), raveWaverId, raveWaver.getUsername());
+            ArrayList<Song> songs = savedTracktoTrackList(fetchUserSaveTracks(spotifyApi), raveWaverId,
+                    raveWaver.getUsername());
             songs.removeIf(song -> song.getTrack().getPreviewUrl() == null);
             return songs;
         }
@@ -145,8 +147,7 @@ public class SpotifyService {
         User info;
         try {
             info = getCurrentUsersProfileRequest.execute();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Something went wrong when fetching the profile picture. Are you using a Spotify-Premium Account? "
                             + e.getMessage());

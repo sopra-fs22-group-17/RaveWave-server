@@ -44,12 +44,14 @@ public class RaveWaverService {
 
     private final RaveWaverRepository raveWaverRepository;
     private final PlayerRepository playerRepository;
-
+    private SpotifyService spotifyService;
 
     @Autowired
-    public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository, PlayerRepository playerRepository) {
+    public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository,
+            PlayerRepository playerRepository, SpotifyService spotifyService) {
         this.raveWaverRepository = raveWaverRepository;
         this.playerRepository = playerRepository;
+        this.spotifyService = spotifyService;
     }
 
     public static void verifyPassword(String passwordRaveWaver, String passwordLogin) {
@@ -75,7 +77,8 @@ public class RaveWaverService {
         return this.raveWaverRepository.findAll();
     }
 
-    public RaveWaver createRaveWaver(RaveWaver newRaveWaver) throws IOException, ParseException, SpotifyWebApiException {
+    public RaveWaver createRaveWaver(RaveWaver newRaveWaver)
+            throws IOException, ParseException, SpotifyWebApiException {
         newRaveWaver.setToken(UUID.randomUUID().toString());
         newRaveWaver.setCreationDate(LocalDate.now());
         checkIfRaveWaverExists(newRaveWaver);
@@ -158,7 +161,8 @@ public class RaveWaverService {
         }
     }
 
-    public void updateSpotifyToken(HttpServletRequest token, SpotifyService spotifyService) throws IOException, ParseException, SpotifyWebApiException {
+    public void updateSpotifyToken(HttpServletRequest token, SpotifyService spotifyService)
+            throws IOException, ParseException, SpotifyWebApiException {
         RaveWaver raveWaverToUpdate = getRaveWaverByToken(token);
         raveWaverToUpdate.setSpotifyToken(spotifyService.getAccessToken());
         raveWaverToUpdate.setSpotifyRefreshToken(spotifyService.getRefreshToken());
@@ -193,5 +197,20 @@ public class RaveWaverService {
         return convertedRaveWaver2;
     }
 
+    public void checkForValidSpotifyToken(RaveWaver raveWaver) {
+        if (raveWaver.getSpotifyRefreshToken() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "You do not have any SpotifyToken, create a new RaveWaver!");
+        } else {
+            try {
+                spotifyService.authorizationCodeRefresh(raveWaver);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "You do not have a valid SpotifyToken, create a new RaveWaver!");
+            }
+
+        }
+    }
 
 }

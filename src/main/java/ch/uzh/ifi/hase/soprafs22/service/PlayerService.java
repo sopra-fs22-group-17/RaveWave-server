@@ -28,7 +28,8 @@ public class PlayerService {
     Logger log = LoggerFactory.getLogger(PlayerService.class);
 
     @Autowired
-    public PlayerService(@Qualifier("PlayerRepository") PlayerRepository playerRepository, WebSocketService webSocketService) {
+    public PlayerService(@Qualifier("PlayerRepository") PlayerRepository playerRepository,
+            WebSocketService webSocketService) {
         this.playerRepository = playerRepository;
         this.webSocketService = webSocketService;
     }
@@ -36,8 +37,8 @@ public class PlayerService {
     public static void checkIfLobbyForPlayerExists(Player playerToBeCreated) {
         try {
             GameRepository.findByLobbyId((int) playerToBeCreated.getlobbyId());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adding the player failed: " + e.getMessage());
 
         }
@@ -97,7 +98,8 @@ public class PlayerService {
     }
 
     public boolean likedGameModeUnlocked(Long lobbyId) {
-        if (GameRepository.findByLobbyId(Math.toIntExact(lobbyId)).getGameSettings().getGameMode() != GameMode.LIKEDSONGGAME) {
+        if (GameRepository.findByLobbyId(Math.toIntExact(lobbyId)).getGameSettings()
+                .getGameMode() != GameMode.LIKEDSONGGAME) {
             return true;
         }
 
