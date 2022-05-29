@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class SongTitleGame implements GameType {
@@ -19,7 +20,7 @@ public class SongTitleGame implements GameType {
         this.question = new Question();
         this.songs = songs;
         this.songToPick = songToPick;
-        this.answerSongs = new ArrayList<Song>();
+        this.answerSongs = new ArrayList<>();
         generateQuestion();
     }
 
@@ -32,7 +33,7 @@ public class SongTitleGame implements GameType {
 
         String correctAnswer = songs.get(songToPick).getTrack().getName();
 
-        ArrayList<String> answers = new ArrayList<String>();
+        ArrayList<String> answers = new ArrayList<>();
 
         ArrayList<Integer> wrongAnswersIndex = new ArrayList<>();
 
@@ -57,7 +58,7 @@ public class SongTitleGame implements GameType {
             int wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
 
             // ensures that there will never be the same answer twice
-            while ((wrongAnswerIndex == songToPick || songs.get(wrongAnswerIndex).getTrack().getName() == songs.get(songToPick).getTrack().getName()) && wrongAnswersIndex.size() > 0) {
+            while ((wrongAnswerIndex == songToPick || Objects.equals(songs.get(wrongAnswerIndex).getTrack().getName(), songs.get(songToPick).getTrack().getName())) && wrongAnswersIndex.size() > 0) {
                 wrongAnswerIndex = wrongAnswersIndex.remove(rand.nextInt(wrongAnswersIndex.size()));
             }
             String answer = songs.get(wrongAnswerIndex).getTrack().getName();
@@ -90,7 +91,7 @@ public class SongTitleGame implements GameType {
 
     @Override
     public ArrayList<String> getPictures() {
-        ArrayList<String> albumCovers = new ArrayList<String>();
+        ArrayList<String> albumCovers = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
             albumCovers.add(answerSongs.get(i).getTrack().getAlbum().getImages()[1].getUrl());

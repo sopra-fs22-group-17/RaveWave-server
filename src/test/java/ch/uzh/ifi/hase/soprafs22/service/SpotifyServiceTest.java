@@ -39,7 +39,7 @@ public class SpotifyServiceTest {
     }
 
     @Test
-    public void trackToTrackListTest() throws Exception {
+    void trackToTrackListTest() throws Exception {
         Track[] tracks = sfh.getTopTracksFixtures();
         ArrayList<Song> songs = spotifyService.trackToTrackList(tracks, player.getRaveWaverId(),
                 player.getPlayerName());
@@ -49,7 +49,7 @@ public class SpotifyServiceTest {
     }
 
     @Test
-    public void savedTracktoTrackListTest() throws Exception {
+    void savedTracktoTrackListTest() throws Exception {
         SavedTrack[] tracks = sfh.getSavedTracksFixtures();
         ArrayList<Song> songs = spotifyService.savedTracktoTrackList(tracks, player.getRaveWaverId(),
                 player.getPlayerName());
@@ -59,7 +59,7 @@ public class SpotifyServiceTest {
     }
 
     @Test
-    public void playlistTrackToTrackListTest() throws Exception {
+    void playlistTrackToTrackListTest() throws Exception {
         PlaylistTrack[] tracks = sfh.getPlaylistFixtures();
         ArrayList<Song> songs = spotifyService.playlistTrackToTrackList(tracks);
         assertEquals(songs.get(0).getTrack(), tracks[0].getTrack());

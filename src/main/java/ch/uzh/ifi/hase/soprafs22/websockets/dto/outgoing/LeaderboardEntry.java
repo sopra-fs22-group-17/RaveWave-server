@@ -6,7 +6,6 @@ public class LeaderboardEntry {
     private String playerName;
 
     private int playerPosition;
-    //private int prevPosition;
     private int roundScore;
     private int totalScore;
     private int streak;
@@ -28,15 +27,6 @@ public class LeaderboardEntry {
         this.playerPosition = playerPosition;
     }
 
-    /*
-        public int getPrevPosition() {
-            return prevPosition;
-        }
-
-        public void setPrevPosition(int prevPosition) {
-            this.prevPosition = prevPosition;
-        }
-    */
     public int getRoundScore() {
         return roundScore;
     }

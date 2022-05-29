@@ -19,7 +19,7 @@ public class EvaluatorTest {
     }
 
     @Test
-    public void evaluationTestCorrectAnswer() {
+    void evaluationTestCorrectAnswer() {
         int correctAnswer = 1;
         RoundDuration roundDuration = RoundDuration.TEN;
 
@@ -27,7 +27,7 @@ public class EvaluatorTest {
     }
 
     @Test
-    public void evaluationTestWrongAnswer() {
+    void evaluationTestWrongAnswer() {
         int correctAnswer = 2;
         RoundDuration roundDuration = RoundDuration.TEN;
 

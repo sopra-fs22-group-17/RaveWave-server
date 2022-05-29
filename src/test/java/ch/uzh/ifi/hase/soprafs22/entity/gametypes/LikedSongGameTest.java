@@ -67,7 +67,7 @@ public class LikedSongGameTest {
     }
 
     @Test
-    public void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
+    void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
 
         Player one = new Player();
         one.setRaveWaverId(1L);

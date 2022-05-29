@@ -21,7 +21,7 @@ import java.io.IOException;
 public class WebSocketController {
     private final GameService gameService;
     private final WebSocketService webSocketService;
-    private final String destination = "/topic/lobbies/";
+    private final static String destination = "/topic/lobbies/";
     Logger log = LoggerFactory.getLogger(WebSocketController.class);
 
     public WebSocketController(GameService gameService, WebSocketService webSocketService) {
@@ -32,23 +32,22 @@ public class WebSocketController {
     @MessageMapping("/lobbies/{lobbyId}/setup")
     public void updateGameSettings(@DestinationVariable int lobbyId, GameSettingsDTO gameSettingsDTO) {
         // GameSettingsDTO gameSettingsDTO
-        log.info("Lobby" + lobbyId + ": Game settings updated");
+        log.info("Lobby {}: Game settings updated", lobbyId);
         gameService.updateGameSettings(gameSettingsDTO, lobbyId);
         this.webSocketService.sendMessageToClients(destination + lobbyId, gameSettingsDTO);
     }
 
     @MessageMapping("/lobbies/{lobbyId}/start-game")
     public void startGame(@DestinationVariable int lobbyId) throws IOException, ParseException, SpotifyWebApiException {
-        log.info("Lobby" + lobbyId + ": Game started.");
+        log.info("Lobby {}: Game started.", lobbyId);
         gameService.startGame(lobbyId);
         QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
-        System.out.println(questionToSend.getExpectedAnswers());
         this.webSocketService.sendMessageToClients(destination + lobbyId, questionToSend);
     }
 
     @MessageMapping("/lobbies/{lobbyId}/player/{playerId}/save-answer")
     public void saveAnswer(@DestinationVariable int lobbyId, @DestinationVariable int playerId, Answer answer) {
-        log.info("Lobby " + lobbyId + ": Player " + playerId + " has answered.");
+        log.info("Lobby {}: Player {} has answered.", lobbyId, playerId);
         boolean receivedAllAnswers = gameService.saveAnswer(answer, playerId);
         if (receivedAllAnswers) {
             endRound((long) lobbyId);
@@ -59,7 +58,7 @@ public class WebSocketController {
 
     @MessageMapping("/lobbies/{lobbyId}/end-round")
     public void endRound(@DestinationVariable Long lobbyId) {
-        log.info("Lobby" + lobbyId + ": round is over");
+        log.info("Lobby {}: round is over", lobbyId);
         // GameService rüeft evaluator uf
         LeaderboardDTO leaderboard = gameService.endRound(lobbyId);
         this.webSocketService.sendMessageToClients(destination + lobbyId, leaderboard);
@@ -69,8 +68,6 @@ public class WebSocketController {
     public void startNextRound(@DestinationVariable int lobbyId) {
         log.info("Next round started");
         QuestionDTO questionToSend = gameService.startNextRound(lobbyId);
-        System.out.println(questionToSend.getExpectedAnswers());
-        System.out.println(questionToSend.getCurrentAnswers());
         this.webSocketService.sendMessageToClients(destination + lobbyId, questionToSend);
     }
 

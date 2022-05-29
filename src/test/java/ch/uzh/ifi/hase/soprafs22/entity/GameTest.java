@@ -58,7 +58,7 @@ public class GameTest {
     }
 
     @Test
-    public void updateGameSettingsTest() {
+    void updateGameSettingsTest() {
 
         GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
         gameSettingsDTO.setGameMode(GameMode.ARTISTGAME);
@@ -78,7 +78,7 @@ public class GameTest {
     }
 
     @Test
-    public void fillLeaderboardTest() {
+    void fillLeaderboardTest() {
         Player player1 = new Player();
         player1.setPlayerName("TestPlayer");
         player1.setStreak(1);
@@ -112,7 +112,7 @@ public class GameTest {
     }
 
     @Test
-    public void sortPlayerTest() {
+    void sortPlayerTest() {
         Player player1 = new Player();
         Player player2 = new Player();
         Player player3 = new Player();
@@ -135,7 +135,7 @@ public class GameTest {
     }
 
     @Test
-    public void generateAvatarTest() throws IOException, ParseException, SpotifyWebApiException {
+    void generateAvatarTest() throws IOException, ParseException, SpotifyWebApiException {
         List<Player> players = new ArrayList<>();
         testPlayer.setRaveWaverId(0L);
         players.add(testPlayer);
@@ -145,7 +145,7 @@ public class GameTest {
     }
 
     @Test
-    public void generateAvatarSpaceTest() throws IOException, ParseException, SpotifyWebApiException {
+    void generateAvatarSpaceTest() throws IOException, ParseException, SpotifyWebApiException {
         List<Player> players = new ArrayList<>();
         testPlayer.setPlayerName("name with space");
         testPlayer.setRaveWaverId(0L);
@@ -156,7 +156,7 @@ public class GameTest {
     }
 
     @Test
-    public void generateAvatarRWTest() throws IOException, ParseException, SpotifyWebApiException {
+    void generateAvatarRWTest() throws IOException, ParseException, SpotifyWebApiException {
         Game game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository2);
         List<Player> players = new ArrayList<>();
         testPlayer.setPlayerName("name with space");
@@ -173,13 +173,13 @@ public class GameTest {
     }
 
     @Test
-    public void howManyAnsweredTest() {
+    void howManyAnsweredTest() {
         assertEquals(0, testGame.howManyAnswered());
     }
 
 
     @Test
-    public void startGameTest() {
+    void startGameTest() {
         Game game = new Game(spotifyService, SongPool.SWITZERLAND, raveWaverRepository2);
         ArrayList<Song> songs = new ArrayList<>();
 
@@ -208,7 +208,7 @@ public class GameTest {
     }
 
     @Test
-    public void startRockGameTest() throws Exception {
+    void startRockGameTest() throws Exception {
 
         SpotifyFetchHelper spotifyFetchHelper = new SpotifyFetchHelper();
         Game game = new Game(spotifyService, SongPool.PARTY, raveWaverRepository2);
@@ -248,7 +248,7 @@ public class GameTest {
     }
 
     @Test
-    public void endRoundTest() throws Exception {
+    void endRoundTest() throws Exception {
 
         SpotifyFetchHelper spotifyFetchHelper = new SpotifyFetchHelper();
         Game game = new Game(spotifyService, SongPool.PARTY, raveWaverRepository2);
@@ -289,7 +289,7 @@ public class GameTest {
     }
 
     @Test
-    public void startUserTopTracksGameTest() throws Exception {
+    void startUserTopTracksGameTest() throws Exception {
 
         SpotifyFetchHelper spotifyFetchHelper = new SpotifyFetchHelper();
         Game game = new Game(spotifyService, SongPool.PARTY, raveWaverRepository2);
@@ -330,7 +330,7 @@ public class GameTest {
 
 
     @Test
-    public void startUserSavedTracksGameTest() throws Exception {
+    void startUserSavedTracksGameTest() throws Exception {
 
         SpotifyFetchHelper spotifyFetchHelper = new SpotifyFetchHelper();
         Game game = new Game(spotifyService, SongPool.PARTY, raveWaverRepository2);

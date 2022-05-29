@@ -40,7 +40,7 @@ public class PlayerRepositoryTest {
     }
 
     @Test
-    public void findByNameSuccess() {
+    void findByNameSuccess() {
         // when
         Player found = playerRepository.findByPlayerNameAndLobbyId(player.getPlayerName(), player.getlobbyId());
 
@@ -56,7 +56,7 @@ public class PlayerRepositoryTest {
     }
 
     @Test
-    public void findByLobbyIdSuccess() {
+    void findByLobbyIdSuccess() {
         List<Player> players = playerRepository.findByLobbyId(1L);
 
         assertEquals(players.get(0), player);
@@ -64,7 +64,7 @@ public class PlayerRepositoryTest {
     }
 
     @Test
-    public void findByLobbyIdNotInLobby() {
+    void findByLobbyIdNotInLobby() {
         List<Player> players = playerRepository.findByLobbyId(2L);
 
         assertTrue(players.isEmpty());
@@ -72,7 +72,7 @@ public class PlayerRepositoryTest {
     }
 
     @Test
-    public void findByIdTest() {
+    void findByIdTest() {
         Optional<Player> found = playerRepository.findById(player.getId());
         assertEquals(found.get(), player);
     }

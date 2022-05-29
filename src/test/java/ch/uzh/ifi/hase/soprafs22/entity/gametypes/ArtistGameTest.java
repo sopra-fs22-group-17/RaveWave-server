@@ -70,7 +70,7 @@ public class ArtistGameTest {
     }
 
     @Test
-    public void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
+    void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
         System.out.println(songs.get(0).getTrack().getName());
         ArtistGame artistGame = new ArtistGame(1, songs, spotifyService2);
 

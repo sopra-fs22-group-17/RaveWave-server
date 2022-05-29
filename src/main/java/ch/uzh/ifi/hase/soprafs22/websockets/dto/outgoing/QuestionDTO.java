@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 import java.util.ArrayList;
 
 public class QuestionDTO {
-    private final String type = "question";
+    private final static String type = "question";
     private String question;
     private String previewURL;
     private String songTitle;

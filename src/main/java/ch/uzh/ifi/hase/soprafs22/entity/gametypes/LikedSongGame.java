@@ -131,7 +131,7 @@ public class LikedSongGame implements GameType {
 
     @Override
     public ArrayList<String> getPictures() {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     private Player createDummyPlayer() {

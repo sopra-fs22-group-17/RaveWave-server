@@ -48,7 +48,7 @@ public class RaveWaverService {
 
     @Autowired
     public RaveWaverService(@Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository,
-            PlayerRepository playerRepository, SpotifyService spotifyService) {
+                            PlayerRepository playerRepository, SpotifyService spotifyService) {
         this.raveWaverRepository = raveWaverRepository;
         this.playerRepository = playerRepository;
         this.spotifyService = spotifyService;

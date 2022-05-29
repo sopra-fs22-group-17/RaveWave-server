@@ -7,9 +7,7 @@ public class RaveWaverGetDTO {
     private Long id;
     private String username;
     private int level;
-    //private String spotifyToken;
 
-    //private String spotifyRefreshToken;
     private LocalDate creationDate;
 
     private String profilePicture;

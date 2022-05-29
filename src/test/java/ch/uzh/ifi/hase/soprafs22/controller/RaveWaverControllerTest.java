@@ -62,7 +62,7 @@ public class RaveWaverControllerTest {
     }
 
     @Test
-    public void test_get_allRaveWavers() throws Exception {
+    void test_get_allRaveWavers() throws Exception {
 
         List<RaveWaver> allRaveWavers = Collections.singletonList(raveWaver);
 
@@ -83,7 +83,7 @@ public class RaveWaverControllerTest {
     }
 
     @Test
-    public void test_post_createNewRaveWaver() throws Exception {
+    void test_post_createNewRaveWaver() throws Exception {
         // given
         RaveWaverPostDTO raveWaverPostDTO = new RaveWaverPostDTO();
         raveWaverPostDTO.setUsername("testUsername");
@@ -109,7 +109,7 @@ public class RaveWaverControllerTest {
     }
 
     @Test
-    public void test_post_createNewRaveWaver_raveWavernameConflict() throws Exception {
+    void test_post_createNewRaveWaver_raveWavernameConflict() throws Exception {
         given(raveWaverService.createRaveWaver(Mockito.any())).willThrow(new ResponseStatusException(HttpStatus.CONFLICT, "error"));
 
         RaveWaverPostDTO raveWaverPostDTO = new RaveWaverPostDTO();
@@ -125,7 +125,7 @@ public class RaveWaverControllerTest {
     }
 
     @Test
-    public void test_post_raveWaverLogin() throws Exception {
+    void test_post_raveWaverLogin() throws Exception {
 
         LoginPostDTO loginPostDTO = new LoginPostDTO();
         loginPostDTO.setUsername("raveWavername");
@@ -147,7 +147,7 @@ public class RaveWaverControllerTest {
     }
 
     @Test
-    public void test_get_singleRaveWaver() throws Exception {
+    void test_get_singleRaveWaver() throws Exception {
 
         long id = raveWaver.getId();
 
@@ -163,7 +163,7 @@ public class RaveWaverControllerTest {
     }
 
     @Test
-    public void test_get_singleRaveWaver_raveWaverNotFound() throws Exception {
+    void test_get_singleRaveWaver_raveWaverNotFound() throws Exception {
 
         long id = 0;
         given(raveWaverService.getRaveWaverById(id)).willThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "error"));

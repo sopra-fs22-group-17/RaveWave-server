@@ -36,7 +36,6 @@ import java.util.List;
 public class GameService {
     private final PlayerRepository playerRepository;
     private final RaveWaverRepository raveWaverRepository;
-    private final PlayerService playerService;
     Logger log = LoggerFactory.getLogger(GameService.class);
     private int lobbyToCreate;
 
@@ -46,7 +45,6 @@ public class GameService {
                        @Qualifier("raveWaverRepository") RaveWaverRepository raveWaverRepository, PlayerService playerService) {
         this.playerRepository = playerRepository;
         this.raveWaverRepository = raveWaverRepository;
-        this.playerService = playerService;
         this.lobbyToCreate = 0;
     }
 

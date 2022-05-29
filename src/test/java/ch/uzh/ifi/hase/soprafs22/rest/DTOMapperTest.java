@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DTOMapperTest {
     @Test
-    public void ConvertRaveWaverPostDTOToEntityTest() throws NoSuchAlgorithmException {
+    void ConvertRaveWaverPostDTOToEntityTest() throws NoSuchAlgorithmException {
 
         RaveWaverPostDTO raveWaverPostDTO = new RaveWaverPostDTO();
         raveWaverPostDTO.setUsername("username");
@@ -30,7 +30,7 @@ public class DTOMapperTest {
     }
 
     @Test
-    public void convertEntitytoRaveWaverGetDTOTest() throws NoSuchAlgorithmException {
+    void convertEntitytoRaveWaverGetDTOTest() throws NoSuchAlgorithmException {
         RaveWaver raveWaver = new RaveWaver();
         raveWaver.setId(1L);
         raveWaver.setUsername("test");
@@ -49,7 +49,7 @@ public class DTOMapperTest {
     }
 
     @Test
-    public void conevertPlayerPostDTOtoEntityTest() {
+    void conevertPlayerPostDTOtoEntityTest() {
         PlayerPostDTO playerPostDTO = new PlayerPostDTO();
 
         Player testPlayer = DTOMapper.INSTANCE.convertPlayerPostDTOtoEntity(playerPostDTO);
@@ -58,7 +58,7 @@ public class DTOMapperTest {
     }
 
     @Test
-    public void convertEntityToPlayerGetDTOTest() {
+    void convertEntityToPlayerGetDTOTest() {
         Player player = new Player();
         player.setId(1L);
         player.setPlayerName("playerName");

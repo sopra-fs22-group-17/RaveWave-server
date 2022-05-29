@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.entity.gametypes;
 
 import ch.uzh.ifi.hase.soprafs22.constant.GameMode;
-import ch.uzh.ifi.hase.soprafs22.controller.LobbyController;
 import ch.uzh.ifi.hase.soprafs22.entity.Question;
 import ch.uzh.ifi.hase.soprafs22.entity.Song;
 import ch.uzh.ifi.hase.soprafs22.service.SpotifyService;
@@ -25,13 +24,13 @@ public class ArtistGame implements GameType {
     private final int songToPick;
     private final ArrayList<Track> answerSongs;
     private final SpotifyService spotifyService;
-    Logger log = LoggerFactory.getLogger(LobbyController.class);
+    Logger log = LoggerFactory.getLogger(ArtistGame.class);
 
     public ArtistGame(int songToPick, ArrayList<Song> songs, SpotifyService spotifyService2) {
         this.question = new Question();
         this.songs = songs;
         this.songToPick = songToPick;
-        this.answerSongs = new ArrayList<Track>();
+        this.answerSongs = new ArrayList<>();
         this.spotifyService = spotifyService2;
         generateQuestion();
 
@@ -55,7 +54,7 @@ public class ArtistGame implements GameType {
 
         question.setArtist(correctAnswer.toString());
 
-        ArrayList<String> answers = new ArrayList<String>();
+        ArrayList<String> answers = new ArrayList<>();
 
         ArrayList<Integer> wrongAnswersIndex = new ArrayList<>();
 
@@ -109,7 +108,7 @@ public class ArtistGame implements GameType {
     }
 
     public ArrayList<String> getPictures() {
-        ArrayList<String> artistPictures = new ArrayList<String>();
+        ArrayList<String> artistPictures = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
             String id = answerSongs.get(i).getArtists()[0].getId();

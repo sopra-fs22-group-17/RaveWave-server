@@ -2,7 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing;
 
 public class CurrentAnswersDTO {
 
-    private final String type = "answerCount";
+    private final static String type = "answerCount";
     private int currentAnswers;
     private int expectedAnswers;
 

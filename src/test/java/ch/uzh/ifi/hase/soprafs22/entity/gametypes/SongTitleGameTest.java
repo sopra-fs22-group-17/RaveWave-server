@@ -67,7 +67,7 @@ public class SongTitleGameTest {
     }
 
     @Test
-    public void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
+    void generateQuestionTest() throws ParseException, SpotifyWebApiException, IOException {
         SongTitleGame songTitleGame = new SongTitleGame(1, songs);
 
         assertEquals(mockQuestion.getSongTitle(), songTitleGame.getQuestion().getSongTitle());

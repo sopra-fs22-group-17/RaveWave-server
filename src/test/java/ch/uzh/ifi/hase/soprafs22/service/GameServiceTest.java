@@ -15,10 +15,8 @@ import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.CurrentAnswersDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.LeaderboardDTO;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.QuestionDTO;
-import org.apache.hc.core5.http.ParseException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,9 +24,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.server.ResponseStatusException;
-import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,14 +82,14 @@ public class GameServiceTest {
 
 
     @Test
-    public void saveAnswerTest() {
+    void saveAnswerTest() {
 
         gameService.saveAnswer(testAnswer, 1);
         assertEquals(testAnswer, testGame.getListOfAnswers().get(0));
     }
 
     @Test
-    public void saveAnswerWithoutTokenTest() {
+    void saveAnswerWithoutTokenTest() {
 
         Answer answerWithoutToken = new Answer();
 
@@ -101,7 +97,7 @@ public class GameServiceTest {
     }
 
     @Test
-    public void saveAnswerWrongTokenTest() {
+    void saveAnswerWrongTokenTest() {
         Player testPlayer2 = new Player();
         testPlayer2.setToken("WrongToken");
         testPlayer2.setLobbyId(1L);
@@ -114,33 +110,8 @@ public class GameServiceTest {
         assertThrows(ResponseStatusException.class, () -> gameService.saveAnswer(answerWrongToken, 1));
     }
 
-    @Disabled
     @Test
-    public void startGameTest() throws IOException, ParseException, SpotifyWebApiException {
-
-        Player testPlayer2 = new Player();
-        testPlayer2.setId(2L);
-        testPlayer2.setLobbyId(2L);
-        testPlayer2.setPlayerName("testy hello");
-        List<Player> players = new ArrayList<>();
-        players.add(testPlayer2);
-
-        Game game = org.mockito.Mockito.mock(Game.class);
-        gameService.createNewLobby(spotifyService);
-        GameRepository.addGame(2, game);
-        playerService.addPlayer(testPlayer2);
-
-        Mockito.when(playerRepository.findByPlayerNameAndLobbyId("testy hello", 2)).thenReturn(testPlayer2);
-        Mockito.doNothing().when(game).startGame(players);
-
-        gameService.startGame(2);
-        String profilePic = playerRepository.findByPlayerNameAndLobbyId("testy hello", 2).getProfilePicture();
-
-        assertEquals("https://robohash.org/dontknow.png", profilePic);
-    }
-
-    @Test
-    public void updateGameSettingsTest() {
+    void updateGameSettingsTest() {
         GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
         gameSettingsDTO.setRoundDuration(RoundDuration.EIGHTEEN);
         gameSettingsDTO.setGameRounds(12);
@@ -156,7 +127,7 @@ public class GameServiceTest {
 
 
     @Test
-    public void startNextRoundTest() {
+    void startNextRoundTest() {
         Player testPlayer2 = new Player();
         testPlayer2.setId(2L);
         testPlayer2.setLobbyId(2L);
@@ -193,7 +164,7 @@ public class GameServiceTest {
     }
 
     @Test
-    public void fillAnswersTest() {
+    void fillAnswersTest() {
         Game game = org.mockito.Mockito.mock(Game.class);
 
         GameRepository.addGame(2, game);
@@ -207,7 +178,7 @@ public class GameServiceTest {
 
 
     @Test
-    public void endRoundTest() {
+    void endRoundTest() {
         Player testPlayer2 = new Player();
         testPlayer2.setId(2L);
         testPlayer2.setLobbyId(2L);
@@ -236,7 +207,7 @@ public class GameServiceTest {
 
 
     @Test
-    public void endRoundGameOverTest() {
+    void endRoundGameOverTest() {
         LeaderboardDTO leaderboardDTO = new LeaderboardDTO();
         leaderboardDTO.setCorrectAnswer("correctAnswer");
         leaderboardDTO.setGameOver(true);

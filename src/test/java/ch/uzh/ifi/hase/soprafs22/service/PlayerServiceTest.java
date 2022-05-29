@@ -10,9 +10,7 @@ import ch.uzh.ifi.hase.soprafs22.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.websockets.dto.incoming.GameSettingsDTO;
-import ch.uzh.ifi.hase.soprafs22.websockets.dto.outgoing.PlayerJoinDTO;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -62,7 +60,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    public void addPlayerSuccess() {
+    void addPlayerSuccess() {
         Player createdPlayer = playerService.addPlayer(testPlayer);
 
         assertEquals(testPlayer.getId(), createdPlayer.getId());
@@ -74,7 +72,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    public void addPlayerPlayerNameTakenInSameLobby() {
+    void addPlayerPlayerNameTakenInSameLobby() {
         // given
         playerService.addPlayer(testPlayer);
         Mockito.when(playerRepository.findByPlayerNameAndLobbyId(testPlayer.getPlayerName(), testPlayer.getlobbyId()))
@@ -82,39 +80,13 @@ public class PlayerServiceTest {
         assertThrows(ResponseStatusException.class, () -> playerService.addPlayer(testPlayer));
     }
 
-
-    @Disabled
     @Test
-    public void greetPlayersTest() {
-
-        Player testPlayer2 = new Player();
-        testPlayer2.setPlayerName("testPlayer2");
-        testPlayer2.setLobbyId(1L);
-        testPlayer2.setId(2L);
-
-        List<Player> players = new ArrayList<>();
-        players.add(testPlayer);
-        players.add(testPlayer2);
-        playerService.addPlayer(testPlayer);
-        playerService.addPlayer(testPlayer2);
-        playerService.greetPlayers(testPlayer);
-        PlayerJoinDTO playerJoinDTO = new PlayerJoinDTO();
-        playerJoinDTO.setName(testPlayer.getPlayerName());
-        playerJoinDTO.setLikedGameModeUnlocked(true);
-
-        Mockito.when(playerRepository.findByLobbyId(1L)).thenReturn(players);
-        Mockito.when(playerService.likedGameModeUnlocked(1L)).thenReturn(true);
-        Mockito.verify(webSocketService, Mockito.times(0)).sendMessageToClients(Mockito.matches("/topic/lobbies/1"),
-                Mockito.any());
-    }
-
-    @Test
-    public void likedGameUnlockedArtistGameTest() {
+    void likedGameUnlockedArtistGameTest() {
         assertTrue(playerService.likedGameModeUnlocked(1L));
     }
 
     @Test
-    public void likedGameUnlockedLikedGameTest() {
+    void likedGameUnlockedLikedGameTest() {
         GameSettingsDTO gameSettingsDTO = new GameSettingsDTO();
         gameSettingsDTO.setRoundDuration(RoundDuration.EIGHTEEN);
         gameSettingsDTO.setGameRounds(12);

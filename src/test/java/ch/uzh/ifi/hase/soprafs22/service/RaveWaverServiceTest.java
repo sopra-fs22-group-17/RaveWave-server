@@ -9,7 +9,6 @@ import ch.uzh.ifi.hase.soprafs22.repository.RaveWaverRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.LoginPostDTO;
 import org.apache.hc.core5.http.ParseException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -65,7 +64,7 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void createRaveWaverValidInputSuccess() throws IOException, ParseException, SpotifyWebApiException {
+    void createRaveWaverValidInputSuccess() throws IOException, ParseException, SpotifyWebApiException {
         // when -> any object is being save in the raveWaverRepository -> return the
         // dummy
         // testRaveWaver
@@ -82,7 +81,7 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void createRaveWaverDuplicateNameThrowsException() throws IOException, ParseException, SpotifyWebApiException {
+    void createRaveWaverDuplicateNameThrowsException() throws IOException, ParseException, SpotifyWebApiException {
         // given -> a first raveWaver has already been created
         raveWaverService.createRaveWaver(testRaveWaver);
 
@@ -96,7 +95,7 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void createRaveWaverDuplicateInputsThrowsException() throws IOException, ParseException, SpotifyWebApiException {
+    void createRaveWaverDuplicateInputsThrowsException() throws IOException, ParseException, SpotifyWebApiException {
         // given -> a first raveWaver has already been created
         raveWaverService.createRaveWaver(testRaveWaver);
 
@@ -110,13 +109,13 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void hashPasswordSHA256Test() throws NoSuchAlgorithmException {
+    void hashPasswordSHA256Test() throws NoSuchAlgorithmException {
         String hash = "a13a5d052e556b73d9bd945a696dfe95a679bf13c2668c8d85cdda123b107857";
         assertEquals(RaveWaverService.hashPasswordSHA256(testRaveWaver.getPassword()), hash);
     }
 
     @Test
-    public void loginRaveWaverSuccessTest() throws NoSuchAlgorithmException, IOException, ParseException, SpotifyWebApiException {
+    void loginRaveWaverSuccessTest() throws NoSuchAlgorithmException, IOException, ParseException, SpotifyWebApiException {
         LoginPostDTO loginPostDTO = new LoginPostDTO();
         loginPostDTO.setUsername(testRaveWaver.getUsername());
         loginPostDTO.setPassword(testRaveWaver.getPassword());
@@ -130,7 +129,7 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void loginRaveWaverInvalidPaswordTest() throws NoSuchAlgorithmException, IOException, ParseException, SpotifyWebApiException {
+    void loginRaveWaverInvalidPaswordTest() throws NoSuchAlgorithmException, IOException, ParseException, SpotifyWebApiException {
         LoginPostDTO loginPostDTO = new LoginPostDTO();
         loginPostDTO.setUsername(testRaveWaver.getUsername());
         loginPostDTO.setPassword("wrong password");
@@ -141,7 +140,7 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void loginRaveWaverUserDoesNotExistTest() throws NoSuchAlgorithmException {
+    void loginRaveWaverUserDoesNotExistTest() throws NoSuchAlgorithmException {
         LoginPostDTO loginPostDTO = new LoginPostDTO();
         loginPostDTO.setUsername(testRaveWaver.getUsername());
         loginPostDTO.setPassword("wrong password");
@@ -151,17 +150,17 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void getUserByUsernameNotExistingTest() {
+    void getUserByUsernameNotExistingTest() {
         assertThrows(ResponseStatusException.class, () -> raveWaverService.getUserByUsername("doesn't exist"));
     }
 
     @Test
-    public void getRaveWaverByIdNotExistingTest() {
+    void getRaveWaverByIdNotExistingTest() {
         assertThrows(ResponseStatusException.class, () -> raveWaverService.getRaveWaverById(2L));
     }
 
     @Test
-    public void addRaveWaverToLobbyTest() {
+    void addRaveWaverToLobbyTest() {
         Game game = org.mockito.Mockito.mock(Game.class);
         gameService.createNewLobby(spotifyService);
         GameRepository.addGame(1, game);
@@ -181,7 +180,7 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void addRaveWaverToLobbyInvalidTest() {
+    void addRaveWaverToLobbyInvalidTest() {
         Game game = org.mockito.Mockito.mock(Game.class);
         gameService.createNewLobby(spotifyService);
         GameRepository.addGame(1, game);
@@ -200,9 +199,8 @@ public class RaveWaverServiceTest {
         assertEquals(player.getPlayerName(), actual.getPlayerName());
     }
 
-    //TODO
     @Test
-    public void getRaveWaverByTokenTest() {
+    void getRaveWaverByTokenTest() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.addHeader("Authorization", "token");
         Mockito.when(raveWaverRepository.findByToken("token")).thenReturn(testRaveWaver);
@@ -211,26 +209,11 @@ public class RaveWaverServiceTest {
     }
 
     @Test
-    public void getRaveWaverByInvalidTokenTest() {
+    void getRaveWaverByInvalidTokenTest() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.addHeader("Authorization", "invalidToken");
 
         assertThrows(ResponseStatusException.class, () -> raveWaverService.getRaveWaverByToken(mockRequest));
     }
 
-    @Disabled
-    @Test
-    public void updateToken() throws IOException, ParseException, SpotifyWebApiException {
-        SpotifyService spotifyService = org.mockito.Mockito.mock(SpotifyService.class);
-        MockHttpServletRequest mockRequest = new MockHttpServletRequest();
-        mockRequest.addHeader("Authorization", "token");
-        Mockito.when(raveWaverRepository.findByToken("token")).thenReturn(testRaveWaver);
-
-        when(spotifyService.getAccessToken()).thenReturn("newToken");
-        when(spotifyService.getRefreshToken()).thenReturn("refreshToken");
-        when(spotifyService.generateProfilePicture(testRaveWaver)).thenReturn("profilePicture");
-
-        raveWaverService.updateSpotifyToken(mockRequest, spotifyService);
-        assertEquals("newToken", testRaveWaver.getToken());
-    }
 }

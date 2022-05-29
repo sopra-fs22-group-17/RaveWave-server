@@ -3,14 +3,12 @@ package ch.uzh.ifi.hase.soprafs22.repository;
 import ch.uzh.ifi.hase.soprafs22.entity.RaveWaver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -41,7 +39,7 @@ class RaveWaverRepositoryTest {
     }
 
     @Test
-    public void findByUsernameTest() {
+    void findByUsernameTest() {
         RaveWaver found = raveWaverRepository.findByUsername(raveWaver.getUsername());
 
         assertNotNull(found.getId());
@@ -55,21 +53,9 @@ class RaveWaverRepositoryTest {
     }
 
 
-    @Disabled
-    @Test
-    public void findByIdTest() {
-        Optional<RaveWaver> optFound = raveWaverRepository.findById(1L);
-        RaveWaver found = optFound.get();
-        assertNotNull(found.getId());
-        assertEquals(raveWaver.getUsername(), found.getUsername());
-        assertEquals(raveWaver.getPassword(), found.getPassword());
-        assertEquals(raveWaver.getToken(), found.getToken());
-        assertEquals(raveWaver.getLevel(), found.getLevel());
-        assertEquals(raveWaver.getCreationDate(), found.getCreationDate());
-    }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         raveWaverRepository.deleteAll();
     }
 

@@ -12,7 +12,7 @@ public class QuestionTest {
     Question testQuestion = new Question();
 
     @Test
-    public void testQuestion() {
+     void testQuestion() {
         ArrayList<String> testList = new ArrayList<>();
         testList.add("testy");
 

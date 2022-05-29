@@ -68,13 +68,13 @@ public class WebsocketControllerTest {
     }
 
     @Test
-    public void connectsToSocket() throws Exception {
+    void connectsToSocket() throws Exception {
 
         assertThat(stompSession.isConnected()).isTrue();
     }
 
     @Test
-    public void updateGameSettingsTest() throws Exception {
+    void updateGameSettingsTest() throws Exception {
 
         // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
@@ -104,7 +104,7 @@ public class WebsocketControllerTest {
     }
 
     @Test
-    public void startGameTest() throws Exception {
+    void startGameTest() throws Exception {
 
         // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
@@ -136,7 +136,7 @@ public class WebsocketControllerTest {
     }
 
     @Test
-    public void saveAnswerTest() throws Exception {
+    void saveAnswerTest() throws Exception {
 
         // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
@@ -170,7 +170,7 @@ public class WebsocketControllerTest {
     }
 
     @Test
-    public void startNextRoundTest() throws Exception {
+    void startNextRoundTest() throws Exception {
 
         // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();
@@ -200,7 +200,7 @@ public class WebsocketControllerTest {
     }
 
     @Test
-    public void endRoundTest() throws Exception {
+    void endRoundTest() throws Exception {
 
         // given
         CompletableFuture<String> resultKeeper = new CompletableFuture<>();

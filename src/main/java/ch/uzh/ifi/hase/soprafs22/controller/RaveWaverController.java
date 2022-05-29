@@ -29,7 +29,7 @@ import java.util.List;
 public class RaveWaverController {
 
     private final RaveWaverService raveWaverService;
-    Logger log = LoggerFactory.getLogger(WebSocketController.class);
+    Logger log = LoggerFactory.getLogger(RaveWaverController.class);
 
     RaveWaverController(RaveWaverService raveWaverService) {
         this.raveWaverService = raveWaverService;
@@ -74,7 +74,7 @@ public class RaveWaverController {
 
         // convert internal representation of raveWaver back to API
         RaveWaverGetDTO raveWaverGetDTO = DTOMapper.INSTANCE.convertEntityToRaveWaverGetDTO(createdRaveWaver);
-        log.info("Ravewaver " + raveWaverGetDTO.getUsername() + " with ID " + raveWaverGetDTO.getId() + " created.");
+        log.info("Ravewaver {} with ID {} created.", raveWaverGetDTO.getUsername(), raveWaverGetDTO.getId());
 
         return raveWaverGetDTO;
     }

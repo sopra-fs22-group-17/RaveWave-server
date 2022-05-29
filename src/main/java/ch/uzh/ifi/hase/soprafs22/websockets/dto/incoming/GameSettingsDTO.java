@@ -7,7 +7,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.SongPool;
 
 public class GameSettingsDTO {
 
-    private final String type = "setup";
+    private final static String type = "setup";
     private RoundDuration roundDuration;
     private PlaybackDuration playBackDuration;
     private SongPool songPool;

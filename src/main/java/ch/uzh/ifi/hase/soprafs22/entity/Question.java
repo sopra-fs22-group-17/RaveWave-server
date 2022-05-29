@@ -27,6 +27,10 @@ public class Question {
         return gamemode;
     }
 
+    public void setGamemode(GameMode gamemode) {
+        this.gamemode = gamemode;
+    }
+
     public int getExpectedAnswers() {
         return expectedAnswers;
     }
@@ -65,17 +69,6 @@ public class Question {
 
     public void setCorrectAnswer(int correctAnswer) {
         this.correctAnswer = correctAnswer;
-    }
-
-    /*
-    publ
-
-    ic GameMode getGamemode() {
-        return gamemode;
-    }
-*/
-    public void setGamemode(GameMode gamemode) {
-        this.gamemode = gamemode;
     }
 
     public ArrayList<String> getPictures() {

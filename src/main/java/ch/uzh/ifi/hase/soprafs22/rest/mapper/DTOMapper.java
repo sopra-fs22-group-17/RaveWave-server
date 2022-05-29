@@ -30,7 +30,6 @@ public interface DTOMapper {
     @Mapping(source = "password", target = "password")
     RaveWaver convertRaveWaverPostDTOtoEntity(RaveWaverPostDTO raveWaverPostDTO);
 
-    // TODO: Profile Picture
     @Mapping(source = "id", target = "id")
     @Mapping(source = "username", target = "username")
     @Mapping(source = "level", target = "level")

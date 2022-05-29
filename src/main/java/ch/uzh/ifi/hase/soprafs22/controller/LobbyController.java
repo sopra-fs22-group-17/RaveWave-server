@@ -43,7 +43,7 @@ public class LobbyController {
     public LobbyIdDTO createNewLobby() {
         LobbyIdDTO lobbyIdDTO = new LobbyIdDTO();
         lobbyIdDTO.setLobbyId(gameService.createNewLobby(spotifyService));
-        log.info("Lobby" + lobbyIdDTO.getLobbyId() + ": created");
+        log.info("Lobby {}: created", lobbyIdDTO.getLobbyId());
         return lobbyIdDTO;
 
     }
@@ -56,8 +56,7 @@ public class LobbyController {
 
         if (raveWaverRepository.findByToken(token.getHeader("Authorization")) != null) {
             Player newPlayer = raveWaverService.addRaveWaverToLobby(token, lobbyId);
-            log.info("RaveWaver as a Player " + newPlayer.getPlayerName() + " with ID: " + newPlayer.getId()
-                    + " created");
+            log.info("RaveWaver as a Player {} with ID: {} created", newPlayer.getPlayerName(),newPlayer.getId());
             response.addHeader("Authorization", newPlayer.getToken());
             playerService.greetPlayers(newPlayer);
 
@@ -71,7 +70,7 @@ public class LobbyController {
 
         response.addHeader("Authorization", newPlayer.getToken());
 
-        log.info("Player " + newPlayer.getPlayerName() + " with ID: " + newPlayer.getId() + " created");
+        log.info("Player {} with ID: {} created", newPlayer.getPlayerName(), newPlayer.getId());
         playerService.greetPlayers(newPlayer);
 
 
@@ -84,7 +83,7 @@ public class LobbyController {
     @ResponseBody
     public FourRaveWaversConnectedDTO checkFourRaveWaversConnected(@PathVariable Long lobbyId) {
 
-        log.info("Lobby" + lobbyId + ": checking if four players are connected to Spotify");
+        log.info("Lobby {}: checking if four players are connected to Spotify", lobbyId);
         FourRaveWaversConnectedDTO fourRaveWaversConnectedDTO = new FourRaveWaversConnectedDTO();
         fourRaveWaversConnectedDTO.setFourRaveWaversConnected(playerService.checkFourRaveWaversConnected(lobbyId));
 

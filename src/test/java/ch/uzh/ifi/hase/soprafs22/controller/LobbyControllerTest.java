@@ -106,7 +106,7 @@ class LobbyControllerTest {
     }
 
     @Test
-    public void createLobbyPOSTTest() throws Exception {
+    void createLobbyPOSTTest() throws Exception {
         LobbyIdDTO lobbyIdDTO = new LobbyIdDTO();
         lobbyIdDTO.setLobbyId(1);
 
@@ -121,7 +121,7 @@ class LobbyControllerTest {
 
     // TODO: Thinks game has already started.
     @Test
-    public void createPlayerPOSTTest() throws Exception {
+    void createPlayerPOSTTest() throws Exception {
         PlayerPostDTO playerPostDTO = new PlayerPostDTO();
         playerPostDTO.setPlayerName("PlayerName");
         //playerPostDTO.setRaveWaverId(1L);
@@ -158,7 +158,7 @@ class LobbyControllerTest {
     }
 
     @Test
-    public void unlocklikedSongs() throws Exception {
+    void unlockLikedSongs() throws Exception {
         FourRaveWaversConnectedDTO checkFRWC = new FourRaveWaversConnectedDTO();
         checkFRWC.setFourRaveWaversConnected(true);
         Player player1 = new Player();
@@ -181,7 +181,7 @@ class LobbyControllerTest {
     }
 
     @Test
-    public void lockedlikedSongs() throws Exception {
+    void lockedLikedSongs() throws Exception {
         FourRaveWaversConnectedDTO checkFRWC = new FourRaveWaversConnectedDTO();
         checkFRWC.setFourRaveWaversConnected(false);
         Player player1 = new Player();

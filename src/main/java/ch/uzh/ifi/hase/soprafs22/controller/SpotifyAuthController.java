@@ -20,7 +20,7 @@ public class SpotifyAuthController {
 
     private final SpotifyService spotifyService;
     private final RaveWaverService raveWaverService;
-    Logger log = LoggerFactory.getLogger(WebSocketController.class);
+    Logger log = LoggerFactory.getLogger(SpotifyAuthController.class);
 
     SpotifyAuthController(SpotifyService spotifyService, RaveWaverService raveWaverService) {
         this.spotifyService = spotifyService;
