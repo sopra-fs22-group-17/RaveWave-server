@@ -21,7 +21,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: redirectURL=${{secrets.redirectURL}} SPRING_DATASOURCE_PASSWORD=${{secrets.SPRING_DATASOURCE_PASSWORD}} SPRING_DATASOURCE_URL=${{secrets.SPRING_DATASOURCE_URL}} SPRING_DATASOURCE_USERNAME=${{secrets.SPRING_DATASOURCE_URL}} ./gradlew clean build
+        run: clientSecret=${{secrets.clientSecret}} redirectURL=${{secrets.redirectURL}} SPRING_DATASOURCE_PASSWORD=${{secrets.SPRING_DATASOURCE_PASSWORD}} SPRING_DATASOURCE_URL=${{secrets.SPRING_DATASOURCE_URL}} SPRING_DATASOURCE_USERNAME=${{secrets.SPRING_DATASOURCE_URL}} ./gradlew clean build
       - name: Get the version
         id: vars
         run: echo ::set-output name=tag::$(echo ${GITHUB_SHA:10})
