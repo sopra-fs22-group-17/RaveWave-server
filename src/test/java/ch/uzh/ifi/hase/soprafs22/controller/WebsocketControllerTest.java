@@ -66,13 +66,13 @@ public class WebsocketControllerTest {
         stompClient = wsTestUtils.createWebSocketClient();
         stompSession = stompClient.connect(wsUrl, new WsTestUtils.MyStompSessionHandler()).get();
     }
-
+    @Disabled
     @Test
     void connectsToSocket() throws Exception {
 
         assertThat(stompSession.isConnected()).isTrue();
     }
-
+    @Disabled
     @Test
     void updateGameSettingsTest() throws Exception {
 
@@ -102,7 +102,7 @@ public class WebsocketControllerTest {
         // then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(gameSettingsDTO.toString());
     }
-
+    @Disabled
     @Test
     void startGameTest() throws Exception {
 
@@ -134,7 +134,7 @@ public class WebsocketControllerTest {
         // then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(question.toString());
     }
-
+    @Disabled
     @Test
     void saveAnswerTest() throws Exception {
 
@@ -168,7 +168,7 @@ public class WebsocketControllerTest {
         // then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(currentAnswersDTO.toString());
     }
-
+    @Disabled
     @Test
     void startNextRoundTest() throws Exception {
 
@@ -198,7 +198,7 @@ public class WebsocketControllerTest {
         // then
         assertThat(resultKeeper.get(2, SECONDS)).isEqualTo(questionDTO.toString());
     }
-
+    @Disabled
     @Test
     void endRoundTest() throws Exception {
 
