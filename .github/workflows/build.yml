@@ -33,11 +33,11 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag ${{secrets.dockerhub_username}}/${{secrets.repo_name}}:${{steps.vars.outputs.tag}}
       - name: Publish dockerimage to docker hub
-        run: docker push ${{secrets.docker_username}}/${{secrets.repo_name}}:${{steps.vars.outputs.tag}}
+        run: docker push ${{secrets.dockerhub_username}}/${{secrets.repo_name}}:${{steps.vars.outputs.tag}}
       - name: Build Docker image with latest tag
         run: docker build . --file Dockerfile --tag ${{secrets.dockerhub_username}}/${{secrets.repo_name}}:latest
       - name: Publish dockerimage to docker hub
-        run: docker push ${{secrets.docker_username}}/${{secrets.repo_name}}:latest
+        run: docker push ${{secrets.dockerhub_username}}/${{secrets.repo_name}}:latest
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
