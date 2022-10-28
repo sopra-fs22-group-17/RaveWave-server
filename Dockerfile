@@ -1,1 +1,1 @@
-FROM adoptopenjdk/openjdk15:jre
+FROM openjdk:15-jdk-alpine
