@@ -51,5 +51,6 @@ jobs:
       - name: Build and push (including latest tag)
         uses: docker/build-push-action@v3
         with:
+          context: .
           push: true
           tags: ${{secrets.dockerhub_username}}/${{secrets.repo_name}}:${{github.sha}},${{secrets.dockerhub_username}}/${{secrets.repo_name}}:latest
