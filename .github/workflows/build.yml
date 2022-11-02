@@ -53,3 +53,9 @@ jobs:
           context: .
           push: true
           tags: ${{secrets.dockerhub_username}}/${{secrets.repo_name}}:${{github.sha}},${{secrets.dockerhub_username}}/${{secrets.repo_name}}:latest
+          secrets: |
+            "clientSecret=${{secrets.clientSecret}}"
+            "redirectURL=${{secrets.redirectURL}}"
+            "SPRING_DATASOURCE_PASSWORD=${{secrets.SPRING_DATASOURCE_PASSWORD}}"
+            "SPRING_DATASOURCE_URL=${{secrets.SPRING_DATASOURCE_URL}}"
+            "SPRING_DATASOURCE_USERNAME=${{secrets.SPRING_DATASOURCE_URL}}"
