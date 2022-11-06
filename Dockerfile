@@ -1,5 +1,5 @@
-FROM openjdk:15-alpine
-WORKDIR /app
+FROM openjdk:15-alpine
+WORKDIR /app
 
 # secrets
 RUN --mount=type=secret,id=clientSecret \
