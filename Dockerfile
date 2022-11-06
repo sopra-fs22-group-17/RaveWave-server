@@ -16,4 +16,5 @@ RUN --mount=type=secret,id=SPRING_DATASOURCE_USERNAME \
 COPY /build/libs/soprafs22.jar /app
 RUN mv soprafs22.jar RaveWave-server.jar
 RUN chmod 777 RaveWave-server.jar
+EXPOSE 443
 ENTRYPOINT ["java","-jar","/RaveWave-server.jar"]
