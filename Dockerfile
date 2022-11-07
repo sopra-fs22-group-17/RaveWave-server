@@ -13,6 +13,7 @@ RUN --mount=type=secret,id=SPRING_DATASOURCE_URL \
 RUN --mount=type=secret,id=SPRING_DATASOURCE_USERNAME \
   cat /run/secrets/SPRING_DATASOURCE_USERNAME
 
+# build
 COPY /build/libs/soprafs22.jar /app
 RUN mv soprafs22.jar RaveWave-server.jar
 RUN chmod 777 RaveWave-server.jar
